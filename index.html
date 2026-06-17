@@ -37,6 +37,11 @@
     background:none;border:0;padding:0;width:auto;box-shadow:none;letter-spacing:0;}
   .site-title:hover{background:none;color:var(--green);}
   .site-title:active{transform:none;box-shadow:none;}
+  .privacy-toggle{position:fixed;top:21px;right:24px;width:34px;height:34px;border-radius:7px;
+    background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;z-index:3;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 3px 0 #2b2c2e;}
+  .privacy-toggle:hover{background:#54555a;}
+  .privacy-toggle:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 1px 0 #2b2c2e;}
   .label{font-size:12px;letter-spacing:.05em;color:var(--sub);text-transform:lowercase;}
   .slow-c{color:var(--red);}
   .fast-c{color:var(--yellow);}
@@ -177,6 +182,23 @@
   .again-row .key{flex:1;}
   .return-home{margin-top:10px;color:var(--red);}
 
+  .privacy-modal[hidden]{display:none;}
+  .privacy-modal{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
+    padding:24px;background:rgba(12,13,14,.72);}
+  .privacy-card{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;background:var(--bg);
+    border:1px solid var(--sub-alt);border-radius:8px;padding:22px;
+    box-shadow:0 18px 60px rgba(0,0,0,.38);}
+  .privacy-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;}
+  .privacy-title{font-family:"Lexend Deca",sans-serif;font-size:28px;font-weight:700;color:var(--red);
+    margin:0;text-transform:lowercase;line-height:1;}
+  .privacy-date{font-size:12px;color:var(--sub);margin:6px 0 0;text-transform:lowercase;}
+  .privacy-close{width:34px;height:34px;flex:0 0 34px;padding:0;color:var(--red);}
+  .privacy-card h3{font-size:13px;color:var(--yellow);margin:18px 0 7px;text-transform:lowercase;}
+  .privacy-card p,.privacy-card li{font-size:13px;line-height:1.55;color:var(--text);}
+  .privacy-card p{margin:0 0 10px;}
+  .privacy-card ul{margin:0 0 10px;padding-left:18px;}
+  .privacy-card a{color:var(--green);}
+
   @media (prefers-reduced-motion: reduce){
     .lamp{transition:none;}
     .lamp.idle-pulse{animation:none;}
@@ -185,6 +207,41 @@
 </head>
 <body>
 <button class="site-title" id="siteHome">phrug.net</button>
+<button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog">&#128737;&#xfe0e;</button>
+<div class="privacy-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle" hidden>
+  <div class="privacy-card">
+    <div class="privacy-head">
+      <div>
+        <h2 class="privacy-title" id="privacyTitle">privacy policy</h2>
+        <p class="privacy-date">Last updated: June 17, 2026</p>
+      </div>
+      <button class="key privacy-close" id="privacyClose" aria-label="Close privacy policy">x</button>
+    </div>
+
+    <p>phrug.net is a small browser game site. This policy explains what information the current Tempo game uses and how we think about privacy and security.</p>
+
+    <h3>what we collect</h3>
+    <p>Tempo does not have accounts, logins, leaderboards, comments, payments, or uploads. Your guesses, score, settings, and round data are processed in your browser and are not intentionally sent to phrug.net.</p>
+
+    <h3>cookies and local storage</h3>
+    <p>The current game does not set tracking cookies. Game options such as volume, pitch, and shape are used in the page while you play. If we later save preferences with browser storage, this policy should be updated before that change goes live.</p>
+
+    <h3>third-party services</h3>
+    <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. We do not currently use ads, analytics, or session replay.</p>
+
+    <h3>children</h3>
+    <p>Tempo is a general-audience game. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, contact us and we will work to remove it.</p>
+
+    <h3>security</h3>
+    <p>If you find a vulnerability, please report it through the GitHub repository at <a href="https://github.com/marc-samillano/phrug" target="_blank" rel="noopener">github.com/marc-samillano/phrug</a>. Please do not perform denial-of-service testing, spam, or activity that could disrupt other users.</p>
+
+    <h3>changes</h3>
+    <p>We may update this policy as phrug.net adds features. The updated date above will change when the policy changes.</p>
+
+    <h3>contact</h3>
+    <p>For now, use the GitHub repository above for privacy or security questions. A dedicated contact email may be added later.</p>
+  </div>
+</div>
 <div class="app">
 
   <!-- LANDING -->
@@ -653,6 +710,16 @@
     showScreen("landing");
   }
 
+  function openPrivacy(){
+    $("privacyModal").hidden = false;
+    $("privacyClose").focus();
+  }
+
+  function closePrivacy(){
+    $("privacyModal").hidden = true;
+    $("privacyBtn").focus();
+  }
+
   async function startGame(){
     await ensureAudio();
     newGame();
@@ -750,6 +817,14 @@
 
   $("start").addEventListener("click", startGame);
   $("siteHome").addEventListener("click", returnHome);
+  $("privacyBtn").addEventListener("click", openPrivacy);
+  $("privacyClose").addEventListener("click", closePrivacy);
+  $("privacyModal").addEventListener("click", e => {
+    if(e.target === $("privacyModal")) closePrivacy();
+  });
+  document.addEventListener("keydown", e => {
+    if(e.key === "Escape" && !$("privacyModal").hidden) closePrivacy();
+  });
   $("settingsBtn").addEventListener("click", toggleSettings);
   $("volume").addEventListener("input", e => setVolume(e.target.value));
   $("volume").addEventListener("change", previewTick);
