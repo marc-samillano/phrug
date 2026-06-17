@@ -667,14 +667,23 @@
   function gridString(){ return scores.map(tierEmoji).join(""); }
   function shareGridString(){ return scores.map(tierEmoji).join(" | "); }
 
+  function setScoreColor(value){
+    const el = $("total");
+    el.classList.remove("score-low","score-mid","score-high");
+    el.classList.add(value < 300 ? "score-low" : value < 400 ? "score-mid" : "score-high");
+  }
+
   function animateTotal(target){
     const el = $("total");
-    if(reduceMotion){ el.textContent = target; return; }
+    if(reduceMotion){ el.textContent = target; setScoreColor(target); return; }
     const dur = 750, start = performance.now();
     (function step(now){
       const t = Math.min(1, (now - start) / dur);
-      el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
-      if(t < 1) requestAnimationFrame(step); else el.textContent = target;
+      const value = Math.round(target * (1 - Math.pow(1 - t, 3)));
+      el.textContent = value;
+      setScoreColor(value);
+      if(t < 1) requestAnimationFrame(step);
+      else { el.textContent = target; setScoreColor(target); }
     })(start);
   }
 
@@ -682,14 +691,13 @@
     showScreen("result");
     const total = scores.reduce((a,b) => a + b, 0);
     const totalEl = $("total");
-    totalEl.classList.remove("score-low","score-mid","score-high");
-    totalEl.classList.add(total < 300 ? "score-low" : total < 400 ? "score-mid" : "score-high");
     const avgMiss = Math.round(
       targets.reduce((a,t,i) => a + Math.abs((guesses[i]-t)/t*100), 0) / ROUNDS
     );
     $("verdict").textContent = "Average miss " + avgMiss + "%";
     $("grid").textContent = gridString();
     totalEl.textContent = "0";
+    setScoreColor(0);
     const rows = $("rows"); rows.innerHTML = "";
     const best = Math.max(...scores);
     for(let i = 0; i < ROUNDS; i++){
