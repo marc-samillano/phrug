@@ -158,6 +158,9 @@
   /* result */
   .score-big{display:flex;align-items:baseline;gap:8px;}
   .score-big #total{font-size:64px;font-weight:700;line-height:1;color:var(--text);}
+  .score-big #total.score-low{color:var(--red);}
+  .score-big #total.score-mid{color:var(--yellow);}
+  .score-big #total.score-high{color:var(--green);}
   .score-big .of{font-size:18px;color:var(--sub);}
   .verdict{color:var(--sub);margin:8px 0 20px;font-size:15px;text-transform:lowercase;}
   .grid{font-size:30px;letter-spacing:8px;line-height:1;margin:0 0 24px;user-select:all;}
@@ -678,12 +681,15 @@
   function showResult(){
     showScreen("result");
     const total = scores.reduce((a,b) => a + b, 0);
+    const totalEl = $("total");
+    totalEl.classList.remove("score-low","score-mid","score-high");
+    totalEl.classList.add(total < 300 ? "score-low" : total < 400 ? "score-mid" : "score-high");
     const avgMiss = Math.round(
       targets.reduce((a,t,i) => a + Math.abs((guesses[i]-t)/t*100), 0) / ROUNDS
     );
     $("verdict").textContent = "Average miss " + avgMiss + "%";
     $("grid").textContent = gridString();
-    $("total").textContent = "0";
+    totalEl.textContent = "0";
     const rows = $("rows"); rows.innerHTML = "";
     const best = Math.max(...scores);
     for(let i = 0; i < ROUNDS; i++){
