@@ -190,8 +190,13 @@
     border:1px solid var(--sub-alt);border-radius:8px;padding:22px;
     box-shadow:0 18px 60px rgba(0,0,0,.38);}
   .privacy-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;}
-  .privacy-title{font-family:"Lexend Deca",sans-serif;font-size:28px;font-weight:700;color:var(--red);
+  .legal-tabs{font-family:"Lexend Deca",sans-serif;font-size:28px;font-weight:700;
     margin:0;text-transform:lowercase;line-height:1;}
+  .legal-tab{background:none;border:0;box-shadow:none;width:auto;padding:0;font:inherit;color:var(--sub);
+    text-transform:lowercase;letter-spacing:0;}
+  .legal-tab:hover{background:none;}
+  .legal-tab.active{color:var(--red);}
+  .legal-sep{color:var(--sub);}
   .privacy-date{font-size:12px;color:var(--sub);margin:6px 0 0;text-transform:lowercase;}
   .privacy-close{width:34px;height:34px;flex:0 0 34px;padding:0;color:var(--red);}
   .privacy-card h3{font-size:13px;color:var(--yellow);margin:18px 0 7px;text-transform:lowercase;}
@@ -200,6 +205,7 @@
   .privacy-card ul{margin:0 0 10px;padding-left:18px;}
   .privacy-card a{color:var(--green);}
   .privacy-full{display:inline-block;margin:2px 0 8px;color:var(--green);font-size:13px;}
+  .legal-panel[hidden]{display:none;}
 
   @media (prefers-reduced-motion: reduce){
     .lamp{transition:none;}
@@ -210,39 +216,68 @@
 <body>
 <button class="site-title" id="siteHome">phrug.net</button>
 <button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
-<div class="privacy-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle" hidden>
+<div class="privacy-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
   <div class="privacy-card">
     <div class="privacy-head">
       <div>
-        <h2 class="privacy-title" id="privacyTitle">privacy policy</h2>
+        <h2 class="legal-tabs" id="legalTitle">
+          <button class="legal-tab active" id="privacyTab" type="button">privacy policy</button>
+          <span class="legal-sep"> / </span>
+          <button class="legal-tab" id="termsTab" type="button">terms of service</button>
+        </h2>
         <p class="privacy-date">Last updated: June 18, 2026</p>
       </div>
       <button class="key privacy-close" id="privacyClose" aria-label="Close privacy policy">x</button>
     </div>
 
-    <p>phrug.net is a small browser game site. This policy explains what information the current Tempo game uses and how we think about privacy and security.</p>
-    <a class="privacy-full" href="privacy">open full privacy page</a>
+    <div class="legal-panel" id="privacyPanel">
+      <p>phrug.net is a small browser game site. This policy explains what information the current Tempo game uses and how we think about privacy and security.</p>
+      <a class="privacy-full" href="privacy">open full privacy page</a>
 
-    <h3>what we collect</h3>
-    <p>Tempo does not have accounts, logins, leaderboards, comments, payments, or uploads. Your guesses, score, settings, and round data are processed in your browser and are not intentionally sent to phrug.net.</p>
+      <h3>what we collect</h3>
+      <p>Tempo does not have accounts, logins, leaderboards, comments, payments, or uploads. Your guesses, score, settings, and round data are processed in your browser and are not intentionally sent to phrug.net.</p>
 
-    <h3>cookies and local storage</h3>
-    <p>The current game does not set tracking cookies. Game options such as volume, pitch, and shape are used in the page while you play. If we later save preferences with browser storage, this policy should be updated before that change goes live.</p>
+      <h3>cookies and local storage</h3>
+      <p>The current game does not set tracking cookies. Game options such as volume, pitch, and shape are used in the page while you play. If we later save preferences with browser storage, this policy should be updated before that change goes live.</p>
 
-    <h3>third-party services</h3>
-    <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. We do not currently use ads, analytics, or session replay.</p>
+      <h3>third-party services</h3>
+      <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. We do not currently use ads, analytics, or session replay.</p>
 
-    <h3>children</h3>
-    <p>Tempo is a general-audience game. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, contact us and we will work to remove it.</p>
+      <h3>children</h3>
+      <p>Tempo is a general-audience game. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, contact us and we will work to remove it.</p>
 
-    <h3>security</h3>
-    <p>If you find a vulnerability, please report it through the GitHub repository at <a href="https://github.com/marc-samillano/phrug" target="_blank" rel="noopener">github.com/marc-samillano/phrug</a>. Please do not perform denial-of-service testing, spam, or activity that could disrupt other users.</p>
+      <h3>security</h3>
+      <p>If you find a vulnerability, please report it through the GitHub repository at <a href="https://github.com/marc-samillano/phrug" target="_blank" rel="noopener">github.com/marc-samillano/phrug</a>. Please do not perform denial-of-service testing, spam, or activity that could disrupt other users.</p>
 
-    <h3>changes</h3>
-    <p>We may update this policy as phrug.net adds features. The updated date above will change when the policy changes.</p>
+      <h3>changes</h3>
+      <p>We may update this policy as phrug.net adds features. The updated date above will change when the policy changes.</p>
 
-    <h3>contact</h3>
-    <p>For now, use the GitHub repository above for privacy or security questions. A dedicated contact email may be added later.</p>
+      <h3>contact</h3>
+      <p>For now, use the GitHub repository above for privacy or security questions. A dedicated contact email may be added later.</p>
+    </div>
+
+    <div class="legal-panel" id="termsPanel" hidden>
+      <p>These terms apply to your use of phrug.net and the Tempo browser game. By using the site, you agree to use it responsibly.</p>
+      <a class="privacy-full" href="terms">open full terms page</a>
+
+      <h3>use of the site</h3>
+      <p>You may play Tempo for personal, non-commercial entertainment. Do not interfere with the site, attempt to disrupt hosting, or use automated traffic in a way that harms the service.</p>
+
+      <h3>no accounts or purchases</h3>
+      <p>Tempo currently has no accounts, payments, subscriptions, prizes, gambling, or user-submitted content.</p>
+
+      <h3>intellectual property</h3>
+      <p>The Tempo game, phrug.net branding, interface, text, graphics, and code are owned by phrug.net or its creator unless otherwise noted. Do not copy or reuse them in a way that suggests your project is endorsed by phrug.net.</p>
+
+      <h3>as-is service</h3>
+      <p>The site is provided as-is and as-available. We do not guarantee that it will always be available, error-free, accurate, or compatible with every browser or device.</p>
+
+      <h3>limitation of liability</h3>
+      <p>To the fullest extent allowed by law, phrug.net and its creator will not be liable for indirect, incidental, special, consequential, or punitive damages arising from use of the site.</p>
+
+      <h3>changes</h3>
+      <p>We may update these terms as phrug.net changes. The updated date above will change when the terms change.</p>
+    </div>
   </div>
 </div>
 <div class="app">
@@ -714,6 +749,7 @@
   }
 
   function openPrivacy(){
+    showLegalPanel("privacy");
     $("privacyModal").hidden = false;
     $("privacyClose").focus();
   }
@@ -721,6 +757,14 @@
   function closePrivacy(){
     $("privacyModal").hidden = true;
     $("privacyBtn").focus();
+  }
+
+  function showLegalPanel(panel){
+    const isPrivacy = panel === "privacy";
+    $("privacyTab").classList.toggle("active", isPrivacy);
+    $("termsTab").classList.toggle("active", !isPrivacy);
+    $("privacyPanel").hidden = !isPrivacy;
+    $("termsPanel").hidden = isPrivacy;
   }
 
   async function startGame(){
@@ -822,6 +866,8 @@
   $("siteHome").addEventListener("click", returnHome);
   $("privacyBtn").addEventListener("click", openPrivacy);
   $("privacyClose").addEventListener("click", closePrivacy);
+  $("privacyTab").addEventListener("click", () => showLegalPanel("privacy"));
+  $("termsTab").addEventListener("click", () => showLegalPanel("terms"));
   $("privacyModal").addEventListener("click", e => {
     if(e.target === $("privacyModal")) closePrivacy();
   });
