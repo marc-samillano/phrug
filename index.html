@@ -190,13 +190,14 @@
     border:1px solid var(--sub-alt);border-radius:8px;padding:22px;
     box-shadow:0 18px 60px rgba(0,0,0,.38);}
   .privacy-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;}
-  .legal-tabs{font-family:"Lexend Deca",sans-serif;font-size:28px;font-weight:700;
-    margin:0;text-transform:lowercase;line-height:1;}
+  .legal-tabs{font-family:"Lexend Deca",sans-serif;font-size:clamp(18px, 5vw, 26px);font-weight:700;
+    margin:0;text-transform:lowercase;line-height:1;white-space:nowrap;}
   .legal-tab{background:none;border:0;box-shadow:none;width:auto;padding:0;font:inherit;color:var(--sub);
     text-transform:lowercase;letter-spacing:0;}
   .legal-tab:hover{background:none;}
   .legal-tab.active{color:var(--red);}
-  .legal-sep{color:var(--sub);}
+  .legal-sep{color:var(--red);}
+  .legal-caption{font-size:11px;color:var(--sub);margin:7px 0 0;text-transform:lowercase;}
   .privacy-date{font-size:12px;color:var(--sub);margin:6px 0 0;text-transform:lowercase;}
   .privacy-close{width:34px;height:34px;flex:0 0 34px;padding:0;color:var(--red);}
   .privacy-card h3{font-size:13px;color:var(--yellow);margin:18px 0 7px;text-transform:lowercase;}
@@ -225,6 +226,7 @@
           <span class="legal-sep"> / </span>
           <button class="legal-tab" id="termsTab" type="button">terms of service</button>
         </h2>
+        <p class="legal-caption">(click title to swap pages)</p>
         <p class="privacy-date">Last updated: June 18, 2026</p>
       </div>
       <button class="key privacy-close" id="privacyClose" aria-label="Close privacy policy">x</button>
