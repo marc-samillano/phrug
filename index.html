@@ -145,9 +145,8 @@
   .mode-labels span{transition:color .16s ease;}
   .mode-switch[aria-pressed="false"] .mode-normal,
   .mode-switch[aria-pressed="true"] .mode-hard{color:#181a1c;}
-  .hard-caption{font-size:12px;line-height:1.45;color:var(--sub);text-transform:lowercase;
+  .mode-caption{font-size:12px;line-height:1.45;color:var(--sub);text-transform:lowercase;
     opacity:1;transition:opacity .16s ease;}
-  .hard-caption.is-hidden{opacity:0;}
   .settings-pop{display:none;margin-top:12px;padding:14px;border:1px solid var(--sub-alt);
     background:#151719;border-radius:7px;}
   .settings-pop.open{display:block;}
@@ -239,7 +238,7 @@
   @media (prefers-reduced-motion: reduce){
     .lamp{transition:none;}
     .lamp.idle-pulse{animation:none;}
-    .privacy-modal,.privacy-card,.legal-panel,.hard-caption{transition:none;}
+    .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
   }
 </style>
 <script>
@@ -367,7 +366,7 @@
       <button class="mode-switch" id="modeSwitch" type="button" aria-pressed="false" aria-label="Toggle hard mode">
         <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span></span>
       </button>
-      <span class="hard-caption is-hidden" id="hardCaption">4 ticks only, and no preview while guessing.</span>
+      <span class="mode-caption" id="modeCaption">8 ticks play, then a preview plays while you guess.</span>
     </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
@@ -637,7 +636,9 @@
   function toggleHardMode(){
     hardMode = !hardMode;
     $("modeSwitch").setAttribute("aria-pressed", hardMode ? "true" : "false");
-    $("hardCaption").classList.toggle("is-hidden", !hardMode);
+    $("modeCaption").textContent = hardMode
+      ? "4 ticks play, and no preview plays while you guess."
+      : "8 ticks play, then a preview plays while you guess.";
   }
 
   function scheduler(){
