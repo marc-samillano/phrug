@@ -888,7 +888,7 @@
 
   async function copyResult(){
     const total = scores.reduce((a,b) => a + b, 0);
-    const text = `Tempo Game\n${total}/500\n${shareGridString()}\nTry the Tempo Game [phrug.net]`;
+    const text = `Tempo Game\n${total}/500\n${shareGridString()}\nTry the Tempo Game\nphrug.net`;
     try {
       if(navigator.clipboard) await navigator.clipboard.writeText(text);
       else if(!fallbackCopy(text)) throw new Error("copy failed");
