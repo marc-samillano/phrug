@@ -309,7 +309,7 @@
       <h1 class="wordmark">TEMPO<span class="byline">by <span class="byline-name">PHRUG.NET</span></span></h1>
       <p class="model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
     </div>
-    <p class="hook">You hear a beat once. Then move the slider to how fast you think it was. Five rounds, no numbers shown.</p>
+    <p class="hook">Hear a beat. Guess the BPM. Five rounds by ear.<br>After the beat stops, move the slider and lock in your guess.</p>
     <div class="stage"><div class="lamp idle-pulse"><div class="core"></div></div></div>
     <div class="start-row">
       <button class="key primary lg" id="start">Start</button>
@@ -319,7 +319,7 @@
       <button class="mode-switch" id="modeSwitch" type="button" aria-pressed="false" aria-label="Toggle hard mode">
         <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span></span>
       </button>
-      <span class="hard-caption is-hidden" id="hardCaption">half the amount of time to hear the beat, and you can't hear your own.</span>
+      <span class="hard-caption is-hidden" id="hardCaption">4 ticks only, and no preview while guessing.</span>
     </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
@@ -682,7 +682,7 @@
 
   async function beginListen(){
     phase = "listen";
-    status.className = "status listen"; status.textContent = "Memorize the beat";
+    status.className = "status listen"; status.textContent = "Memorize this tempo";
     slider.disabled = true; lock.disabled = true;
     bpmNum.classList.add("idle"); bpmNum.textContent = "\u2014";
     unit.textContent = "the beat";
@@ -694,7 +694,7 @@
 
   async function enterGuess(){
     phase = "guess";
-    status.className = "status guess"; status.textContent = "Match what you heard";
+    status.className = "status guess"; status.textContent = "Move the slider until it feels right";
     slider.disabled = false; lock.disabled = false;
     bpmNum.classList.remove("idle"); bpmNum.textContent = currentGuess;
     unit.textContent = "your guess · bpm";
@@ -717,7 +717,7 @@
     lock.disabled = true;
     bpmNum.classList.add("idle"); bpmNum.textContent = "\u2014";
     unit.textContent = "ready";
-    status.className = "status"; status.textContent = "Ready";
+    status.className = "status"; status.textContent = "Listen closely";
     stopMetro();
     playStage.classList.remove("compare");
     drawDots();
