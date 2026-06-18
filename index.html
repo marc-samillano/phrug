@@ -37,12 +37,14 @@
     background:none;border:0;padding:0;width:auto;box-shadow:none;letter-spacing:0;}
   .site-title:hover{background:none;color:var(--green);}
   .site-title:active{transform:none;box-shadow:none;}
-  .privacy-toggle{position:fixed;top:21px;right:24px;width:34px;height:34px;border-radius:7px;
-    background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;z-index:3;
+  .top-actions{position:fixed;top:21px;right:24px;display:flex;gap:8px;z-index:3;}
+  .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
+    background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 3px 0 #2b2c2e;}
-  .privacy-toggle:hover{background:#54555a;}
-  .privacy-toggle:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 1px 0 #2b2c2e;}
+  .privacy-toggle:hover,.help-toggle:hover{background:#54555a;}
+  .privacy-toggle:active,.help-toggle:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 1px 0 #2b2c2e;}
   .privacy-toggle img{width:20px;height:20px;display:block;margin:auto;}
+  .help-toggle{color:var(--red);font-size:20px;font-weight:700;padding:0;}
   .label{font-size:12px;letter-spacing:.05em;color:var(--sub);text-transform:lowercase;}
   .slow-c{color:var(--red);}
   .fast-c{color:var(--yellow);}
@@ -225,17 +227,59 @@
   .legal-panel{opacity:1;transform:translateY(0);transition:opacity .16s ease, transform .16s ease;}
   .legal-panel.is-exiting{opacity:0;transform:translateY(4px);}
   .legal-panel[hidden]{display:none;}
+  .tutorial-title{font-family:"Lexend Deca",sans-serif;font-size:clamp(22px, 6vw, 32px);
+    font-weight:700;color:var(--red);margin:0;text-transform:lowercase;line-height:1;}
+  .tutorial-list{counter-reset:tutorial;margin:14px 0 0;padding:0;list-style:none;}
+  .tutorial-list li{counter-increment:tutorial;position:relative;padding:0 0 14px 26px;}
+  .tutorial-list li::before{content:counter(tutorial);position:absolute;left:0;top:1px;color:var(--yellow);
+    font-size:12px;font-weight:700;}
+  .tutorial-callout{border-top:1px solid var(--sub-alt);border-bottom:1px solid var(--sub-alt);
+    padding:12px 0;margin:12px 0;color:var(--text);}
 
   @media (prefers-reduced-motion: reduce){
     .lamp{transition:none;}
     .lamp.idle-pulse{animation:none;}
-    .privacy-modal,.privacy-card,.legal-panel{transition:none;}
+    .privacy-modal,.privacy-card,.legal-panel,.hard-caption{transition:none;}
   }
 </style>
 </head>
 <body>
 <button class="site-title" id="siteHome">phrug.net</button>
-<button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
+<div class="top-actions">
+  <button class="help-toggle" id="tutorialBtn" aria-label="How to play" aria-haspopup="dialog">?</button>
+  <button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
+</div>
+<div class="privacy-modal" id="tutorialModal" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle" hidden>
+  <div class="privacy-card">
+    <div class="privacy-head">
+      <div>
+        <h2 class="tutorial-title" id="tutorialTitle">how to play</h2>
+        <p class="legal-caption">tempo is a five-round listening game</p>
+      </div>
+      <button class="key privacy-close" id="tutorialClose" aria-label="Close tutorial">x</button>
+    </div>
+
+    <p class="tutorial-callout">Your goal is to guess the BPM of a beat by ear. Listen first, then use the slider to match the speed you remember.</p>
+
+    <ol class="tutorial-list">
+      <li><strong>Press start.</strong> A round begins with a short beat sample. Do not worry about numbers yet; just listen for how fast it feels.</li>
+      <li><strong>Wait for the beat to stop.</strong> When the listening part ends, the slider unlocks and your starting guess appears.</li>
+      <li><strong>Move the slider.</strong> Drag left if the beat felt slower, or right if it felt faster. In normal mode, your lamp previews the BPM you are guessing.</li>
+      <li><strong>Lock in.</strong> When the speed feels right, press lock in. You will see the real BPM, your guess, how far off you were, and your points.</li>
+      <li><strong>Compare the lamps.</strong> In normal mode, orange shows the real beat and green shows your guess. In hard mode, only the real beat is replayed.</li>
+      <li><strong>Play five rounds.</strong> Your final score is out of 500. Copy your result to share it.</li>
+    </ol>
+
+    <h3>normal mode</h3>
+    <p>You hear 8 ticks, then you can preview your guess while moving the slider. This is the recommended way to learn the game.</p>
+
+    <h3>hard mode</h3>
+    <p>You hear only 4 ticks, and there is no preview while guessing. Hard mode is for when you want the guess to be fully from memory.</p>
+
+    <h3>scoring</h3>
+    <p>Closer guesses earn more points. A perfect round is 100 points, and the best possible game is 500.</p>
+  </div>
+</div>
 <div class="privacy-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
   <div class="privacy-card">
     <div class="privacy-head">
@@ -409,7 +453,7 @@
   let ctx = null, masterGain = null, schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
   let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", hardMode = false;
-  let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, legalSwapTimer = null;
+  let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
 
   const $ = id => document.getElementById(id);
   const orb = $("orb"), guessOrb = $("guessOrb"), playStage = $("playStage"), slider = $("slider"), lock = $("lock"),
@@ -787,6 +831,26 @@
     showScreen("landing");
   }
 
+  function openTutorial(){
+    clearTimeout(tutorialCloseTimer);
+    const modal = $("tutorialModal");
+    modal.hidden = false;
+    requestAnimationFrame(() => modal.classList.add("open"));
+    $("tutorialClose").focus();
+  }
+
+  function closeTutorial(){
+    const modal = $("tutorialModal");
+    modal.classList.remove("open");
+    if(reduceMotion){
+      modal.hidden = true;
+    } else {
+      clearTimeout(tutorialCloseTimer);
+      tutorialCloseTimer = setTimeout(() => { modal.hidden = true; }, 180);
+    }
+    $("tutorialBtn").focus();
+  }
+
   function openPrivacy(){
     clearTimeout(privacyCloseTimer);
     showLegalPanel("privacy");
@@ -934,6 +998,8 @@
 
   $("start").addEventListener("click", startGame);
   $("siteHome").addEventListener("click", returnHome);
+  $("tutorialBtn").addEventListener("click", openTutorial);
+  $("tutorialClose").addEventListener("click", closeTutorial);
   $("privacyBtn").addEventListener("click", openPrivacy);
   $("privacyClose").addEventListener("click", closePrivacy);
   $("privacyTab").addEventListener("click", () => showLegalPanel("privacy"));
@@ -941,8 +1007,13 @@
   $("privacyModal").addEventListener("click", e => {
     if(e.target === $("privacyModal")) closePrivacy();
   });
+  $("tutorialModal").addEventListener("click", e => {
+    if(e.target === $("tutorialModal")) closeTutorial();
+  });
   document.addEventListener("keydown", e => {
-    if(e.key === "Escape" && !$("privacyModal").hidden) closePrivacy();
+    if(e.key !== "Escape") return;
+    if(!$("tutorialModal").hidden) closeTutorial();
+    else if(!$("privacyModal").hidden) closePrivacy();
   });
   $("settingsBtn").addEventListener("click", toggleSettings);
   $("modeSwitch").addEventListener("click", toggleHardMode);
