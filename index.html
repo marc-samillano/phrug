@@ -132,6 +132,19 @@
   .start-row{display:flex;gap:10px;margin-top:20px;align-items:stretch;}
   .start-row .key.lg{margin-top:0;flex:1;}
   .settings-toggle{width:50px;flex:0 0 50px;padding:0;font-size:20px;color:var(--yellow);}
+  .mode-row{display:flex;align-items:center;gap:12px;margin-top:16px;text-align:left;}
+  .mode-switch{width:98px;height:34px;flex:0 0 98px;position:relative;padding:0;border-radius:999px;
+    background:#23262a;border:1px solid #35383c;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+    color:var(--sub);font-size:10px;font-weight:700;text-transform:lowercase;}
+  .mode-switch::before{content:"";position:absolute;top:3px;left:3px;width:43px;height:26px;border-radius:999px;
+    background:var(--green);transition:transform .16s ease, background .16s ease;}
+  .mode-switch[aria-pressed="true"]::before{transform:translateX(49px);background:var(--red);}
+  .mode-labels{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;height:100%;}
+  .mode-labels span{transition:color .16s ease;}
+  .mode-switch[aria-pressed="false"] .mode-normal,
+  .mode-switch[aria-pressed="true"] .mode-hard{color:#181a1c;}
+  .hard-caption{font-size:12px;line-height:1.45;color:var(--sub);text-transform:lowercase;}
+  .hard-caption[hidden]{display:none;}
   .settings-pop{display:none;margin-top:12px;padding:14px;border:1px solid var(--sub-alt);
     background:#151719;border-radius:7px;}
   .settings-pop.open{display:block;}
@@ -301,6 +314,12 @@
       <button class="key primary lg" id="start">Start</button>
       <button class="key settings-toggle" id="settingsBtn" aria-label="Options" aria-expanded="false">&#9881;</button>
     </div>
+    <div class="mode-row">
+      <button class="mode-switch" id="modeSwitch" type="button" aria-pressed="false" aria-label="Toggle hard mode">
+        <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span></span>
+      </button>
+      <span class="hard-caption" id="hardCaption" hidden>half the amount of time to hear the beat, and you can't hear your own.</span>
+    </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
         <div class="setting-row">
@@ -379,7 +398,7 @@
 <script>
 (() => {
   "use strict";
-  const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, REVEAL_SEC = 3.5;
+  const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, HARD_LISTEN_BEATS = 4, REVEAL_SEC = 3.5;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let targets = [], guesses = [], scores = [];
@@ -388,7 +407,7 @@
 
   let ctx = null, masterGain = null, schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
-  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle";
+  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", hardMode = false;
   let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, legalSwapTimer = null;
 
   const $ = id => document.getElementById(id);
@@ -564,6 +583,14 @@
 
   function bpmFor(mode){ return mode === "target" ? targets[round] : currentGuess; }
 
+  function listenBeats(){ return hardMode ? HARD_LISTEN_BEATS : LISTEN_BEATS; }
+
+  function toggleHardMode(){
+    hardMode = !hardMode;
+    $("modeSwitch").setAttribute("aria-pressed", hardMode ? "true" : "false");
+    $("hardCaption").hidden = !hardMode;
+  }
+
   function scheduler(){
     const mode = activeMode;
     while(nextNoteTime < ctx.currentTime + 0.12){
@@ -612,30 +639,33 @@
 
   function runRevealComparison(){
     stopMetro();
-    playStage.classList.add("compare");
     orb.classList.add("target");
-    guessOrb.classList.add("guess");
+    if(!hardMode){
+      playStage.classList.add("compare");
+      guessOrb.classList.add("guess");
+    }
 
     let nextTarget = ctx.currentTime + 0.1;
     let nextGuess = ctx.currentTime + 0.1;
     let targetTicks = 0, guessTicks = 0, lastTickTime = nextTarget;
+    const beats = listenBeats();
 
     function scheduleComparison(){
-      while(targetTicks < LISTEN_BEATS && nextTarget < ctx.currentTime + 0.12){
+      while(targetTicks < beats && nextTarget < ctx.currentTime + 0.12){
         playTick(nextTarget);
         setTimeout(() => pulseLamp(orb, "target", false), Math.max(0, (nextTarget - ctx.currentTime) * 1000));
         lastTickTime = Math.max(lastTickTime, nextTarget);
         nextTarget += 60 / targets[round];
         targetTicks++;
       }
-      while(guessTicks < LISTEN_BEATS && nextGuess < ctx.currentTime + 0.12){
+      while(!hardMode && guessTicks < beats && nextGuess < ctx.currentTime + 0.12){
         playTick(nextGuess);
         setTimeout(() => pulseLamp(guessOrb, "guess", false), Math.max(0, (nextGuess - ctx.currentTime) * 1000));
         lastTickTime = Math.max(lastTickTime, nextGuess);
         nextGuess += 60 / guesses[round];
         guessTicks++;
       }
-      if(targetTicks >= LISTEN_BEATS && guessTicks >= LISTEN_BEATS){
+      if(targetTicks >= beats && (hardMode || guessTicks >= beats)){
         clearInterval(compareTimer);
         compareTimer = null;
         clearTimeout(endTimer);
@@ -657,8 +687,8 @@
     unit.textContent = "the beat";
     await ensureAudio();
     const interval = 60 / targets[round];
-    const secs = (LISTEN_BEATS - 1) * interval + Math.min(0.4, interval * 0.6);
-    runMetro("target", secs);          // exactly 8 beats, then swaps
+    const secs = (listenBeats() - 1) * interval + Math.min(0.4, interval * 0.6);
+    runMetro("target", secs);
   }
 
   async function enterGuess(){
@@ -668,7 +698,8 @@
     bpmNum.classList.remove("idle"); bpmNum.textContent = currentGuess;
     unit.textContent = "your guess · bpm";
     await ensureAudio();
-    runMetro("guess");                 // continuous, tracks the slider
+    if(hardMode) stopMetro();
+    else runMetro("guess");
   }
 
   function scoreRound(target, guess){
@@ -888,7 +919,8 @@
 
   async function copyResult(){
     const total = scores.reduce((a,b) => a + b, 0);
-    const text = `Tempo Game\n${total}/500\n${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
+    const title = hardMode ? "Tempo Game [Hard Mode]" : "Tempo Game";
+    const text = `${title}\n${total}/500\n${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
     try {
       if(navigator.clipboard) await navigator.clipboard.writeText(text);
       else if(!fallbackCopy(text)) throw new Error("copy failed");
@@ -912,6 +944,7 @@
     if(e.key === "Escape" && !$("privacyModal").hidden) closePrivacy();
   });
   $("settingsBtn").addEventListener("click", toggleSettings);
+  $("modeSwitch").addEventListener("click", toggleHardMode);
   $("volume").addEventListener("input", e => setVolume(e.target.value));
   $("volume").addEventListener("change", previewTick);
   $("pitch").addEventListener("input", e => setPitch(e.target.value));
