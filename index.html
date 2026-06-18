@@ -185,10 +185,13 @@
 
   .privacy-modal[hidden]{display:none;}
   .privacy-modal{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
-    padding:24px;background:rgba(12,13,14,.72);}
+    padding:24px;background:rgba(12,13,14,.72);opacity:0;transition:opacity .18s ease;}
+  .privacy-modal.open{opacity:1;}
   .privacy-card{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;background:var(--bg);
     border:1px solid var(--sub-alt);border-radius:8px;padding:22px;
-    box-shadow:0 18px 60px rgba(0,0,0,.38);}
+    box-shadow:0 18px 60px rgba(0,0,0,.38);transform:translateY(8px) scale(.98);
+    transition:transform .18s ease;}
+  .privacy-modal.open .privacy-card{transform:translateY(0) scale(1);}
   .privacy-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;}
   .legal-tabs{font-family:"Lexend Deca",sans-serif;font-size:clamp(18px, 5vw, 26px);font-weight:700;
     margin:0;text-transform:lowercase;line-height:1;white-space:nowrap;}
@@ -206,11 +209,14 @@
   .privacy-card ul{margin:0 0 10px;padding-left:18px;}
   .privacy-card a{color:var(--green);}
   .privacy-full{display:inline-block;margin:2px 0 8px;color:var(--green);font-size:13px;}
+  .legal-panel{opacity:1;transform:translateY(0);transition:opacity .16s ease, transform .16s ease;}
+  .legal-panel.is-exiting{opacity:0;transform:translateY(4px);}
   .legal-panel[hidden]{display:none;}
 
   @media (prefers-reduced-motion: reduce){
     .lamp{transition:none;}
     .lamp.idle-pulse{animation:none;}
+    .privacy-modal,.privacy-card,.legal-panel{transition:none;}
   }
 </style>
 </head>
@@ -384,7 +390,7 @@
   let ctx = null, masterGain = null, schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
   let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle";
-  let resetConfirming = false, resetTimer = null;
+  let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, legalSwapTimer = null;
 
   const $ = id => document.getElementById(id);
   const orb = $("orb"), guessOrb = $("guessOrb"), playStage = $("playStage"), slider = $("slider"), lock = $("lock"),
@@ -751,22 +757,52 @@
   }
 
   function openPrivacy(){
+    clearTimeout(privacyCloseTimer);
     showLegalPanel("privacy");
-    $("privacyModal").hidden = false;
+    const modal = $("privacyModal");
+    modal.hidden = false;
+    requestAnimationFrame(() => modal.classList.add("open"));
     $("privacyClose").focus();
   }
 
   function closePrivacy(){
-    $("privacyModal").hidden = true;
+    const modal = $("privacyModal");
+    modal.classList.remove("open");
+    if(reduceMotion){
+      modal.hidden = true;
+    } else {
+      clearTimeout(privacyCloseTimer);
+      privacyCloseTimer = setTimeout(() => { modal.hidden = true; }, 180);
+    }
     $("privacyBtn").focus();
   }
 
   function showLegalPanel(panel){
     const isPrivacy = panel === "privacy";
+    const current = isPrivacy ? $("termsPanel") : $("privacyPanel");
+    const next = isPrivacy ? $("privacyPanel") : $("termsPanel");
     $("privacyTab").classList.toggle("active", isPrivacy);
     $("termsTab").classList.toggle("active", !isPrivacy);
-    $("privacyPanel").hidden = !isPrivacy;
-    $("termsPanel").hidden = isPrivacy;
+    if(!current.hidden){
+      if(reduceMotion){
+        current.hidden = true;
+        next.hidden = false;
+      } else {
+        clearTimeout(legalSwapTimer);
+        current.classList.add("is-exiting");
+        legalSwapTimer = setTimeout(() => {
+          current.hidden = true;
+          current.classList.remove("is-exiting");
+          next.hidden = false;
+          next.classList.add("is-exiting");
+          requestAnimationFrame(() => next.classList.remove("is-exiting"));
+        }, 160);
+      }
+    } else {
+      current.hidden = true;
+      next.hidden = false;
+      next.classList.remove("is-exiting");
+    }
   }
 
   async function startGame(){
