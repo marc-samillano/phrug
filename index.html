@@ -371,7 +371,7 @@
       <button class="mode-switch" id="modeSwitch" type="button" aria-pressed="false" aria-label="Toggle hard mode">
         <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span></span>
       </button>
-      <span class="mode-caption" id="modeCaption">8 ticks play, then a preview plays while you guess.</span>
+      <span class="mode-caption" id="modeCaption">8 ticks play, then moving the slider previews your guess.</span>
     </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
@@ -462,6 +462,7 @@
   let ctx = null, masterGain = null, schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
   let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", hardMode = false;
+  let guessPreviewStarted = false;
   let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
 
   const $ = id => document.getElementById(id);
@@ -644,7 +645,7 @@
     $("modeSwitch").setAttribute("aria-pressed", hardMode ? "true" : "false");
     $("modeCaption").textContent = hardMode
       ? "4 ticks play, and no preview plays while you guess."
-      : "8 ticks play, then a preview plays while you guess.";
+      : "8 ticks play, then moving the slider previews your guess.";
   }
 
   function scheduler(){
@@ -754,8 +755,7 @@
     bpmNum.classList.remove("idle"); bpmNum.textContent = currentGuess;
     unit.textContent = "your guess · bpm";
     await ensureAudio();
-    if(hardMode) stopMetro();
-    else runMetro("guess");
+    stopMetro();
   }
 
   function scoreRound(target, guess){
@@ -767,6 +767,7 @@
     do { currentGuess = Math.floor(MIN + Math.random() * (MAX - MIN + 1)); }
     while(Math.abs(currentGuess - targets[round]) < 15);
     revealEl.style.display = "none";
+    guessPreviewStarted = false;
     guessUI.style.display = "block";
     slider.value = currentGuess; slider.disabled = true;
     lock.disabled = true;
@@ -1040,7 +1041,13 @@
   });
   slider.addEventListener("input", e => {
     currentGuess = +e.target.value;
-    if(phase === "guess") bpmNum.textContent = currentGuess;
+    if(phase === "guess"){
+      bpmNum.textContent = currentGuess;
+      if(!hardMode && !guessPreviewStarted){
+        guessPreviewStarted = true;
+        runMetro("guess");
+      }
+    }
   });
   lock.addEventListener("click", lockIn);
   nextBtn.addEventListener("click", nextRound);
