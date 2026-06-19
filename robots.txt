@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://phrug.net/sitemap.xml
+Sitemap: https://www.phrug.net/sitemap.xml
