@@ -3,22 +3,59 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tempo Game by PHRUG</title>
-<meta name="description" content="Hear a beat once, then guess the tempo. Five rounds, by ear." />
+<title>Tempo Game: Guess the BPM by Ear | phrug.net</title>
+<meta name="description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and score up to 500 across five rounds." />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Tempo Game by PHRUG" />
-<meta property="og:description" content="Hear a beat once, then guess the tempo. Five rounds, by ear." />
+<meta property="og:title" content="Tempo Game: Guess the BPM by Ear | phrug.net" />
+<meta property="og:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and score up to 500 across five rounds." />
 <meta property="og:url" content="https://phrug.net/" />
 <meta property="og:image" content="https://phrug.net/tempo-preview.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Tempo Game by PHRUG" />
-<meta name="twitter:description" content="Hear a beat once, then guess the tempo. Five rounds, by ear." />
+<meta name="twitter:title" content="Tempo Game: Guess the BPM by Ear | phrug.net" />
+<meta name="twitter:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and score up to 500 across five rounds." />
 <meta name="twitter:image" content="https://phrug.net/tempo-preview.png" />
 <link rel="canonical" href="https://phrug.net/" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%23181a1c'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='5'%20fill='%23d13523'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://phrug.net/#website",
+      "url": "https://phrug.net/",
+      "name": "phrug.net",
+      "description": "Free browser games by phrug.net.",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://phrug.net/#tempo",
+      "url": "https://phrug.net/",
+      "name": "Tempo",
+      "description": "A five-round browser game where players listen to a beat and guess its BPM by ear.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript and Web Audio API support.",
+      "isAccessibleForFree": true,
+      "image": "https://phrug.net/tempo-preview.png",
+      "isPartOf": { "@id": "https://phrug.net/#website" },
+      "creator": {
+        "@type": "Person",
+        "name": "Marc Justin Samillano"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  ]
+}
+</script>
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -285,6 +322,8 @@
 
     <h3>scoring</h3>
     <p>Closer guesses earn more points. A perfect round is 100 points, and the best possible game is 500.</p>
+
+    <a class="privacy-full" href="how-to-play">open full how-to-play guide</a>
   </div>
 </div>
 <div class="privacy-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
