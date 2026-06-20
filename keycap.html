@@ -105,26 +105,25 @@
     margin:5px 0 0;text-transform:lowercase;}
   .hook{color:var(--sub);font-size:15px;line-height:1.55;margin:20px 0 0;}
 
-  /* tactile keycap prototype */
+  /* kbs.im-inspired key with a moving cap assembly behind a fixed lower mask */
   .stage{display:flex;justify-content:center;gap:24px;margin:30px 0;}
-  .lamp{position:relative;width:112px;height:112px;border-radius:5px;
-    background:linear-gradient(145deg,#3c4245 0%,#292e30 72%,#202426 100%);
-    border:1px solid #24282a;display:block;overflow:hidden;
-    box-shadow:0 8px 0 #1b1f21,0 11px 18px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08);
-    transition:border-color .16s;}
-  .lamp::before{content:"";position:absolute;z-index:0;top:3px;right:5px;bottom:10px;left:5px;
-    background:radial-gradient(ellipse at 48% 16%,rgba(45,50,52,.2) 0%,transparent 46%),
-      linear-gradient(145deg,#81898d 0%,#687074 52%,#50585c 100%);
-    clip-path:polygon(6% 0,94% 0,100% 6%,100% 100%,0 100%,0 6%);
-    box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset -8px -14px 18px rgba(20,23,24,.17);
-    transform:translateY(0);transition:transform .065s cubic-bezier(.2,.7,.3,1);}
-  .lamp .core{position:absolute;z-index:1;top:13px;left:14px;width:auto;height:auto;background:transparent;color:#f3f4f4;
-    font-family:"Roboto Mono",monospace;font-size:22px;font-weight:500;line-height:1;text-shadow:0 1px 1px rgba(0,0,0,.55);
-    transform:translateY(0);transition:transform .065s cubic-bezier(.2,.7,.3,1);}
-  .lamp .core::after{content:"E";}
-  .lamp.target{border-color:rgba(249,171,7,.58);}
-  .lamp.guess{border-color:rgba(145,192,75,.58);}
-  .lamp.pressed::before,.lamp.pressed .core{transform:translateY(6px);}
+  .lamp{position:relative;width:112px;height:112px;border-radius:6px;background:#202426;
+    border:1px solid #151819;display:block;overflow:hidden;
+    box-shadow:0 7px 0 #151819,0 10px 17px rgba(0,0,0,.32);}
+  .lamp::after{content:"";position:absolute;z-index:3;left:0;right:0;bottom:0;height:11px;
+    background:linear-gradient(#2b3032,#202426);border-top:1px solid rgba(255,255,255,.045);}
+  .lamp .core{position:absolute;z-index:1;top:0;right:0;bottom:4px;left:0;width:auto;height:auto;
+    background:#454c4f;border:1px solid #0e1011;border-radius:5px;
+    box-shadow:0 0 0 1px rgba(16,22,26,.12),0 1px 2px rgba(0,0,0,.28);
+    transform:translateY(0);transition:transform .065s cubic-bezier(.2,.7,.3,1),border-color .16s;}
+  .lamp .core::before{content:"";position:absolute;z-index:0;top:6px;right:12px;bottom:14px;left:12px;
+    background:#737b7f;border:1px solid rgba(0,0,0,.18);border-radius:3px;
+    box-shadow:0 0 0 1px rgba(16,22,26,.1),0 1px 1px rgba(16,22,26,.24),inset 0 1px 0 rgba(255,255,255,.16);}
+  .lamp .core::after{content:"E";position:absolute;z-index:1;top:13px;left:19px;color:#f3f4f4;
+    font-family:"Roboto Mono",monospace;font-size:22px;font-weight:500;line-height:1;text-shadow:0 1px 1px rgba(0,0,0,.5);}
+  .lamp.target .core{border-color:rgba(249,171,7,.66);}
+  .lamp.guess .core{border-color:rgba(145,192,75,.66);}
+  .lamp.pressed .core{transform:translateY(6px);}
   .lamp.idle-pulse{animation:none;}
   .compare-lamp{display:none;}
   .stage.compare .compare-lamp{display:flex;}
