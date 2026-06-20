@@ -107,14 +107,12 @@
 
   /* kbs.im-inspired key with a moving cap assembly behind a fixed lower mask */
   .stage{display:flex;justify-content:center;gap:24px;margin:30px 0;}
-  .lamp{position:relative;width:112px;height:112px;border-radius:6px;background:#202426;
-    border:1px solid #151819;display:block;overflow:hidden;
-    box-shadow:0 7px 0 #151819,0 10px 17px rgba(0,0,0,.32);}
-  .lamp::after{content:"";position:absolute;z-index:3;left:0;right:0;bottom:0;height:11px;
-    background:linear-gradient(#2b3032,#202426);border-top:1px solid rgba(255,255,255,.045);}
-  .lamp .core{position:absolute;z-index:1;top:0;right:0;bottom:4px;left:0;width:auto;height:auto;
+  .lamp{position:relative;width:112px;height:112px;background:transparent;border:0;display:block;overflow:hidden;}
+  .lamp::after{content:"";position:absolute;z-index:3;left:0;right:0;bottom:0;height:7px;
+    background:var(--bg);border:0;}
+  .lamp .core{position:absolute;z-index:1;top:0;right:0;bottom:14px;left:0;width:auto;height:auto;
     background:#454c4f;border:1px solid #0e1011;border-radius:5px;
-    box-shadow:0 0 0 1px rgba(16,22,26,.12),0 1px 2px rgba(0,0,0,.28);
+    box-shadow:0 0 0 1px rgba(16,22,26,.12),0 5px 0 #24292b,0 8px 14px rgba(0,0,0,.3);
     transform:translateY(0);transition:transform .065s cubic-bezier(.2,.7,.3,1),border-color .16s;}
   .lamp .core::before{content:"";position:absolute;z-index:0;top:6px;right:12px;bottom:14px;left:12px;
     background:#737b7f;border:1px solid rgba(0,0,0,.18);border-radius:3px;
