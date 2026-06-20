@@ -639,7 +639,7 @@
     } catch(e){}
     if(ctx.state !== "running") await ctx.resume();
     if(!keycapBufferPromise){
-      keycapBufferPromise = fetch("keyboard.mp3")
+      keycapBufferPromise = fetch("keyboard-thock.wav")
         .then(response => {
           if(!response.ok) throw new Error("keyboard sample unavailable");
           return response.arrayBuffer();
