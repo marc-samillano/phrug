@@ -1,9 +1,9 @@
 # Third-Party Notices
 
-## Topre keyboard key-down sample
+## Gateron Ink Black keyboard key-down sample
 
-The `keyboard-thock.wav` sound is adapted from the Topre keyboard soundpack
-by Thomas Lai (`tplai/kbsim`). It is used under the MIT License.
+The `keyboard-thock.wav` sound is adapted from the Gateron Ink Black keyboard
+soundpack by Thomas Lai (`tplai/kbsim`). It is used under the MIT License.
 
 Copyright (c) Thomas Lai
 
