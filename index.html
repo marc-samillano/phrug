@@ -130,6 +130,7 @@
   /* play header */
   .meta-row{display:flex;justify-content:space-between;align-items:center;}
   .mk{font-size:13px;color:var(--sub);text-transform:lowercase;}
+  .threshold-label{color:var(--red);font-size:11px;font-weight:700;}
   .segs{display:flex;gap:6px;margin:14px 0 4px;}
   .seg{flex:1;height:6px;border-radius:3px;background:var(--sub-alt);transition:background .25s;}
   .seg.done{background:var(--green);} .seg.active{background:var(--text);}
@@ -869,9 +870,16 @@
       d.className = "seg" + (i < stageRound ? " done" : i === stageRound ? " active" : "");
       wrap.appendChild(d);
     }
-    $("roundlabel").textContent = isEndless()
-      ? `round ${round + 1} · ±${endlessLimit(round)}%`
-      : ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
+    const roundLabel = $("roundlabel");
+    if(isEndless()){
+      roundLabel.textContent = `round ${round + 1} · `;
+      const thresholdLabel = document.createElement("span");
+      thresholdLabel.className = "threshold-label";
+      thresholdLabel.textContent = `current threshold ±${endlessLimit(round)}%`;
+      roundLabel.appendChild(thresholdLabel);
+    } else {
+      roundLabel.textContent = ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
+    }
   }
 
   function lockIn(){
