@@ -145,8 +145,11 @@
   @keyframes heartbeat{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
   .lamp.idle-pulse{animation:heartbeat 1.1s ease-in-out infinite;}
   .lamp.idle-pulse .core{background:var(--text);}
-  .compare-lamp{display:none;}
-  .stage.compare .compare-lamp{display:flex;}
+  .preview-lamp{padding:0;}
+  .preview-lamp:focus-visible{outline:3px solid rgba(145,192,75,.55);outline-offset:6px;}
+  .lamp.compare-lamp{display:none;}
+  .stage.compare .lamp.compare-lamp{display:flex;}
+  .stage.compare .lamp.shape-keycap.compare-lamp{display:block;}
 
   /* play header */
   .meta-row{display:flex;justify-content:space-between;align-items:center;}
@@ -441,7 +444,7 @@
       <p class="model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
     </div>
     <p class="hook">Hear a beat. Guess the BPM by ear.<br>Play five rounds, or keep going in endless.</p>
-    <div class="stage"><div class="lamp idle-pulse"><div class="core"></div></div></div>
+    <div class="stage"><button class="lamp idle-pulse preview-lamp" id="landingLamp" type="button" aria-label="Play a preview tick"><span class="core" aria-hidden="true"></span></button></div>
     <div class="start-row">
       <button class="key primary lg" id="start">Start</button>
       <button class="key settings-toggle" id="settingsBtn" aria-label="Options" aria-expanded="false">&#9881;</button>
@@ -618,6 +621,7 @@
     document.querySelectorAll(".lamp").forEach(lamp => {
       clearTimeout(lamp._glowTimer);
       clearTimeout(lamp._pressTimer);
+      clearTimeout(lamp._scaleTimer);
       lamp.classList.remove("shape-circle","shape-square","shape-triangle","shape-keycap","glow","pressed");
       lamp.style.transform = "";
       lamp.classList.add("shape-" + lampShape);
@@ -724,6 +728,9 @@
     const hadTarget = lamp.classList.contains("target");
     const hadGuess = lamp.classList.contains("guess");
     const hadIdle = lamp.classList.contains("idle-pulse");
+    if(restore && !lamp._restoreTimer){
+      lamp._restoreState = { target: hadTarget, guess: hadGuess, idle: hadIdle };
+    }
     if(hadIdle) lamp.classList.remove("idle-pulse");
     lamp.classList.remove("target","guess");
     lamp.classList.add(mode === "target" ? "target" : "guess");
@@ -741,15 +748,20 @@
       lamp.classList.add("pressed");
       lamp._pressTimer = setTimeout(() => lamp.classList.remove("pressed"), 90);
     } else if(!reduceMotion){
+      clearTimeout(lamp._scaleTimer);
       lamp.style.transform = "scale(1.14)";
-      setTimeout(() => { lamp.style.transform = "scale(1)"; }, 90);
+      lamp._scaleTimer = setTimeout(() => { lamp.style.transform = "scale(1)"; }, 90);
     }
     if(restore){
-      setTimeout(() => {
+      clearTimeout(lamp._restoreTimer);
+      lamp._restoreTimer = setTimeout(() => {
+        const state = lamp._restoreState || {};
         lamp.classList.remove("target","guess");
-        if(hadTarget) lamp.classList.add("target");
-        if(hadGuess) lamp.classList.add("guess");
-        if(hadIdle) lamp.classList.add("idle-pulse");
+        if(state.target) lamp.classList.add("target");
+        if(state.guess) lamp.classList.add("guess");
+        if(state.idle) lamp.classList.add("idle-pulse");
+        lamp._restoreTimer = null;
+        lamp._restoreState = null;
       }, isKeycap ? 240 : 180);
     }
   }
@@ -795,6 +807,7 @@
     [orb, guessOrb].forEach(lamp => {
       clearTimeout(lamp._glowTimer);
       clearTimeout(lamp._pressTimer);
+      clearTimeout(lamp._scaleTimer);
       lamp.classList.remove("target","guess","glow","pressed");
       lamp.style.transform = "";
     });
@@ -820,6 +833,7 @@
     [orb, guessOrb].forEach(lamp => {
       clearTimeout(lamp._glowTimer);
       clearTimeout(lamp._pressTimer);
+      clearTimeout(lamp._scaleTimer);
       lamp.classList.remove("target","guess","glow","pressed");
       lamp.style.transform = "";
     });
@@ -1229,6 +1243,7 @@
     else if(!$("privacyModal").hidden) closePrivacy();
   });
   $("settingsBtn").addEventListener("click", toggleSettings);
+  $("landingLamp").addEventListener("click", previewTick);
   $("modeSwitch").addEventListener("click", cycleGameMode);
   $("volume").addEventListener("input", e => setVolume(e.target.value));
   $("volume").addEventListener("change", previewTick);
