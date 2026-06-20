@@ -509,6 +509,7 @@
   "use strict";
   const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, HARD_LISTEN_BEATS = 4, REVEAL_SEC = 3.5;
   const GAME_MODES = ["normal", "hard", "endless"];
+  const ENDLESS_PRAISE = ["nice!", "awesome!", "well done!", "great ear!", "excellent!"];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let targets = [], guesses = [], scores = [];
@@ -834,6 +835,10 @@
     return (shown > 0 ? "+" : "") + shown + "%";
   }
 
+  function formatMagnitude(value){
+    return Math.round(value * 10) / 10 + "%";
+  }
+
   function loadRound(){
     do { currentGuess = Math.floor(MIN + Math.random() * (MAX - MIN + 1)); }
     while(Math.abs(currentGuess - targets[round]) < 15);
@@ -893,8 +898,8 @@
       const survivalStatus = $("survivalStatus");
       survivalStatus.className = "survival-status " + (endlessFailed ? "fail" : "pass");
       survivalStatus.textContent = endlessFailed
-        ? `limit missed · needed within ±${limit}% · run over`
-        : `limit met · within ±${limit}% · keep going`;
+        ? `nice try. you were off by ${formatMagnitude(exactOff)}.`
+        : `${ENDLESS_PRAISE[round % ENDLESS_PRAISE.length]} keep going.`;
       nextBtn.textContent = endlessFailed ? "See results" : "Next round";
       nextBtn.classList.toggle("danger", endlessFailed);
     } else {
@@ -1067,11 +1072,12 @@
     const avgMiss = Math.round(
       targets.slice(0, played).reduce((a,t,i) => a + Math.abs((guesses[i]-t)/t*100), 0) / played
     );
+    const finalMiss = Math.abs((guesses[played - 1] - targets[played - 1]) / targets[played - 1] * 100);
     $("resultLabel").textContent = isEndless() ? "Endless score" : "Final score";
     $("scoreOf").textContent = "/ " + possible;
     $("verdict").classList.toggle("failed", isEndless());
     $("verdict").textContent = isEndless()
-      ? `${Math.max(0, played - 1)} rounds cleared · missed the ±${endlessLimit(played - 1)}% limit`
+      ? `nice try. you were off by ${formatMagnitude(finalMiss)}.`
       : "Average miss " + avgMiss + "%";
     $("grid").textContent = gridString();
     totalEl.textContent = "0";
