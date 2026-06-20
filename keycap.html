@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tempo Keycap Prototype | phrug.net</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Tempo Game: Guess the BPM by Ear | phrug.net" />
+<meta property="og:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
+<meta property="og:url" content="https://www.phrug.net/" />
+<meta property="og:image" content="https://www.phrug.net/tempo-preview.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tempo Game: Guess the BPM by Ear | phrug.net" />
+<meta name="twitter:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
+<meta name="twitter:image" content="https://www.phrug.net/tempo-preview.png" />
+<link rel="canonical" href="https://www.phrug.net/" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%23181a1c'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='5'%20fill='%23d13523'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.phrug.net/#website",
+      "url": "https://www.phrug.net/",
+      "name": "phrug.net",
+      "description": "Free browser games by phrug.net.",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.phrug.net/#tempo",
+      "url": "https://www.phrug.net/",
+      "name": "Tempo",
+      "description": "A browser game where players listen to a beat and guess its BPM by ear in five-round or endless modes.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript and Web Audio API support.",
+      "isAccessibleForFree": true,
+      "image": "https://www.phrug.net/tempo-preview.png",
+      "isPartOf": { "@id": "https://www.phrug.net/#website" },
+      "creator": {
+        "@type": "Person",
+        "name": "Marc Justin Samillano"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  ]
+}
+</script>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+  :root{
+    --bg:#181a1c; --sub-alt:#23262a; --sub:#6e747a; --text:#c2c7cc;
+    --red:#d13523; --green:#91c04b; --yellow:#f9ab07;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Roboto Mono", monospace;
+    display:flex;align-items:center;justify-content:center;padding:24px;min-height:100%;
+  }
+  .app{width:100%;max-width:440px;}
+  .site-title{position:fixed;top:24px;left:24px;font-family:"Lexend Deca",sans-serif;
+    font-size:18px;font-weight:700;color:var(--green);text-transform:lowercase;line-height:1;z-index:2;
+    background:none;border:0;padding:0;width:auto;box-shadow:none;letter-spacing:0;}
+  .site-title:hover{background:none;color:var(--green);}
+  .site-title:active{transform:none;box-shadow:none;}
+  .top-actions{position:fixed;top:21px;right:24px;display:flex;gap:8px;z-index:3;}
+  .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
+    background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 3px 0 #2b2c2e;}
+  .privacy-toggle:hover,.help-toggle:hover{background:#54555a;}
+  .privacy-toggle:active,.help-toggle:active{transform:translateY(2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 1px 0 #2b2c2e;}
+  .privacy-toggle img{width:20px;height:20px;display:block;margin:auto;}
+  .help-toggle{color:var(--red);font-size:20px;font-weight:700;padding:0;}
+  .label{font-size:12px;letter-spacing:.05em;color:var(--sub);text-transform:lowercase;}
+  .slow-c{color:var(--red);}
+  .fast-c{color:var(--yellow);}
+
+  #landing,#play,#result{transition:opacity .22s ease, transform .22s ease;}
+  #play{display:none;} .result{display:none;}
+
+  /* landing */
+  .brand{display:inline-block;}
+  .wordmark{font-family:"Lexend Deca",sans-serif;font-weight:700;font-size:42px;
+    margin:0;line-height:1;color:var(--red);text-transform:lowercase;}
+  .byline{font-family:"Lexend Deca",sans-serif;font-size:14px;font-weight:400;
+    color:var(--sub);margin-left:10px;text-transform:lowercase;position:relative;top:-1px;}
+  .byline-name{color:var(--green);margin-left:5px;}
+  .model{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);
+    margin:5px 0 0;text-transform:lowercase;}
+  .hook{color:var(--sub);font-size:15px;line-height:1.55;margin:20px 0 0;}
+
+  /* tactile keycap prototype */
+  .stage{display:flex;justify-content:center;gap:24px;margin:30px 0;}
+  .lamp{position:relative;width:112px;height:112px;border-radius:13px;
+    background:linear-gradient(145deg,#41454a 0%,#2b2e32 68%,#24272a 100%);
+    border:1px solid #5c6167;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 0 #101214,0 11px 20px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.11);
+    transform:translateY(0);transition:transform .07s ease-out,box-shadow .07s ease-out,border-color .16s;}
+  .lamp::before{content:"";position:absolute;inset:7px;border:1px solid rgba(255,255,255,.055);
+    border-radius:9px;box-shadow:inset 0 -12px 20px rgba(0,0,0,.12);}
+  .lamp .core{position:relative;z-index:1;width:auto;height:auto;background:transparent;color:#f2f4f5;
+    font-family:"Lexend Deca",sans-serif;font-size:34px;font-weight:700;line-height:1;text-shadow:0 2px 1px rgba(0,0,0,.45);}
+  .lamp .core::after{content:"E";}
+  .lamp.target{border-color:rgba(249,171,7,.72);}
+  .lamp.guess{border-color:rgba(145,192,75,.72);}
+  .lamp.pressed{transform:translateY(7px);
+    box-shadow:0 1px 0 #101214,0 3px 8px rgba(0,0,0,.3),inset 0 2px 5px rgba(0,0,0,.2);}
+  .lamp.idle-pulse{animation:none;}
+  .compare-lamp{display:none;}
+  .stage.compare .compare-lamp{display:flex;}
+
+  /* play header */
+  .meta-row{display:flex;justify-content:space-between;align-items:center;}
+  .mk{font-size:13px;color:var(--sub);text-transform:lowercase;}
+  .threshold-label{color:var(--red);font-size:11px;font-weight:700;}
+  .segs{display:flex;gap:6px;margin:14px 0 4px;}
+  .seg{flex:1;height:6px;border-radius:3px;background:var(--sub-alt);transition:background .25s;}
+  .seg.done{background:var(--green);} .seg.active{background:var(--text);}
+
+  /* readout */
+  .lcd{text-align:center;margin-bottom:18px;padding:6px 0;}
+  .lcd .num{font-size:54px;font-weight:700;color:var(--green);line-height:1;}
+  .lcd .num.idle{color:var(--sub);}
+  .lcd .unit{display:block;font-size:12px;letter-spacing:.05em;color:var(--sub);
+    margin-top:10px;text-transform:lowercase;}
+
+  /* status */
+  .status{text-align:center;font-size:14px;color:var(--sub);margin-bottom:24px;
+    text-transform:lowercase;letter-spacing:.03em;transition:color .2s;}
+  .status.listen{color:var(--yellow);}
+  .status.guess{color:var(--green);}
+
+  /* fader */
+  .fader-top{display:flex;justify-content:space-between;margin-bottom:10px;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:4px;
+    background:var(--sub-alt);outline:none;}
+  input[type=range]:disabled{opacity:.5;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:28px;
+    border-radius:4px;cursor:pointer;background:var(--green);border:none;}
+  input[type=range]::-moz-range-thumb{width:18px;height:28px;border-radius:4px;cursor:pointer;background:var(--green);border:none;}
+  input[type=range]:focus-visible{box-shadow:0 0 0 3px rgba(145,192,75,.4);}
+  .scale{height:6px;margin-top:10px;
+    background:repeating-linear-gradient(90deg, var(--sub-alt) 0 1px, transparent 1px 7.143%);}
+  .scale-labels{display:flex;justify-content:space-between;margin-top:5px;}
+
+  /* keys styled as Oblivion mod keycaps: grey cap, coloured legend */
+  button{font-family:"Roboto Mono",monospace;cursor:pointer;border:none;}
+  .key{width:100%;font-size:14px;font-weight:500;letter-spacing:.04em;text-transform:lowercase;
+    padding:15px;border-radius:7px;color:#c8c8be;background:#494a4d;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 3px 0 #2b2c2e;
+    transition:background .12s, transform .05s, box-shadow .05s;}
+  .key:hover:not(:disabled){background:#54555a;}
+  .key:active:not(:disabled){transform:translateY(2px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 1px 0 #2b2c2e;}
+  .key:disabled{opacity:.45;cursor:not-allowed;}
+  .key.primary{color:var(--green);font-weight:700;}   /* green 'enter' legend */
+  .key.danger{color:var(--red);font-weight:700;}
+  .key.lg{margin-top:20px;padding:16px;}
+  .start-row{display:flex;gap:10px;margin-top:20px;align-items:stretch;}
+  .start-row .key.lg{margin-top:0;flex:1;}
+  .settings-toggle{width:50px;flex:0 0 50px;padding:0;font-size:20px;color:var(--yellow);}
+  .mode-row{display:flex;align-items:center;gap:12px;margin-top:16px;text-align:left;}
+  .mode-switch{width:156px;height:34px;flex:0 0 156px;position:relative;padding:0;border-radius:999px;
+    background:#23262a;border:1px solid #35383c;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+    color:var(--sub);font-size:10px;font-weight:700;text-transform:lowercase;}
+  .mode-switch::before{content:"";position:absolute;top:3px;left:3px;width:48px;height:26px;border-radius:999px;
+    background:var(--green);transition:transform .16s ease, background .16s ease;}
+  .mode-switch[data-mode="hard"]::before{transform:translateX(51px);background:var(--red);}
+  .mode-switch[data-mode="endless"]::before{transform:translateX(100px);background:var(--yellow);}
+  .mode-labels{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;height:100%;}
+  .mode-labels span{transition:color .16s ease;}
+  .mode-endless{transform:translateX(-2px);}
+  .mode-switch[data-mode="normal"] .mode-normal,
+  .mode-switch[data-mode="hard"] .mode-hard,
+  .mode-switch[data-mode="endless"] .mode-endless{color:#181a1c;}
+  .mode-caption{display:flex;align-items:center;font-size:12px;line-height:1.45;color:var(--sub);text-transform:lowercase;
+    min-height:35px;opacity:1;transition:opacity .16s ease;}
+  .settings-pop{display:none;margin-top:12px;padding:14px;border:1px solid var(--sub-alt);
+    background:#151719;border-radius:7px;}
+  .settings-pop.open{display:block;}
+  .settings-view{display:none;}
+  .settings-view.active{display:block;}
+  .setting-row{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:14px;}
+  .setting-row .label{flex:0 0 auto;}
+  .volume,.pitch{flex:1;}
+  .settings-action-row{display:flex;gap:10px;align-items:stretch;}
+  .settings-action-row .key{flex:1;}
+  .settings-action-row .settings-reset{width:82px;flex:0 0 82px;padding:0;color:var(--red);font-size:13px;}
+  #shapeBtn{display:none;}
+  .settings-action-row .settings-reset{width:auto;flex:1;padding:12px;}
+  .settings-action-row .settings-reset.confirming{background:var(--red);color:var(--text);font-weight:700;}
+  .shape-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .shape-choice{padding:10px;font-size:12px;}
+  .shape-choice.active{color:var(--green);font-weight:700;}
+  .settings-back{margin-top:10px;color:var(--sub);}
+
+  /* reveal */
+  .reveal{display:none;}
+  .rv-row{display:flex;justify-content:space-between;align-items:center;
+    padding:14px 0;border-top:1px solid var(--sub-alt);}
+  .rv-row .lbl{font-size:13px;color:var(--sub);text-transform:lowercase;}
+  .rv-row .val{font-size:24px;font-weight:700;}
+  .ref-c{color:var(--yellow);} .sig-c{color:var(--green);}
+  .rv-points{text-align:center;margin:24px 0 6px;}
+  .rv-points .n{font-size:48px;font-weight:700;color:var(--green);line-height:1;}
+  .rv-points .p{display:block;font-size:12px;letter-spacing:.05em;color:var(--sub);
+    margin-top:8px;text-transform:lowercase;}
+  .survival-status{display:none;margin:18px 0 0;padding:12px 14px;border:1px solid var(--sub-alt);
+    border-radius:7px;font-size:13px;font-weight:700;text-align:center;text-transform:lowercase;}
+  .survival-status.pass{display:block;color:var(--green);border-color:rgba(145,192,75,.45);background:rgba(145,192,75,.08);}
+  .survival-status.fail{display:block;color:var(--red);border-color:rgba(209,53,35,.55);background:rgba(209,53,35,.09);}
+
+  /* result */
+  .score-big{display:flex;align-items:baseline;gap:8px;}
+  .score-big #total{font-size:64px;font-weight:700;line-height:1;color:var(--text);}
+  .score-big #total.score-low{color:var(--red);}
+  .score-big #total.score-mid{color:var(--yellow);}
+  .score-big #total.score-high{color:var(--green);}
+  .score-big .of{font-size:18px;color:var(--sub);}
+  .verdict{color:var(--sub);margin:8px 0 20px;font-size:15px;text-transform:lowercase;}
+  .verdict.failed{color:var(--red);font-weight:700;}
+  .grid{font-size:30px;letter-spacing:8px;line-height:1;margin:0 0 24px;user-select:all;}
+  .endless-result .grid{line-height:1.35;word-break:break-all;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{color:var(--sub);font-weight:400;text-align:right;padding:0 12px 10px;font-size:11px;
+    letter-spacing:.06em;text-transform:lowercase;}
+  th:first-child{text-align:left;}
+  td{padding:9px 12px;text-align:right;border-top:1px solid var(--sub-alt);}
+  td:first-child{text-align:left;color:var(--sub);}
+  tr.best td{background:rgba(194,199,204,.07);}
+  tr.failed td{background:rgba(209,53,35,.09);}
+  .tgt{color:var(--text);} .gss{color:var(--yellow);} .off{color:var(--red);} .pts{color:var(--green);}
+  .note{font-size:12px;color:var(--sub);margin:18px 0 4px;line-height:1.55;}
+  .again-row{display:flex;gap:10px;margin-top:22px;}
+  .again-row .key{flex:1;}
+  .return-home{margin-top:10px;color:var(--red);}
+  body.endless-result{height:auto;min-height:100%;align-items:flex-start;padding-top:82px;padding-bottom:40px;}
+
+  .privacy-modal[hidden]{display:none;}
+  .privacy-modal{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
+    padding:24px;background:rgba(12,13,14,.72);opacity:0;transition:opacity .18s ease;}
+  .privacy-modal.open{opacity:1;}
+  .privacy-card{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;background:var(--bg);
+    border:1px solid var(--sub-alt);border-radius:8px;padding:22px;
+    transform:translateY(8px) scale(.98);transition:transform .18s ease;}
+  .privacy-modal.open .privacy-card{transform:translateY(0) scale(1);}
+  .privacy-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px;}
+  .legal-tabs{font-family:"Lexend Deca",sans-serif;font-size:clamp(18px, 5vw, 26px);font-weight:700;
+    margin:0;text-transform:lowercase;line-height:1;white-space:nowrap;}
+  .legal-tab{background:none;border:0;box-shadow:none;width:auto;padding:0;font:inherit;color:var(--sub);
+    text-transform:lowercase;letter-spacing:0;}
+  .legal-tab:hover{background:none;}
+  .legal-tab.active{color:var(--red);}
+  .legal-sep{color:var(--red);}
+  .legal-caption{font-size:11px;color:var(--sub);margin:7px 0 0;text-transform:lowercase;}
+  .privacy-date{font-size:12px;color:var(--sub);margin:6px 0 0;text-transform:lowercase;}
+  .privacy-close{width:34px;height:34px;flex:0 0 34px;padding:0;color:var(--red);}
+  .privacy-card h3{font-size:13px;color:var(--yellow);margin:18px 0 7px;text-transform:lowercase;}
+  .privacy-card p,.privacy-card li{font-size:13px;line-height:1.55;color:var(--text);}
+  .privacy-card p{margin:0 0 10px;}
+  .privacy-card ul{margin:0 0 10px;padding-left:18px;}
+  .privacy-card a{color:var(--green);}
+  .privacy-full{display:inline-block;margin:2px 0 8px;color:var(--green);font-size:13px;}
+  .legal-panel{opacity:1;transform:translateY(0);transition:opacity .16s ease, transform .16s ease;}
+  .legal-panel.is-exiting{opacity:0;transform:translateY(4px);}
+  .legal-panel[hidden]{display:none;}
+  .tutorial-title{font-family:"Lexend Deca",sans-serif;font-size:clamp(22px, 6vw, 32px);
+    font-weight:700;color:var(--red);margin:0;text-transform:lowercase;line-height:1;}
+  .tutorial-list{counter-reset:tutorial;margin:14px 0 0;padding:0;list-style:none;}
+  .tutorial-list li{counter-increment:tutorial;position:relative;padding:0 0 14px 26px;}
+  .tutorial-list li::before{content:counter(tutorial);position:absolute;left:0;top:1px;color:var(--yellow);
+    font-size:12px;font-weight:700;}
+  .tutorial-callout{border-top:1px solid var(--sub-alt);border-bottom:1px solid var(--sub-alt);
+    padding:12px 0;margin:12px 0;color:var(--text);}
+
+  @media (prefers-reduced-motion: reduce){
+    .lamp{transition:none;}
+    .lamp.idle-pulse{animation:none;}
+    .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
+  }
+  @media (max-width:380px){
+    .mode-caption{min-height:70px;}
+  }
+</style>
+<script>
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+<body>
+<button class="site-title" id="siteHome">phrug.net</button>
+<div class="top-actions">
+  <button class="help-toggle" id="tutorialBtn" aria-label="How to play" aria-haspopup="dialog">?</button>
+  <button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
+</div>
+<div class="privacy-modal" id="tutorialModal" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle" hidden>
+  <div class="privacy-card">
+    <div class="privacy-head">
+      <div>
+        <h2 class="tutorial-title" id="tutorialTitle">how to play</h2>
+        <p class="legal-caption">tempo is a listening game played by ear</p>
+      </div>
+      <button class="key privacy-close" id="tutorialClose" aria-label="Close tutorial">x</button>
+    </div>
+
+    <p class="tutorial-callout">Your goal is to guess the BPM of a beat by ear. Listen first, then use the slider to match the speed you remember.</p>
+
+    <ol class="tutorial-list">
+      <li><strong>Press start.</strong> A round begins with a short beat sample. Do not worry about numbers yet; just listen for how fast it feels.</li>
+      <li><strong>Wait for the beat to stop.</strong> When the listening part ends, the slider unlocks and your starting guess appears.</li>
+      <li><strong>Move the slider.</strong> Drag left if the beat felt slower, or right if it felt faster. In normal mode, your keycap previews the BPM you are guessing.</li>
+      <li><strong>Lock in.</strong> When the speed feels right, press lock in. You will see the real BPM, your guess, how far off you were, and your points.</li>
+      <li><strong>Compare the keycaps.</strong> In normal and endless modes, orange shows the real beat and green shows your guess. In hard mode, only the real beat is replayed.</li>
+      <li><strong>Finish the run.</strong> Normal and hard last five rounds. Endless continues until a guess misses the current limit. Copy your result to share it.</li>
+    </ol>
+
+    <h3>normal mode</h3>
+    <p>You hear 8 ticks, then you can preview your guess while moving the slider. This is the recommended way to learn the game.</p>
+
+    <h3>hard mode</h3>
+    <p>You hear only 4 ticks, and there is no preview while guessing. Hard mode is for when you want the guess to be fully from memory.</p>
+
+    <h3>endless mode</h3>
+    <p>Endless plays like normal mode, but the run continues only while your guess stays within the limit. The limit tightens from 8% to 5% as you clear more rounds.</p>
+
+    <h3>scoring</h3>
+    <p>Closer guesses earn more points. A perfect round is 100 points. Five-round modes top out at 500, while an endless total grows with the run.</p>
+
+    <a class="privacy-full" href="how-to-play">open full how-to-play guide</a>
+  </div>
+</div>
+<div class="privacy-modal" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle" hidden>
+  <div class="privacy-card">
+    <div class="privacy-head">
+      <div>
+        <h2 class="legal-tabs" id="legalTitle">
+          <button class="legal-tab active" id="privacyTab" type="button">privacy policy</button>
+          <span class="legal-sep"> / </span>
+          <button class="legal-tab" id="termsTab" type="button">terms of service</button>
+        </h2>
+        <p class="legal-caption">(click title to swap pages)</p>
+        <p class="privacy-date">Last updated: June 18, 2026</p>
+      </div>
+      <button class="key privacy-close" id="privacyClose" aria-label="Close privacy policy">x</button>
+    </div>
+
+    <div class="legal-panel" id="privacyPanel">
+      <p>phrug.net is a small browser game site. This policy explains what information the current Tempo game uses and how we think about privacy and security.</p>
+      <a class="privacy-full" href="privacy">open full privacy page</a>
+
+      <h3>what we collect</h3>
+      <p>Tempo does not have accounts, logins, leaderboards, comments, payments, or uploads. Your guesses, score, settings, and round data are processed in your browser and are not intentionally sent to phrug.net.</p>
+
+      <h3>cookies and local storage</h3>
+      <p>The current game does not set tracking cookies. Game options such as volume, pitch, and shape are used in the page while you play. If we later save preferences with browser storage, this policy should be updated before that change goes live.</p>
+
+      <h3>third-party services</h3>
+      <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. We do not currently use ads, analytics, or session replay.</p>
+
+      <h3>children</h3>
+      <p>Tempo is a general-audience game. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, contact us and we will work to remove it.</p>
+
+      <h3>security</h3>
+      <p>If you find a vulnerability, please report it through the GitHub repository at <a href="https://github.com/marc-samillano/phrug" target="_blank" rel="noopener">github.com/marc-samillano/phrug</a>. Please do not perform denial-of-service testing, spam, or activity that could disrupt other users.</p>
+
+      <h3>changes</h3>
+      <p>We may update this policy as phrug.net adds features. The updated date above will change when the policy changes.</p>
+
+      <h3>contact</h3>
+      <p>For now, use the GitHub repository above for privacy or security questions. A dedicated contact email may be added later.</p>
+    </div>
+
+    <div class="legal-panel" id="termsPanel" hidden>
+      <p>These terms apply to your use of phrug.net and the Tempo browser game. By using the site, you agree to use it responsibly.</p>
+      <a class="privacy-full" href="terms">open full terms page</a>
+
+      <h3>use of the site</h3>
+      <p>You may play Tempo for personal, non-commercial entertainment. Do not interfere with the site, attempt to disrupt hosting, or use automated traffic in a way that harms the service.</p>
+
+      <h3>no accounts or purchases</h3>
+      <p>Tempo currently has no accounts, payments, subscriptions, prizes, gambling, or user-submitted content.</p>
+
+      <h3>intellectual property</h3>
+      <p>© 2026 Marc Justin Samillano. The Tempo game, phrug.net branding, interface, text, graphics, and code are owned by phrug.net or its creator unless otherwise noted. Do not copy or reuse them in a way that suggests your project is endorsed by phrug.net.</p>
+
+      <h3>as-is service</h3>
+      <p>The site is provided as-is and as-available. We do not guarantee that it will always be available, error-free, accurate, or compatible with every browser or device.</p>
+
+      <h3>limitation of liability</h3>
+      <p>To the fullest extent allowed by law, phrug.net and its creator will not be liable for indirect, incidental, special, consequential, or punitive damages arising from use of the site.</p>
+
+      <h3>changes</h3>
+      <p>We may update these terms as phrug.net changes. The updated date above will change when the terms change.</p>
+    </div>
+  </div>
+</div>
+<div class="app">
+
+  <!-- LANDING -->
+  <div id="landing">
+    <div class="brand">
+      <h1 class="wordmark">TEMPO<span class="byline">by <span class="byline-name">PHRUG.NET</span></span></h1>
+      <p class="model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
+    </div>
+    <p class="hook">Hear a beat. Guess the BPM by ear.<br>Play five rounds, or keep going in endless.</p>
+    <div class="stage"><div class="lamp idle-pulse"><div class="core"></div></div></div>
+    <div class="start-row">
+      <button class="key primary lg" id="start">Start</button>
+      <button class="key settings-toggle" id="settingsBtn" aria-label="Options" aria-expanded="false">&#9881;</button>
+    </div>
+    <div class="mode-row">
+      <button class="mode-switch" id="modeSwitch" type="button" data-mode="normal" aria-label="Game mode: normal. Activate to switch modes">
+        <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span><span class="mode-endless">endless</span></span>
+      </button>
+      <span class="mode-caption" id="modeCaption">8 ticks · preview after moving.</span>
+    </div>
+    <div class="settings-pop" id="settingsPop">
+      <div class="settings-view active" id="settingsMain">
+        <div class="setting-row">
+          <span class="label">volume</span>
+          <input class="volume" type="range" id="volume" min="0" max="100" value="80" aria-label="Volume" />
+        </div>
+        <div class="setting-row">
+          <span class="label">pitch</span>
+          <input class="pitch" type="range" id="pitch" min="700" max="1700" step="10" value="1100" aria-label="Pitch" />
+        </div>
+        <div class="settings-action-row">
+          <button class="key" id="shapeBtn">Shape</button>
+          <button class="key settings-reset" id="resetSettings" aria-label="Reset settings">&#8634;</button>
+        </div>
+      </div>
+      <div class="settings-view" id="settingsShape">
+        <div class="shape-options">
+          <button class="key shape-choice active" data-shape="circle">Circle</button>
+          <button class="key shape-choice" data-shape="square">Square</button>
+          <button class="key shape-choice" data-shape="triangle">Triangle</button>
+        </div>
+        <button class="key settings-back" id="settingsBack">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAY -->
+  <div class="play" id="play">
+    <div class="meta-row"><span class="mk">Tempo</span><span class="mk" id="roundlabel">01 / 05</span></div>
+    <div class="segs" id="dots"></div>
+
+    <div class="stage" id="playStage">
+      <div class="lamp" id="orb"><div class="core"></div></div>
+      <div class="lamp compare-lamp" id="guessOrb"><div class="core"></div></div>
+    </div>
+
+    <div id="guessUI">
+      <div class="lcd"><div class="num idle" id="bpmNum">—</div><span class="unit" id="unit">standby</span></div>
+      <div class="status" id="status">Standby</div>
+      <div class="fader-top"><span class="label"><span class="slow-c">Slower</span> · 60</span><span class="label">200 · <span class="fast-c">Faster</span></span></div>
+      <input type="range" id="slider" min="60" max="200" step="1" aria-label="Tempo guess" disabled />
+      <div class="scale"></div>
+      <div class="scale-labels"><span class="label">60</span><span class="label">130</span><span class="label">200</span></div>
+      <button class="key primary lg" id="lock" disabled>Lock in</button>
+    </div>
+
+    <div class="reveal" id="reveal">
+      <div class="rv-row"><span class="lbl">The beat</span><span class="val ref-c" id="rvBeat">—</span></div>
+      <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">—</span></div>
+      <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">—</span></div>
+      <div class="rv-points"><span class="n" id="rvPoints">+0</span><span class="p">points</span></div>
+      <p class="survival-status" id="survivalStatus"></p>
+      <button class="key primary lg" id="next">Next round</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result" id="result">
+    <p class="label" id="resultLabel">Final score</p>
+    <div class="score-big"><span id="total">0</span><span class="of" id="scoreOf">/ 500</span></div>
+    <p class="verdict" id="verdict"></p>
+    <div class="grid" id="grid"></div>
+    <table>
+      <thead><tr><th>Rd</th><th>Beat</th><th>You</th><th>Off</th><th>Pts</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="note">Points are based on how far off you were by ratio, so a miss at 70 and the same-sounding miss at 180 cost the same. A perfect match scores 100.</p>
+    <div class="again-row">
+      <button class="key" id="copy">Copy result</button>
+      <button class="key primary" id="again">Play again</button>
+    </div>
+    <button class="key return-home" id="home">Return</button>
+  </div>
+
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, HARD_LISTEN_BEATS = 4, REVEAL_SEC = 3.5;
+  const GAME_MODES = ["normal", "hard", "endless"];
+  const ENDLESS_PRAISE = ["nice!", "awesome!", "well done!", "great ear!", "excellent!"];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let targets = [], guesses = [], scores = [];
+  let round = 0, currentGuess = 120;
+  let phase = "listen";          // listen | guess | reveal
+
+  let ctx = null, masterGain = null, schedTimer = null, endTimer = null, compareTimer = null;
+  let nextNoteTime = 0, endTime = Infinity, activeMode = null;
+  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", gameMode = "normal";
+  let guessPreviewStarted = false;
+  let endlessFailed = false;
+  let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
+
+  const $ = id => document.getElementById(id);
+  const orb = $("orb"), guessOrb = $("guessOrb"), playStage = $("playStage"), slider = $("slider"), lock = $("lock"),
+        bpmNum = $("bpmNum"), unit = $("unit"), status = $("status"),
+        guessUI = $("guessUI"), revealEl = $("reveal"), nextBtn = $("next");
+  const screens = [$("landing"), $("play"), $("result")];
+  let activeScreen = $("landing"), screenTimer = null;
+
+  function showScreen(id){
+    const next = $(id);
+    if(activeScreen === next) return;
+    clearTimeout(screenTimer);
+
+    if(reduceMotion){
+      screens.forEach(s => s.style.display = s === next ? "block" : "none");
+      activeScreen = next;
+      return;
+    }
+
+    const current = activeScreen;
+    current.style.opacity = "0";
+    current.style.transform = "translateY(-6px)";
+    screenTimer = setTimeout(() => {
+      current.style.display = "none";
+      current.style.transform = "translateY(6px)";
+      next.style.display = "block";
+      next.style.opacity = "0";
+      next.style.transform = "translateY(6px)";
+      requestAnimationFrame(() => {
+        next.style.opacity = "1";
+        next.style.transform = "translateY(0)";
+      });
+      activeScreen = next;
+    }, 220);
+  }
+
+  function toggleSettings(){
+    const pop = $("settingsPop");
+    const isOpen = pop.classList.toggle("open");
+    $("settingsBtn").setAttribute("aria-expanded", isOpen ? "true" : "false");
+    if(isOpen) showSettingsView("main");
+  }
+
+  function showSettingsView(view){
+    $("settingsMain").classList.toggle("active", view === "main");
+    $("settingsShape").classList.toggle("active", view === "shape");
+  }
+
+  function setVolume(value){
+    volumeLevel = Number(value) / 100;
+    if(masterGain) masterGain.gain.value = volumeLevel;
+  }
+
+  function setPitch(value){
+    tickPitch = Number(value);
+  }
+
+  async function previewTick(){
+    await ensureAudio();
+    const time = ctx.currentTime + 0.02;
+    playTick(time);
+    const lamp = activeScreen === $("landing") ? $("landing").querySelector(".lamp") : orb;
+    setTimeout(() => pulseLamp(lamp, "guess", true), 20);
+  }
+
+  function setLampShape(shape){
+    lampShape = shape;
+    document.querySelectorAll(".lamp").forEach(lamp => {
+      lamp.classList.remove("shape-circle","shape-square","shape-triangle");
+      lamp.classList.add("shape-" + lampShape);
+    });
+    document.querySelectorAll(".shape-choice").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.shape === lampShape);
+    });
+  }
+
+  function resetSettings(){
+    const btn = $("resetSettings");
+    if(!resetConfirming){
+      resetConfirming = true;
+      btn.classList.add("confirming");
+      btn.textContent = "confirm?";
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(clearResetConfirm, 2400);
+      return;
+    }
+    clearResetConfirm();
+    $("volume").value = 80;
+    $("pitch").value = 1100;
+    setVolume(80);
+    setPitch(1100);
+    setLampShape("circle");
+    previewTick();
+  }
+
+  function clearResetConfirm(){
+    resetConfirming = false;
+    clearTimeout(resetTimer);
+    const btn = $("resetSettings");
+    btn.classList.remove("confirming");
+    btn.textContent = "\u21ba";
+  }
+
+  function ensureAudio(){
+    if(!ctx){
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = ctx.createGain();
+      masterGain.gain.value = volumeLevel;
+      masterGain.connect(ctx.destination);
+    }
+    try {
+      const b = ctx.createBuffer(1, 1, 22050);
+      const s = ctx.createBufferSource(); s.buffer = b; s.connect(masterGain); s.start(0);
+    } catch(e){}
+    return ctx.state === "running" ? Promise.resolve() : ctx.resume();
+  }
+
+  function playTick(time){
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "square"; o.frequency.value = tickPitch;
+    g.gain.setValueAtTime(0.0001, time);
+    g.gain.exponentialRampToValueAtTime(0.28, time + 0.001);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 0.05);
+    o.connect(g); g.connect(masterGain);
+    o.start(time); o.stop(time + 0.06);
+  }
+
+  function playBlip(time, freq, gain){
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = "square"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, time);
+    g.gain.exponentialRampToValueAtTime(gain, time + 0.001);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 0.04);
+    o.connect(g); g.connect(masterGain);
+    o.start(time); o.stop(time + 0.05);
+  }
+
+  // rising tally that runs alongside the score count-up, then a landing accent
+  function playCountupSound(){
+    if(reduceMotion || !ctx || ctx.state !== "running") return;
+    const start = ctx.currentTime + 0.02, dur = 0.72, n = 16;
+    for(let i = 0; i < n; i++){
+      const p = i / (n - 1);
+      playBlip(start + p * dur, 480 + p * 900, 0.12);
+    }
+    playBlip(start + dur + 0.06, 1500, 0.3);   // lands as the number settles
+  }
+
+  function pulseLamp(lamp, mode, restore){
+    if(!lamp || !mode) return;
+    const hadTarget = lamp.classList.contains("target");
+    const hadGuess = lamp.classList.contains("guess");
+    const hadIdle = lamp.classList.contains("idle-pulse");
+    if(hadIdle) lamp.classList.remove("idle-pulse");
+    lamp.classList.remove("target","guess");
+    lamp.classList.add(mode === "target" ? "target" : "guess");
+    if(!reduceMotion){
+      lamp.classList.remove("pressed");
+      lamp.classList.add("pressed");
+      setTimeout(() => lamp.classList.remove("pressed"), 90);
+    }
+    if(restore){
+      setTimeout(() => {
+        lamp.classList.remove("target","guess");
+        if(hadTarget) lamp.classList.add("target");
+        if(hadGuess) lamp.classList.add("guess");
+        if(hadIdle) lamp.classList.add("idle-pulse");
+      }, 180);
+    }
+  }
+
+  function pulse(mode){ pulseLamp(orb, mode, false); }
+
+  function bpmFor(mode){ return mode === "target" ? targets[round] : currentGuess; }
+
+  function isHard(){ return gameMode === "hard"; }
+  function isEndless(){ return gameMode === "endless"; }
+  function listenBeats(){ return isHard() ? HARD_LISTEN_BEATS : LISTEN_BEATS; }
+  function endlessLimit(index){ return Math.max(5, 8 - Math.floor(index / 5)); }
+
+  function cycleGameMode(){
+    gameMode = GAME_MODES[(GAME_MODES.indexOf(gameMode) + 1) % GAME_MODES.length];
+    const modeSwitch = $("modeSwitch");
+    modeSwitch.dataset.mode = gameMode;
+    modeSwitch.setAttribute("aria-label", `Game mode: ${gameMode}. Activate to switch modes`);
+    $("modeCaption").textContent = isHard()
+      ? "4 ticks · no guess preview."
+      : isEndless()
+        ? "8 ticks · shrinking survival limit."
+        : "8 ticks · preview after moving.";
+  }
+
+  function scheduler(){
+    const mode = activeMode;
+    while(nextNoteTime < ctx.currentTime + 0.12){
+      if(nextNoteTime >= endTime) break;
+      playTick(nextNoteTime);
+      const delay = (nextNoteTime - ctx.currentTime) * 1000;
+      setTimeout(() => pulse(mode), Math.max(0, delay));
+      nextNoteTime += 60 / bpmFor(mode);
+    }
+  }
+
+  function stopMetro(){
+    if(schedTimer){ clearInterval(schedTimer); schedTimer = null; }
+    if(compareTimer){ clearInterval(compareTimer); compareTimer = null; }
+    clearTimeout(endTimer);
+    activeMode = null;
+    playStage.classList.remove("compare");
+    [orb, guessOrb].forEach(lamp => {
+      lamp.classList.remove("target","guess","pressed");
+      lamp.style.transform = "";
+    });
+  }
+
+  function runMetro(mode, seconds){
+    stopMetro();
+    activeMode = mode;
+    nextNoteTime = ctx.currentTime + 0.1;
+    endTime = seconds ? nextNoteTime + seconds : Infinity;
+    scheduler();
+    schedTimer = setInterval(scheduler, 25);
+    clearTimeout(endTimer);
+    if(seconds && mode === "target" && phase === "listen")
+      endTimer = setTimeout(onListenEnd, seconds * 1000 + 120);
+    else if(seconds)
+      endTimer = setTimeout(stopMetro, seconds * 1000 + 260);
+  }
+
+  function finishRevealComparison(){
+    if(compareTimer){ clearInterval(compareTimer); compareTimer = null; }
+    clearTimeout(endTimer);
+    [orb, guessOrb].forEach(lamp => {
+      lamp.classList.remove("target","guess","pressed");
+      lamp.style.transform = "";
+    });
+  }
+
+  function runRevealComparison(){
+    stopMetro();
+    orb.classList.add("target");
+    if(!isHard()){
+      playStage.classList.add("compare");
+      guessOrb.classList.add("guess");
+    }
+
+    let nextTarget = ctx.currentTime + 0.1;
+    let nextGuess = ctx.currentTime + 0.1;
+    let targetTicks = 0, guessTicks = 0, lastTickTime = nextTarget;
+    const beats = listenBeats();
+
+    function scheduleComparison(){
+      while(targetTicks < beats && nextTarget < ctx.currentTime + 0.12){
+        playTick(nextTarget);
+        setTimeout(() => pulseLamp(orb, "target", false), Math.max(0, (nextTarget - ctx.currentTime) * 1000));
+        lastTickTime = Math.max(lastTickTime, nextTarget);
+        nextTarget += 60 / targets[round];
+        targetTicks++;
+      }
+      while(!isHard() && guessTicks < beats && nextGuess < ctx.currentTime + 0.12){
+        playTick(nextGuess);
+        setTimeout(() => pulseLamp(guessOrb, "guess", false), Math.max(0, (nextGuess - ctx.currentTime) * 1000));
+        lastTickTime = Math.max(lastTickTime, nextGuess);
+        nextGuess += 60 / guesses[round];
+        guessTicks++;
+      }
+      if(targetTicks >= beats && (isHard() || guessTicks >= beats)){
+        clearInterval(compareTimer);
+        compareTimer = null;
+        clearTimeout(endTimer);
+        endTimer = setTimeout(finishRevealComparison, Math.max(0, (lastTickTime - ctx.currentTime) * 1000) + 160);
+      }
+    }
+
+    scheduleComparison();
+    compareTimer = setInterval(scheduleComparison, 25);
+  }
+
+  function onListenEnd(){ if(phase === "listen") enterGuess(); }
+
+  async function beginListen(){
+    phase = "listen";
+    status.className = "status listen"; status.textContent = "Memorize this tempo";
+    slider.disabled = true; lock.disabled = true;
+    bpmNum.classList.add("idle"); bpmNum.textContent = "\u2014";
+    unit.textContent = "the beat";
+    await ensureAudio();
+    const interval = 60 / targets[round];
+    const secs = (listenBeats() - 1) * interval + Math.min(0.4, interval * 0.6);
+    runMetro("target", secs);
+  }
+
+  async function enterGuess(){
+    phase = "guess";
+    status.className = "status guess"; status.textContent = "Move the slider until it feels right";
+    slider.disabled = false; lock.disabled = false;
+    bpmNum.classList.remove("idle"); bpmNum.textContent = currentGuess;
+    unit.textContent = "your guess · bpm";
+    await ensureAudio();
+    stopMetro();
+  }
+
+  function scoreRound(target, guess){
+    const ratioErr = Math.abs(Math.log2(guess / target));
+    return Math.max(0, Math.round(100 * Math.exp(-ratioErr * 3)));
+  }
+
+  function formatOff(target, guess, precise){
+    const raw = (guess - target) / target * 100;
+    let shown = precise ? Math.round(raw * 10) / 10 : Math.round(raw);
+    if(Object.is(shown, -0)) shown = 0;
+    return (shown > 0 ? "+" : "") + shown + "%";
+  }
+
+  function formatMagnitude(value){
+    return Math.round(value * 10) / 10 + "%";
+  }
+
+  function loadRound(){
+    do { currentGuess = Math.floor(MIN + Math.random() * (MAX - MIN + 1)); }
+    while(Math.abs(currentGuess - targets[round]) < 15);
+    revealEl.style.display = "none";
+    endlessFailed = false;
+    const survivalStatus = $("survivalStatus");
+    survivalStatus.className = "survival-status";
+    survivalStatus.textContent = "";
+    nextBtn.classList.remove("danger");
+    guessPreviewStarted = false;
+    guessUI.style.display = "block";
+    slider.value = currentGuess; slider.disabled = true;
+    lock.disabled = true;
+    bpmNum.classList.add("idle"); bpmNum.textContent = "\u2014";
+    unit.textContent = "ready";
+    status.className = "status"; status.textContent = "Listen closely";
+    stopMetro();
+    playStage.classList.remove("compare");
+    drawDots();
+    setTimeout(beginListen, 450);
+  }
+
+  function drawDots(){
+    const wrap = $("dots"); wrap.innerHTML = "";
+    const stageRound = isEndless() ? round % ROUNDS : round;
+    for(let i = 0; i < ROUNDS; i++){
+      const d = document.createElement("div");
+      d.className = "seg" + (i < stageRound ? " done" : i === stageRound ? " active" : "");
+      wrap.appendChild(d);
+    }
+    const roundLabel = $("roundlabel");
+    if(isEndless()){
+      roundLabel.textContent = `round ${round + 1} · `;
+      const thresholdLabel = document.createElement("span");
+      thresholdLabel.className = "threshold-label";
+      thresholdLabel.textContent = `current threshold ±${endlessLimit(round)}%`;
+      roundLabel.appendChild(thresholdLabel);
+    } else {
+      roundLabel.textContent = ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
+    }
+  }
+
+  function lockIn(){
+    if(phase !== "guess") return;
+    stopMetro();
+    guesses[round] = currentGuess;
+    scores[round] = scoreRound(targets[round], currentGuess);
+    showReveal();
+  }
+
+  async function showReveal(){
+    phase = "reveal";
+    guessUI.style.display = "none";
+    revealEl.style.display = "block";
+    const t = targets[round], g = guesses[round];
+    const exactOff = Math.abs((g - t) / t * 100);
+    $("rvBeat").textContent = t;
+    $("rvYou").textContent = g;
+    $("rvOff").textContent = formatOff(t, g, isEndless());
+    $("rvPoints").textContent = "+" + scores[round];
+    if(isEndless()){
+      const limit = endlessLimit(round);
+      endlessFailed = exactOff > limit;
+      const survivalStatus = $("survivalStatus");
+      survivalStatus.className = "survival-status " + (endlessFailed ? "fail" : "pass");
+      survivalStatus.textContent = endlessFailed
+        ? `nice try. you were off by ${formatMagnitude(exactOff)}.`
+        : `${ENDLESS_PRAISE[round % ENDLESS_PRAISE.length]} keep going.`;
+      nextBtn.textContent = endlessFailed ? "See results" : "Next round";
+      nextBtn.classList.toggle("danger", endlessFailed);
+    } else {
+      nextBtn.textContent = (round >= ROUNDS - 1) ? "See results" : "Next round";
+    }
+    await ensureAudio();
+    runRevealComparison();
+  }
+
+  function nextRound(){
+    stopMetro();
+    if(isEndless() && endlessFailed){
+      showResult();
+      return;
+    }
+    round++;
+    if(!isEndless() && round >= ROUNDS){
+      showResult();
+      return;
+    }
+    if(isEndless()) addEndlessTarget();
+    loadRound();
+  }
+
+  function generateTargets(){
+    const picked = [], minGap = 15;
+    while(picked.length < ROUNDS){
+      const bpm = Math.floor(MIN + Math.random() * (MAX - MIN + 1));
+      if(picked.every(t => Math.abs(t - bpm) >= minGap)) picked.push(bpm);
+    }
+    return picked;
+  }
+
+  function addEndlessTarget(){
+    const previous = targets[targets.length - 1];
+    let bpm;
+    do { bpm = Math.floor(MIN + Math.random() * (MAX - MIN + 1)); }
+    while(previous !== undefined && Math.abs(previous - bpm) < 15);
+    targets.push(bpm);
+  }
+
+  function newGame(){
+    targets = []; guesses = []; scores = []; round = 0;
+    endlessFailed = false;
+    if(isEndless()) addEndlessTarget();
+    else targets = generateTargets();
+    document.body.classList.remove("endless-result");
+    $("settingsPop").classList.remove("open");
+    $("settingsBtn").setAttribute("aria-expanded", "false");
+    showScreen("play");
+    loadRound();
+  }
+
+  function returnHome(){
+    stopMetro();
+    document.body.classList.remove("endless-result");
+    showScreen("landing");
+  }
+
+  function openTutorial(){
+    clearTimeout(tutorialCloseTimer);
+    const modal = $("tutorialModal");
+    modal.hidden = false;
+    requestAnimationFrame(() => modal.classList.add("open"));
+    $("tutorialClose").focus();
+  }
+
+  function closeTutorial(){
+    const modal = $("tutorialModal");
+    modal.classList.remove("open");
+    if(reduceMotion){
+      modal.hidden = true;
+    } else {
+      clearTimeout(tutorialCloseTimer);
+      tutorialCloseTimer = setTimeout(() => { modal.hidden = true; }, 180);
+    }
+    $("tutorialBtn").focus();
+  }
+
+  function openPrivacy(){
+    clearTimeout(privacyCloseTimer);
+    showLegalPanel("privacy");
+    const modal = $("privacyModal");
+    modal.hidden = false;
+    requestAnimationFrame(() => modal.classList.add("open"));
+    $("privacyClose").focus();
+  }
+
+  function closePrivacy(){
+    const modal = $("privacyModal");
+    modal.classList.remove("open");
+    if(reduceMotion){
+      modal.hidden = true;
+    } else {
+      clearTimeout(privacyCloseTimer);
+      privacyCloseTimer = setTimeout(() => { modal.hidden = true; }, 180);
+    }
+    $("privacyBtn").focus();
+  }
+
+  function showLegalPanel(panel){
+    const isPrivacy = panel === "privacy";
+    const current = isPrivacy ? $("termsPanel") : $("privacyPanel");
+    const next = isPrivacy ? $("privacyPanel") : $("termsPanel");
+    $("privacyTab").classList.toggle("active", isPrivacy);
+    $("termsTab").classList.toggle("active", !isPrivacy);
+    if(!current.hidden){
+      if(reduceMotion){
+        current.hidden = true;
+        next.hidden = false;
+      } else {
+        clearTimeout(legalSwapTimer);
+        current.classList.add("is-exiting");
+        legalSwapTimer = setTimeout(() => {
+          current.hidden = true;
+          current.classList.remove("is-exiting");
+          next.hidden = false;
+          next.classList.add("is-exiting");
+          requestAnimationFrame(() => next.classList.remove("is-exiting"));
+        }, 160);
+      }
+    } else {
+      current.hidden = true;
+      next.hidden = false;
+      next.classList.remove("is-exiting");
+    }
+  }
+
+  async function startGame(){
+    await ensureAudio();
+    newGame();
+  }
+
+  function tierEmoji(s){
+    return s >= 85 ? "\uD83D\uDFE9"
+         : s >= 70 ? "\uD83D\uDFE8"
+         : s >= 50 ? "\uD83D\uDFE7"
+         :           "\uD83D\uDFE5";
+  }
+  function gridString(){ return scores.map(tierEmoji).join(""); }
+  function shareGridString(){ return scores.map(tierEmoji).join(" | "); }
+
+  function setScoreColor(value){
+    const el = $("total");
+    el.classList.remove("score-low","score-mid","score-high");
+    el.classList.add(value < 300 ? "score-low" : value < 400 ? "score-mid" : "score-high");
+  }
+
+  function animateTotal(target){
+    const el = $("total");
+    if(reduceMotion){ el.textContent = target; setScoreColor(target); return; }
+    const dur = 750, start = performance.now();
+    (function step(now){
+      const t = Math.min(1, (now - start) / dur);
+      const value = Math.round(target * (1 - Math.pow(1 - t, 3)));
+      el.textContent = value;
+      setScoreColor(value);
+      if(t < 1) requestAnimationFrame(step);
+      else { el.textContent = target; setScoreColor(target); }
+    })(start);
+  }
+
+  function showResult(){
+    document.body.classList.toggle("endless-result", isEndless());
+    showScreen("result");
+    const played = scores.length;
+    const possible = played * 100;
+    const total = scores.reduce((a,b) => a + b, 0);
+    const totalEl = $("total");
+    const avgMiss = Math.round(
+      targets.slice(0, played).reduce((a,t,i) => a + Math.abs((guesses[i]-t)/t*100), 0) / played
+    );
+    const finalMiss = Math.abs((guesses[played - 1] - targets[played - 1]) / targets[played - 1] * 100);
+    $("resultLabel").textContent = isEndless() ? "Endless score" : "Final score";
+    $("scoreOf").textContent = "/ " + possible;
+    $("verdict").classList.toggle("failed", isEndless());
+    $("verdict").textContent = isEndless()
+      ? `nice try. you were off by ${formatMagnitude(finalMiss)}.`
+      : "Average miss " + avgMiss + "%";
+    $("grid").textContent = gridString();
+    totalEl.textContent = "0";
+    setScoreColor(0);
+    const rows = $("rows"); rows.innerHTML = "";
+    const best = Math.max(...scores);
+    for(let i = 0; i < played; i++){
+      const rowClasses = [];
+      if(scores[i] === best) rowClasses.push("best");
+      if(isEndless() && i === played - 1) rowClasses.push("failed");
+      const rowClass = rowClasses.length ? ` class="${rowClasses.join(" ")}"` : "";
+      rows.insertAdjacentHTML("beforeend",
+        `<tr${rowClass}><td>${i+1}</td><td class="tgt">${targets[i]}</td>`+
+        `<td class="gss">${guesses[i]}</td><td class="off">${formatOff(targets[i], guesses[i], isEndless())}</td><td class="pts">${scores[i]}</td></tr>`);
+    }
+    const startTally = () => {
+      animateTotal(total);
+      playCountupSound();
+    };
+    if(reduceMotion) startTally();
+    else setTimeout(startTally, 240);
+  }
+
+  function setCopyLabel(text){
+    const copy = $("copy");
+    const original = copy.textContent;
+    copy.textContent = text;
+    setTimeout(() => copy.textContent = original, 1400);
+  }
+
+  function fallbackCopy(text){
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.select();
+    try { return document.execCommand("copy"); }
+    finally { document.body.removeChild(area); }
+  }
+
+  async function copyResult(){
+    const total = scores.reduce((a,b) => a + b, 0);
+    const title = isHard() ? "Tempo Game [Hard Mode]" : isEndless() ? "Tempo Game [Endless Mode]" : "Tempo Game";
+    const possible = scores.length * 100;
+    const endlessLine = isEndless() ? `${Math.max(0, scores.length - 1)} rounds cleared\n` : "";
+    const text = `${title}\n${total}/${possible}\n${endlessLine}${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
+    try {
+      if(navigator.clipboard) await navigator.clipboard.writeText(text);
+      else if(!fallbackCopy(text)) throw new Error("copy failed");
+      setCopyLabel("Copied \u2713");
+    } catch(e){
+      if(fallbackCopy(text)) setCopyLabel("Copied \u2713");
+      else setCopyLabel("Copy failed");
+    }
+  }
+
+  $("start").addEventListener("click", startGame);
+  $("siteHome").addEventListener("click", returnHome);
+  $("tutorialBtn").addEventListener("click", openTutorial);
+  $("tutorialClose").addEventListener("click", closeTutorial);
+  $("privacyBtn").addEventListener("click", openPrivacy);
+  $("privacyClose").addEventListener("click", closePrivacy);
+  $("privacyTab").addEventListener("click", () => showLegalPanel("privacy"));
+  $("termsTab").addEventListener("click", () => showLegalPanel("terms"));
+  $("privacyModal").addEventListener("click", e => {
+    if(e.target === $("privacyModal")) closePrivacy();
+  });
+  $("tutorialModal").addEventListener("click", e => {
+    if(e.target === $("tutorialModal")) closeTutorial();
+  });
+  document.addEventListener("keydown", e => {
+    if(e.key !== "Escape") return;
+    if(!$("tutorialModal").hidden) closeTutorial();
+    else if(!$("privacyModal").hidden) closePrivacy();
+  });
+  $("settingsBtn").addEventListener("click", toggleSettings);
+  $("modeSwitch").addEventListener("click", cycleGameMode);
+  $("volume").addEventListener("input", e => setVolume(e.target.value));
+  $("volume").addEventListener("change", previewTick);
+  $("pitch").addEventListener("input", e => setPitch(e.target.value));
+  $("pitch").addEventListener("change", previewTick);
+  $("shapeBtn").addEventListener("click", () => showSettingsView("shape"));
+  $("resetSettings").addEventListener("click", resetSettings);
+  $("settingsBack").addEventListener("click", () => showSettingsView("main"));
+  document.querySelectorAll(".shape-choice").forEach(btn => {
+    btn.addEventListener("click", () => setLampShape(btn.dataset.shape));
+  });
+  slider.addEventListener("input", e => {
+    currentGuess = +e.target.value;
+    if(phase === "guess"){
+      bpmNum.textContent = currentGuess;
+      if(!isHard() && !guessPreviewStarted){
+        guessPreviewStarted = true;
+        runMetro("guess");
+      }
+    }
+  });
+  lock.addEventListener("click", lockIn);
+  nextBtn.addEventListener("click", nextRound);
+  $("again").addEventListener("click", newGame);
+  $("home").addEventListener("click", returnHome);
+  $("copy").addEventListener("click", copyResult);
+})();
+</script>
+</body>
+</html>
