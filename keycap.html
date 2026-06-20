@@ -107,20 +107,22 @@
 
   /* tactile keycap prototype */
   .stage{display:flex;justify-content:center;gap:24px;margin:30px 0;}
-  .lamp{position:relative;width:112px;height:112px;border-radius:13px;
-    background:linear-gradient(145deg,#41454a 0%,#2b2e32 68%,#24272a 100%);
-    border:1px solid #5c6167;display:flex;align-items:center;justify-content:center;
-    box-shadow:0 8px 0 #101214,0 11px 20px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.11);
+  .lamp{position:relative;width:112px;height:112px;border-radius:5px;
+    background:linear-gradient(145deg,#454b4e 0%,#303537 68%,#25292b 100%);
+    border:1px solid #24282a;display:block;
+    box-shadow:0 8px 0 #1b1f21,0 11px 18px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08);
     transform:translateY(0);transition:transform .07s ease-out,box-shadow .07s ease-out,border-color .16s;}
-  .lamp::before{content:"";position:absolute;inset:7px;border:1px solid rgba(255,255,255,.055);
-    border-radius:9px;box-shadow:inset 0 -12px 20px rgba(0,0,0,.12);}
-  .lamp .core{position:relative;z-index:1;width:auto;height:auto;background:transparent;color:#f2f4f5;
-    font-family:"Lexend Deca",sans-serif;font-size:34px;font-weight:700;line-height:1;text-shadow:0 2px 1px rgba(0,0,0,.45);}
+  .lamp::before{content:"";position:absolute;z-index:0;top:3px;right:5px;bottom:10px;left:3px;
+    background:linear-gradient(145deg,#7c8488 0%,#687074 52%,#555d61 100%);
+    border:1px solid #8c9498;border-right-color:#454c4f;border-bottom-color:#3b4144;border-radius:3px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.17),inset -7px -10px 14px rgba(20,23,24,.13);}
+  .lamp .core{position:absolute;z-index:1;top:13px;left:14px;width:auto;height:auto;background:transparent;color:#f3f4f4;
+    font-family:"Roboto Mono",monospace;font-size:22px;font-weight:500;line-height:1;text-shadow:0 1px 1px rgba(0,0,0,.55);}
   .lamp .core::after{content:"E";}
-  .lamp.target{border-color:rgba(249,171,7,.72);}
-  .lamp.guess{border-color:rgba(145,192,75,.72);}
+  .lamp.target{border-color:rgba(249,171,7,.58);}
+  .lamp.guess{border-color:rgba(145,192,75,.58);}
   .lamp.pressed{transform:translateY(7px);
-    box-shadow:0 1px 0 #101214,0 3px 8px rgba(0,0,0,.3),inset 0 2px 5px rgba(0,0,0,.2);}
+    box-shadow:0 1px 0 #1b1f21,0 3px 7px rgba(0,0,0,.28),inset 0 2px 5px rgba(0,0,0,.18);}
   .lamp.idle-pulse{animation:none;}
   .compare-lamp{display:none;}
   .stage.compare .compare-lamp{display:flex;}
