@@ -4,15 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Tempo Game: Guess the BPM by Ear | phrug.net</title>
-<meta name="description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and score up to 500 across five rounds." />
+<meta name="description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Tempo Game: Guess the BPM by Ear | phrug.net" />
-<meta property="og:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and score up to 500 across five rounds." />
+<meta property="og:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
 <meta property="og:url" content="https://www.phrug.net/" />
 <meta property="og:image" content="https://www.phrug.net/tempo-preview.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Tempo Game: Guess the BPM by Ear | phrug.net" />
-<meta name="twitter:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and score up to 500 across five rounds." />
+<meta name="twitter:description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
 <meta name="twitter:image" content="https://www.phrug.net/tempo-preview.png" />
 <link rel="canonical" href="https://www.phrug.net/" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%23181a1c'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='5'%20fill='%23d13523'/%3E%3C/svg%3E" />
@@ -36,7 +36,7 @@
       "@id": "https://www.phrug.net/#tempo",
       "url": "https://www.phrug.net/",
       "name": "Tempo",
-      "description": "A five-round browser game where players listen to a beat and guess its BPM by ear.",
+      "description": "A browser game where players listen to a beat and guess its BPM by ear in five-round or endless modes.",
       "applicationCategory": "GameApplication",
       "operatingSystem": "Any",
       "browserRequirements": "Requires JavaScript and Web Audio API support.",
@@ -171,23 +171,26 @@
     box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 1px 0 #2b2c2e;}
   .key:disabled{opacity:.45;cursor:not-allowed;}
   .key.primary{color:var(--green);font-weight:700;}   /* green 'enter' legend */
+  .key.danger{color:var(--red);font-weight:700;}
   .key.lg{margin-top:20px;padding:16px;}
   .start-row{display:flex;gap:10px;margin-top:20px;align-items:stretch;}
   .start-row .key.lg{margin-top:0;flex:1;}
   .settings-toggle{width:50px;flex:0 0 50px;padding:0;font-size:20px;color:var(--yellow);}
-  .mode-row{display:flex;align-items:center;gap:12px;margin-top:16px;text-align:left;}
-  .mode-switch{width:100px;height:34px;flex:0 0 100px;position:relative;padding:0;border-radius:999px;
+  .mode-row{display:flex;align-items:flex-start;gap:12px;margin-top:16px;text-align:left;}
+  .mode-switch{width:156px;height:34px;flex:0 0 156px;position:relative;padding:0;border-radius:999px;
     background:#23262a;border:1px solid #35383c;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
     color:var(--sub);font-size:10px;font-weight:700;text-transform:lowercase;}
-  .mode-switch::before{content:"";position:absolute;top:3px;left:3px;width:44px;height:26px;border-radius:999px;
+  .mode-switch::before{content:"";position:absolute;top:3px;left:3px;width:48px;height:26px;border-radius:999px;
     background:var(--green);transition:transform .16s ease, background .16s ease;}
-  .mode-switch[aria-pressed="true"]::before{transform:translateX(48px);background:var(--red);}
-  .mode-labels{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;align-items:center;height:100%;}
+  .mode-switch[data-mode="hard"]::before{transform:translateX(51px);background:var(--red);}
+  .mode-switch[data-mode="endless"]::before{transform:translateX(102px);background:var(--yellow);}
+  .mode-labels{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;height:100%;}
   .mode-labels span{transition:color .16s ease;}
-  .mode-switch[aria-pressed="false"] .mode-normal,
-  .mode-switch[aria-pressed="true"] .mode-hard{color:#181a1c;}
+  .mode-switch[data-mode="normal"] .mode-normal,
+  .mode-switch[data-mode="hard"] .mode-hard,
+  .mode-switch[data-mode="endless"] .mode-endless{color:#181a1c;}
   .mode-caption{font-size:12px;line-height:1.45;color:var(--sub);text-transform:lowercase;
-    opacity:1;transition:opacity .16s ease;}
+    min-height:35px;opacity:1;transition:opacity .16s ease;}
   .settings-pop{display:none;margin-top:12px;padding:14px;border:1px solid var(--sub-alt);
     background:#151719;border-radius:7px;}
   .settings-pop.open{display:block;}
@@ -216,6 +219,10 @@
   .rv-points .n{font-size:48px;font-weight:700;color:var(--green);line-height:1;}
   .rv-points .p{display:block;font-size:12px;letter-spacing:.05em;color:var(--sub);
     margin-top:8px;text-transform:lowercase;}
+  .survival-status{display:none;margin:18px 0 0;padding:12px 14px;border:1px solid var(--sub-alt);
+    border-radius:7px;font-size:13px;font-weight:700;text-align:center;text-transform:lowercase;}
+  .survival-status.pass{display:block;color:var(--green);border-color:rgba(145,192,75,.45);background:rgba(145,192,75,.08);}
+  .survival-status.fail{display:block;color:var(--red);border-color:rgba(209,53,35,.55);background:rgba(209,53,35,.09);}
 
   /* result */
   .score-big{display:flex;align-items:baseline;gap:8px;}
@@ -225,7 +232,9 @@
   .score-big #total.score-high{color:var(--green);}
   .score-big .of{font-size:18px;color:var(--sub);}
   .verdict{color:var(--sub);margin:8px 0 20px;font-size:15px;text-transform:lowercase;}
+  .verdict.failed{color:var(--red);font-weight:700;}
   .grid{font-size:30px;letter-spacing:8px;line-height:1;margin:0 0 24px;user-select:all;}
+  .endless-result .grid{line-height:1.35;word-break:break-all;}
   table{width:100%;border-collapse:collapse;font-size:13px;}
   th{color:var(--sub);font-weight:400;text-align:right;padding:0 12px 10px;font-size:11px;
     letter-spacing:.06em;text-transform:lowercase;}
@@ -233,11 +242,13 @@
   td{padding:9px 12px;text-align:right;border-top:1px solid var(--sub-alt);}
   td:first-child{text-align:left;color:var(--sub);}
   tr.best td{background:rgba(194,199,204,.07);}
+  tr.failed td{background:rgba(209,53,35,.09);}
   .tgt{color:var(--text);} .gss{color:var(--yellow);} .off{color:var(--red);} .pts{color:var(--green);}
   .note{font-size:12px;color:var(--sub);margin:18px 0 4px;line-height:1.55;}
   .again-row{display:flex;gap:10px;margin-top:22px;}
   .again-row .key{flex:1;}
   .return-home{margin-top:10px;color:var(--red);}
+  body.endless-result{height:auto;min-height:100%;align-items:flex-start;padding-top:82px;padding-bottom:40px;}
 
   .privacy-modal[hidden]{display:none;}
   .privacy-modal{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
@@ -281,6 +292,9 @@
     .lamp.idle-pulse{animation:none;}
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
   }
+  @media (max-width:380px){
+    .mode-caption{min-height:70px;}
+  }
 </style>
 <script>
   window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
@@ -298,7 +312,7 @@
     <div class="privacy-head">
       <div>
         <h2 class="tutorial-title" id="tutorialTitle">how to play</h2>
-        <p class="legal-caption">tempo is a five-round listening game</p>
+        <p class="legal-caption">tempo is a listening game played by ear</p>
       </div>
       <button class="key privacy-close" id="tutorialClose" aria-label="Close tutorial">x</button>
     </div>
@@ -310,8 +324,8 @@
       <li><strong>Wait for the beat to stop.</strong> When the listening part ends, the slider unlocks and your starting guess appears.</li>
       <li><strong>Move the slider.</strong> Drag left if the beat felt slower, or right if it felt faster. In normal mode, your lamp previews the BPM you are guessing.</li>
       <li><strong>Lock in.</strong> When the speed feels right, press lock in. You will see the real BPM, your guess, how far off you were, and your points.</li>
-      <li><strong>Compare the lamps.</strong> In normal mode, orange shows the real beat and green shows your guess. In hard mode, only the real beat is replayed.</li>
-      <li><strong>Play five rounds.</strong> Your final score is out of 500. Copy your result to share it.</li>
+      <li><strong>Compare the lamps.</strong> In normal and endless modes, orange shows the real beat and green shows your guess. In hard mode, only the real beat is replayed.</li>
+      <li><strong>Finish the run.</strong> Normal and hard last five rounds. Endless continues until a guess misses the current limit. Copy your result to share it.</li>
     </ol>
 
     <h3>normal mode</h3>
@@ -320,8 +334,11 @@
     <h3>hard mode</h3>
     <p>You hear only 4 ticks, and there is no preview while guessing. Hard mode is for when you want the guess to be fully from memory.</p>
 
+    <h3>endless mode</h3>
+    <p>Endless plays like normal mode, but the run continues only while your guess stays within the limit. The limit tightens from 8% to 5% as you clear more rounds.</p>
+
     <h3>scoring</h3>
-    <p>Closer guesses earn more points. A perfect round is 100 points, and the best possible game is 500.</p>
+    <p>Closer guesses earn more points. A perfect round is 100 points. Five-round modes top out at 500, while an endless total grows with the run.</p>
 
     <a class="privacy-full" href="how-to-play">open full how-to-play guide</a>
   </div>
@@ -399,17 +416,17 @@
       <h1 class="wordmark">TEMPO<span class="byline">by <span class="byline-name">PHRUG.NET</span></span></h1>
       <p class="model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
     </div>
-    <p class="hook">Hear a beat. Guess the BPM. Five rounds by ear.<br>After the beat stops, move the slider and lock in your guess.</p>
+    <p class="hook">Hear a beat. Guess the BPM by ear.<br>Play five rounds, or keep going in endless.</p>
     <div class="stage"><div class="lamp idle-pulse"><div class="core"></div></div></div>
     <div class="start-row">
       <button class="key primary lg" id="start">Start</button>
       <button class="key settings-toggle" id="settingsBtn" aria-label="Options" aria-expanded="false">&#9881;</button>
     </div>
     <div class="mode-row">
-      <button class="mode-switch" id="modeSwitch" type="button" aria-pressed="false" aria-label="Toggle hard mode">
-        <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span></span>
+      <button class="mode-switch" id="modeSwitch" type="button" data-mode="normal" aria-label="Game mode: normal. Activate to switch modes">
+        <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span><span class="mode-endless">endless</span></span>
       </button>
-      <span class="mode-caption" id="modeCaption">8 ticks play, then moving the slider previews your guess.</span>
+      <span class="mode-caption" id="modeCaption">8 ticks · preview after moving.</span>
     </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
@@ -462,14 +479,15 @@
       <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">—</span></div>
       <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">—</span></div>
       <div class="rv-points"><span class="n" id="rvPoints">+0</span><span class="p">points</span></div>
+      <p class="survival-status" id="survivalStatus"></p>
       <button class="key primary lg" id="next">Next round</button>
     </div>
   </div>
 
   <!-- RESULT -->
   <div class="result" id="result">
-    <p class="label">Final score</p>
-    <div class="score-big"><span id="total">0</span><span class="of">/ 500</span></div>
+    <p class="label" id="resultLabel">Final score</p>
+    <div class="score-big"><span id="total">0</span><span class="of" id="scoreOf">/ 500</span></div>
     <p class="verdict" id="verdict"></p>
     <div class="grid" id="grid"></div>
     <table>
@@ -490,6 +508,7 @@
 (() => {
   "use strict";
   const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, HARD_LISTEN_BEATS = 4, REVEAL_SEC = 3.5;
+  const GAME_MODES = ["normal", "hard", "endless"];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   let targets = [], guesses = [], scores = [];
@@ -498,8 +517,9 @@
 
   let ctx = null, masterGain = null, schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
-  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", hardMode = false;
+  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", gameMode = "normal";
   let guessPreviewStarted = false;
+  let endlessFailed = false;
   let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
 
   const $ = id => document.getElementById(id);
@@ -675,14 +695,21 @@
 
   function bpmFor(mode){ return mode === "target" ? targets[round] : currentGuess; }
 
-  function listenBeats(){ return hardMode ? HARD_LISTEN_BEATS : LISTEN_BEATS; }
+  function isHard(){ return gameMode === "hard"; }
+  function isEndless(){ return gameMode === "endless"; }
+  function listenBeats(){ return isHard() ? HARD_LISTEN_BEATS : LISTEN_BEATS; }
+  function endlessLimit(index){ return Math.max(5, 8 - Math.floor(index / 5)); }
 
-  function toggleHardMode(){
-    hardMode = !hardMode;
-    $("modeSwitch").setAttribute("aria-pressed", hardMode ? "true" : "false");
-    $("modeCaption").textContent = hardMode
-      ? "4 ticks play, and no preview plays while you guess."
-      : "8 ticks play, then moving the slider previews your guess.";
+  function cycleGameMode(){
+    gameMode = GAME_MODES[(GAME_MODES.indexOf(gameMode) + 1) % GAME_MODES.length];
+    const modeSwitch = $("modeSwitch");
+    modeSwitch.dataset.mode = gameMode;
+    modeSwitch.setAttribute("aria-label", `Game mode: ${gameMode}. Activate to switch modes`);
+    $("modeCaption").textContent = isHard()
+      ? "4 ticks · no guess preview."
+      : isEndless()
+        ? "8 ticks · shrinking survival limit."
+        : "8 ticks · preview after moving.";
   }
 
   function scheduler(){
@@ -734,7 +761,7 @@
   function runRevealComparison(){
     stopMetro();
     orb.classList.add("target");
-    if(!hardMode){
+    if(!isHard()){
       playStage.classList.add("compare");
       guessOrb.classList.add("guess");
     }
@@ -752,14 +779,14 @@
         nextTarget += 60 / targets[round];
         targetTicks++;
       }
-      while(!hardMode && guessTicks < beats && nextGuess < ctx.currentTime + 0.12){
+      while(!isHard() && guessTicks < beats && nextGuess < ctx.currentTime + 0.12){
         playTick(nextGuess);
         setTimeout(() => pulseLamp(guessOrb, "guess", false), Math.max(0, (nextGuess - ctx.currentTime) * 1000));
         lastTickTime = Math.max(lastTickTime, nextGuess);
         nextGuess += 60 / guesses[round];
         guessTicks++;
       }
-      if(targetTicks >= beats && (hardMode || guessTicks >= beats)){
+      if(targetTicks >= beats && (isHard() || guessTicks >= beats)){
         clearInterval(compareTimer);
         compareTimer = null;
         clearTimeout(endTimer);
@@ -800,10 +827,22 @@
     return Math.max(0, Math.round(100 * Math.exp(-ratioErr * 3)));
   }
 
+  function formatOff(target, guess, precise){
+    const raw = (guess - target) / target * 100;
+    let shown = precise ? Math.round(raw * 10) / 10 : Math.round(raw);
+    if(Object.is(shown, -0)) shown = 0;
+    return (shown > 0 ? "+" : "") + shown + "%";
+  }
+
   function loadRound(){
     do { currentGuess = Math.floor(MIN + Math.random() * (MAX - MIN + 1)); }
     while(Math.abs(currentGuess - targets[round]) < 15);
     revealEl.style.display = "none";
+    endlessFailed = false;
+    const survivalStatus = $("survivalStatus");
+    survivalStatus.className = "survival-status";
+    survivalStatus.textContent = "";
+    nextBtn.classList.remove("danger");
     guessPreviewStarted = false;
     guessUI.style.display = "block";
     slider.value = currentGuess; slider.disabled = true;
@@ -819,12 +858,15 @@
 
   function drawDots(){
     const wrap = $("dots"); wrap.innerHTML = "";
+    const stageRound = isEndless() ? round % ROUNDS : round;
     for(let i = 0; i < ROUNDS; i++){
       const d = document.createElement("div");
-      d.className = "seg" + (i < round ? " done" : i === round ? " active" : "");
+      d.className = "seg" + (i < stageRound ? " done" : i === stageRound ? " active" : "");
       wrap.appendChild(d);
     }
-    $("roundlabel").textContent = ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
+    $("roundlabel").textContent = isEndless()
+      ? `round ${round + 1} · ±${endlessLimit(round)}%`
+      : ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
   }
 
   function lockIn(){
@@ -840,21 +882,41 @@
     guessUI.style.display = "none";
     revealEl.style.display = "block";
     const t = targets[round], g = guesses[round];
-    const off = Math.round((g - t) / t * 100);
+    const exactOff = Math.abs((g - t) / t * 100);
     $("rvBeat").textContent = t;
     $("rvYou").textContent = g;
-    $("rvOff").textContent = (off > 0 ? "+" : "") + off + "%";
+    $("rvOff").textContent = formatOff(t, g, isEndless());
     $("rvPoints").textContent = "+" + scores[round];
-    nextBtn.textContent = (round >= ROUNDS - 1) ? "See results" : "Next round";
+    if(isEndless()){
+      const limit = endlessLimit(round);
+      endlessFailed = exactOff > limit;
+      const survivalStatus = $("survivalStatus");
+      survivalStatus.className = "survival-status " + (endlessFailed ? "fail" : "pass");
+      survivalStatus.textContent = endlessFailed
+        ? `limit missed · needed within ±${limit}% · run over`
+        : `limit met · within ±${limit}% · keep going`;
+      nextBtn.textContent = endlessFailed ? "See results" : "Next round";
+      nextBtn.classList.toggle("danger", endlessFailed);
+    } else {
+      nextBtn.textContent = (round >= ROUNDS - 1) ? "See results" : "Next round";
+    }
     await ensureAudio();
     runRevealComparison();
   }
 
   function nextRound(){
     stopMetro();
+    if(isEndless() && endlessFailed){
+      showResult();
+      return;
+    }
     round++;
-    if(round >= ROUNDS) showResult();
-    else loadRound();
+    if(!isEndless() && round >= ROUNDS){
+      showResult();
+      return;
+    }
+    if(isEndless()) addEndlessTarget();
+    loadRound();
   }
 
   function generateTargets(){
@@ -866,9 +928,20 @@
     return picked;
   }
 
+  function addEndlessTarget(){
+    const previous = targets[targets.length - 1];
+    let bpm;
+    do { bpm = Math.floor(MIN + Math.random() * (MAX - MIN + 1)); }
+    while(previous !== undefined && Math.abs(previous - bpm) < 15);
+    targets.push(bpm);
+  }
+
   function newGame(){
     targets = []; guesses = []; scores = []; round = 0;
-    targets = generateTargets();
+    endlessFailed = false;
+    if(isEndless()) addEndlessTarget();
+    else targets = generateTargets();
+    document.body.classList.remove("endless-result");
     $("settingsPop").classList.remove("open");
     $("settingsBtn").setAttribute("aria-expanded", "false");
     showScreen("play");
@@ -877,6 +950,7 @@
 
   function returnHome(){
     stopMetro();
+    document.body.classList.remove("endless-result");
     showScreen("landing");
   }
 
@@ -984,25 +1058,34 @@
   }
 
   function showResult(){
+    document.body.classList.toggle("endless-result", isEndless());
     showScreen("result");
+    const played = scores.length;
+    const possible = played * 100;
     const total = scores.reduce((a,b) => a + b, 0);
     const totalEl = $("total");
     const avgMiss = Math.round(
-      targets.reduce((a,t,i) => a + Math.abs((guesses[i]-t)/t*100), 0) / ROUNDS
+      targets.slice(0, played).reduce((a,t,i) => a + Math.abs((guesses[i]-t)/t*100), 0) / played
     );
-    $("verdict").textContent = "Average miss " + avgMiss + "%";
+    $("resultLabel").textContent = isEndless() ? "Endless score" : "Final score";
+    $("scoreOf").textContent = "/ " + possible;
+    $("verdict").classList.toggle("failed", isEndless());
+    $("verdict").textContent = isEndless()
+      ? `${Math.max(0, played - 1)} rounds cleared · missed the ±${endlessLimit(played - 1)}% limit`
+      : "Average miss " + avgMiss + "%";
     $("grid").textContent = gridString();
     totalEl.textContent = "0";
     setScoreColor(0);
     const rows = $("rows"); rows.innerHTML = "";
     const best = Math.max(...scores);
-    for(let i = 0; i < ROUNDS; i++){
-      const off = Math.round((guesses[i] - targets[i]) / targets[i] * 100);
-      const sign = off > 0 ? "+" : "";
-      const bestClass = scores[i] === best ? " class=\"best\"" : "";
+    for(let i = 0; i < played; i++){
+      const rowClasses = [];
+      if(scores[i] === best) rowClasses.push("best");
+      if(isEndless() && i === played - 1) rowClasses.push("failed");
+      const rowClass = rowClasses.length ? ` class="${rowClasses.join(" ")}"` : "";
       rows.insertAdjacentHTML("beforeend",
-        `<tr${bestClass}><td>${i+1}</td><td class="tgt">${targets[i]}</td>`+
-        `<td class="gss">${guesses[i]}</td><td class="off">${sign}${off}%</td><td class="pts">${scores[i]}</td></tr>`);
+        `<tr${rowClass}><td>${i+1}</td><td class="tgt">${targets[i]}</td>`+
+        `<td class="gss">${guesses[i]}</td><td class="off">${formatOff(targets[i], guesses[i], isEndless())}</td><td class="pts">${scores[i]}</td></tr>`);
     }
     const startTally = () => {
       animateTotal(total);
@@ -1033,8 +1116,10 @@
 
   async function copyResult(){
     const total = scores.reduce((a,b) => a + b, 0);
-    const title = hardMode ? "Tempo Game [Hard Mode]" : "Tempo Game";
-    const text = `${title}\n${total}/500\n${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
+    const title = isHard() ? "Tempo Game [Hard Mode]" : isEndless() ? "Tempo Game [Endless Mode]" : "Tempo Game";
+    const possible = scores.length * 100;
+    const endlessLine = isEndless() ? `${Math.max(0, scores.length - 1)} rounds cleared\n` : "";
+    const text = `${title}\n${total}/${possible}\n${endlessLine}${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
     try {
       if(navigator.clipboard) await navigator.clipboard.writeText(text);
       else if(!fallbackCopy(text)) throw new Error("copy failed");
@@ -1065,7 +1150,7 @@
     else if(!$("privacyModal").hidden) closePrivacy();
   });
   $("settingsBtn").addEventListener("click", toggleSettings);
-  $("modeSwitch").addEventListener("click", toggleHardMode);
+  $("modeSwitch").addEventListener("click", cycleGameMode);
   $("volume").addEventListener("input", e => setVolume(e.target.value));
   $("volume").addEventListener("change", previewTick);
   $("pitch").addEventListener("input", e => setPitch(e.target.value));
@@ -1080,7 +1165,7 @@
     currentGuess = +e.target.value;
     if(phase === "guess"){
       bpmNum.textContent = currentGuess;
-      if(!hardMode && !guessPreviewStarted){
+      if(!isHard() && !guessPreviewStarted){
         guessPreviewStarted = true;
         runMetro("guess");
       }
