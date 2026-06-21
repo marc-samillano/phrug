@@ -249,6 +249,12 @@
     border-radius:7px;font-size:13px;font-weight:700;text-align:center;text-transform:lowercase;}
   .survival-status.pass{display:block;color:var(--green);border-color:rgba(145,192,75,.45);background:rgba(145,192,75,.08);}
   .survival-status.fail{display:block;color:var(--red);border-color:rgba(209,53,35,.55);background:rgba(209,53,35,.09);}
+  .end-early{display:block;width:auto;margin:8px 0 0;padding:8px 0;background:transparent;box-shadow:none;
+    color:rgba(194,199,204,.18);font-size:10px;font-weight:400;letter-spacing:0;text-transform:lowercase;
+    transition:color .15s ease;}
+  .end-early:hover,.end-early:focus-visible{color:var(--red);}
+  .end-early:focus-visible{outline:1px solid var(--red);outline-offset:3px;}
+  .end-early[hidden]{display:none;}
 
   /* result */
   .score-big{display:flex;align-items:baseline;gap:8px;}
@@ -509,6 +515,7 @@
       <div class="rv-points"><span class="n" id="rvPoints">+0</span><span class="p">points</span></div>
       <p class="survival-status" id="survivalStatus"></p>
       <button class="key primary lg" id="next">Next round</button>
+      <button class="end-early" id="endEarly" type="button" hidden>end early?</button>
     </div>
   </div>
 
@@ -550,6 +557,7 @@
   let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", gameMode = "normal";
   let guessPreviewStarted = false;
   let endlessFailed = false;
+  let endedEarly = false;
   let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
 
   const $ = id => document.getElementById(id);
@@ -924,6 +932,7 @@
     while(Math.abs(currentGuess - targets[round]) < 15);
     revealEl.style.display = "none";
     endlessFailed = false;
+    $("endEarly").hidden = true;
     const survivalStatus = $("survivalStatus");
     survivalStatus.className = "survival-status";
     survivalStatus.textContent = "";
@@ -989,8 +998,10 @@
         : `${ENDLESS_PRAISE[round % ENDLESS_PRAISE.length]} keep going.`;
       nextBtn.textContent = endlessFailed ? "See results" : "Next round";
       nextBtn.classList.toggle("danger", endlessFailed);
+      $("endEarly").hidden = endlessFailed;
     } else {
       nextBtn.textContent = (round >= ROUNDS - 1) ? "See results" : "Next round";
+      $("endEarly").hidden = round >= ROUNDS - 1;
     }
     await ensureAudio();
     runRevealComparison();
@@ -1009,6 +1020,13 @@
     }
     if(isEndless()) addEndlessTarget();
     loadRound();
+  }
+
+  function endGameEarly(){
+    if(phase !== "reveal" || $("endEarly").hidden) return;
+    endedEarly = true;
+    stopMetro();
+    showResult();
   }
 
   function generateTargets(){
@@ -1031,6 +1049,7 @@
   function newGame(){
     targets = []; guesses = []; scores = []; round = 0;
     endlessFailed = false;
+    endedEarly = false;
     if(isEndless()) addEndlessTarget();
     else targets = generateTargets();
     document.body.classList.remove("endless-result");
@@ -1161,10 +1180,13 @@
     );
     const finalMiss = Math.abs((guesses[played - 1] - targets[played - 1]) / targets[played - 1] * 100);
     $("resultLabel").textContent = isEndless() ? "Endless score" : "Final score";
-    $("scoreOf").textContent = "/ " + possible;
-    $("verdict").classList.toggle("failed", isEndless());
-    $("verdict").textContent = isEndless()
-      ? `nice try. you were off by ${formatMagnitude(finalMiss)}.`
+    $("scoreOf").hidden = isEndless();
+    $("scoreOf").textContent = isEndless() ? "" : "/ " + possible;
+    $("verdict").classList.toggle("failed", isEndless() && !endedEarly);
+    $("verdict").textContent = isEndless() && endedEarly
+      ? `ended after ${played} ${played === 1 ? "round" : "rounds"}.`
+      : isEndless()
+        ? `nice try. you were off by ${formatMagnitude(finalMiss)}.`
       : "Average miss " + avgMiss + "%";
     $("grid").textContent = gridString();
     totalEl.textContent = "0";
@@ -1174,7 +1196,7 @@
     for(let i = 0; i < played; i++){
       const rowClasses = [];
       if(scores[i] === best) rowClasses.push("best");
-      if(isEndless() && i === played - 1) rowClasses.push("failed");
+      if(isEndless() && !endedEarly && i === played - 1) rowClasses.push("failed");
       const rowClass = rowClasses.length ? ` class="${rowClasses.join(" ")}"` : "";
       rows.insertAdjacentHTML("beforeend",
         `<tr${rowClass}><td>${i+1}</td><td class="tgt">${targets[i]}</td>`+
@@ -1211,7 +1233,7 @@
     const total = scores.reduce((a,b) => a + b, 0);
     const title = isHard() ? "Tempo Game [Hard Mode]" : isEndless() ? "Tempo Game [Endless Mode]" : "Tempo Game";
     const possible = scores.length * 100;
-    const endlessLine = isEndless() ? `${Math.max(0, scores.length - 1)} rounds cleared\n` : "";
+    const endlessLine = isEndless() ? `${endedEarly ? scores.length : Math.max(0, scores.length - 1)} rounds cleared\n` : "";
     const text = `${title}\n${total}/${possible}\n${endlessLine}${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
     try {
       if(navigator.clipboard) await navigator.clipboard.writeText(text);
@@ -1244,6 +1266,7 @@
   });
   $("settingsBtn").addEventListener("click", toggleSettings);
   $("landingLamp").addEventListener("click", previewTick);
+  $("endEarly").addEventListener("click", endGameEarly);
   $("modeSwitch").addEventListener("click", cycleGameMode);
   $("volume").addEventListener("input", e => setVolume(e.target.value));
   $("volume").addEventListener("change", previewTick);
