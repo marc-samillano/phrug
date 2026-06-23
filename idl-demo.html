@@ -213,6 +213,11 @@
   body.theme-brotherhood{background-color:#1a0707;}
   .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
   body.theme-brotherhood.theme-video-ready .bg-video{opacity:1;}
+  body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:rgba(22,4,6,.58);opacity:0;
+    backdrop-filter:saturate(.72) contrast(1.08) brightness(.82);
+    transition:opacity .32s ease;}
+  body.theme-brotherhood.theme-video-ready::before{opacity:1;}
   @media (prefers-reduced-motion: reduce){
     .theme-choice.is-loading::after{animation:none;}
   }
