@@ -203,7 +203,16 @@
   .settings-action-row .settings-reset.confirming{background:var(--red);color:var(--text);font-weight:700;}
   .shape-options,.theme-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
   .shape-choice,.theme-choice{min-height:42px;padding:10px;font-size:12px;}
-  .shape-choice.active{color:var(--green);font-weight:700;}
+  .shape-choice.active,.theme-choice.active{color:var(--green);font-weight:700;}
+  body.theme-brotherhood{
+    background-color:#1a0707;
+    background-image:repeating-linear-gradient(135deg,
+      transparent 0, transparent 30px,
+      #6b1813 30px, #6b1813 36px,
+      transparent 36px, transparent 66px,
+      #d13523 66px, #d13523 72px);
+    background-attachment:fixed;
+  }
   .settings-back{margin-top:10px;color:var(--sub);}
 
   /* reveal */
@@ -484,12 +493,12 @@
       </div>
       <div class="settings-view" id="settingsTheme">
         <div class="theme-options">
-          <button class="key theme-choice" type="button">Brotherhood</button>
-          <button class="key theme-choice" type="button">1Million</button>
-          <button class="key theme-choice" type="button">GRV</button>
-          <button class="key theme-choice" type="button">Jam Republic</button>
-          <button class="key theme-choice" type="button">Royal Family</button>
-          <button class="key theme-choice" type="button">Quick Style</button>
+          <button class="key theme-choice" type="button" data-theme="brotherhood">Brotherhood</button>
+          <button class="key theme-choice" type="button" data-theme="1million">1Million</button>
+          <button class="key theme-choice" type="button" data-theme="grv">GRV</button>
+          <button class="key theme-choice" type="button" data-theme="jamrepublic">Jam Republic</button>
+          <button class="key theme-choice" type="button" data-theme="royalfamily">Royal Family</button>
+          <button class="key theme-choice" type="button" data-theme="quickstyle">Quick Style</button>
         </div>
         <button class="key settings-back" id="themeBack">Back</button>
       </div>
@@ -562,7 +571,8 @@
   let ctx = null, masterGain = null, keycapBuffer = null, keycapBufferPromise = null;
   let schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
-  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", gameMode = "normal";
+  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", gameMode = "normal", themeName = "default";
+  const THEME_NAMES = ["brotherhood","1million","grv","jamrepublic","royalfamily","quickstyle"];
   let guessPreviewStarted = false;
   let endlessFailed = false;
   let endedEarly = false;
@@ -648,6 +658,15 @@
     });
   }
 
+  function setTheme(theme){
+    themeName = theme;
+    THEME_NAMES.forEach(name => document.body.classList.remove("theme-" + name));
+    if(theme && theme !== "default") document.body.classList.add("theme-" + theme);
+    document.querySelectorAll(".theme-choice").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.theme === theme);
+    });
+  }
+
   function resetSettings(){
     const btn = $("resetSettings");
     if(!resetConfirming){
@@ -664,6 +683,7 @@
     setVolume(80);
     setPitch(1100);
     setLampShape("circle");
+    setTheme("default");
     previewTick();
   }
 
@@ -1288,6 +1308,9 @@
   $("themeBack").addEventListener("click", () => showSettingsView("main"));
   document.querySelectorAll(".shape-choice").forEach(btn => {
     btn.addEventListener("click", () => setLampShape(btn.dataset.shape));
+  });
+  document.querySelectorAll(".theme-choice").forEach(btn => {
+    btn.addEventListener("click", () => setTheme(btn.dataset.theme));
   });
   slider.addEventListener("input", e => {
     currentGuess = +e.target.value;
