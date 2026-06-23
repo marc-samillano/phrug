@@ -59,6 +59,7 @@
 
   /* landing */
   .brand{display:inline-block;}
+  .collab-brand{display:inline-grid;grid-template-columns:max-content max-content;align-items:baseline;}
   .wordmark{font-family:"Lexend Deca",sans-serif;font-weight:700;font-size:42px;
     margin:0;line-height:1;color:var(--red);text-transform:lowercase;}
   .collab-wordmark{display:inline-flex;align-items:center;white-space:nowrap;}
@@ -69,8 +70,10 @@
   .byline{font-family:"Lexend Deca",sans-serif;font-size:14px;font-weight:400;
     color:var(--sub);margin-left:10px;text-transform:lowercase;position:relative;top:-1px;}
   .byline-name{color:var(--green);margin-left:5px;}
+  .collab-byline{top:1px;white-space:nowrap;}
   .model{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);
     margin:5px 0 0;text-transform:lowercase;}
+  .collab-model{grid-column:1;}
   .hook{color:var(--sub);font-size:15px;line-height:1.55;margin:20px 0 0;}
 
   /* lamp: outer ring stays greyish-white, only the centre dot changes */
@@ -418,7 +421,7 @@
 
   <!-- LANDING -->
   <div id="landing">
-    <div class="brand">
+    <div class="brand collab-brand">
       <h1 class="wordmark collab-wordmark">
         <span>tempo</span>
         <span class="collab-x" aria-hidden="true">x</span>
@@ -438,9 +441,9 @@
             <image href="idl-logo-source.png" width="2066" height="1064" filter="url(#idl-transparent-white)" />
           </svg>
         </span>
-        <span class="byline">by <span class="byline-name">phrug.net</span></span>
       </h1>
-      <p class="model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
+      <span class="byline collab-byline">by <span class="byline-name">phrug.net</span></span>
+      <p class="model collab-model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
     </div>
     <p class="hook">Hear a beat. Guess the BPM by ear.<br>Play five rounds, or keep going in endless.</p>
     <div class="stage"><button class="lamp idle-pulse preview-lamp" id="landingLamp" type="button" aria-label="Play a preview tick"><span class="core" aria-hidden="true"></span></button></div>
