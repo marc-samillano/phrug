@@ -318,8 +318,8 @@
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
-<video class="bg-video" id="brotherhoodBg" autoplay loop muted playsinline preload="auto" aria-hidden="true">
-  <source src="brotherhood-bg.mp4" type="video/mp4">
+<video class="bg-video" id="brotherhoodBg" loop muted playsinline preload="auto" aria-hidden="true">
+  <source src="/brotherhood-bg.mp4" type="video/mp4">
 </video>
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="top-actions">
@@ -665,7 +665,10 @@
     THEME_NAMES.forEach(name => document.body.classList.remove("theme-" + name));
     if(theme && theme !== "default") document.body.classList.add("theme-" + theme);
     if(video){
-      if(theme === "brotherhood") video.play().catch(() => {});
+      if(theme === "brotherhood"){
+        video.muted = true;
+        video.play().catch(error => console.warn("Brotherhood background video could not play:", error));
+      }
       else video.pause();
     }
     document.querySelectorAll(".theme-choice").forEach(btn => {
