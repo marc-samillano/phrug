@@ -201,8 +201,8 @@
   .settings-action-row .key{flex:1;}
   .settings-action-row .settings-reset{width:82px;flex:0 0 82px;padding:0;color:var(--red);font-size:13px;}
   .settings-action-row .settings-reset.confirming{background:var(--red);color:var(--text);font-weight:700;}
-  .shape-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
-  .shape-choice{padding:10px;font-size:12px;}
+  .shape-options,.theme-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+  .shape-choice,.theme-choice{min-height:42px;padding:10px;font-size:12px;}
   .shape-choice.active{color:var(--green);font-weight:700;}
   .settings-back{margin-top:10px;color:var(--sub);}
 
@@ -469,6 +469,7 @@
         </div>
         <div class="settings-action-row">
           <button class="key" id="shapeBtn">Shape</button>
+          <button class="key" id="themeBtn">Theme</button>
           <button class="key settings-reset" id="resetSettings" aria-label="Reset settings">&#8634;</button>
         </div>
       </div>
@@ -480,6 +481,17 @@
           <button class="key shape-choice" data-shape="keycap">Keycap</button>
         </div>
         <button class="key settings-back" id="settingsBack">Back</button>
+      </div>
+      <div class="settings-view" id="settingsTheme">
+        <div class="theme-options">
+          <button class="key theme-choice" type="button">Brotherhood</button>
+          <button class="key theme-choice" type="button">1Million</button>
+          <button class="key theme-choice" type="button">GRV</button>
+          <button class="key theme-choice" type="button">Jam Republic</button>
+          <button class="key theme-choice" type="button">Royal Family</button>
+          <button class="key theme-choice" type="button">Quick Style</button>
+        </div>
+        <button class="key settings-back" id="themeBack">Back</button>
       </div>
     </div>
   </div>
@@ -601,6 +613,7 @@
   function showSettingsView(view){
     $("settingsMain").classList.toggle("active", view === "main");
     $("settingsShape").classList.toggle("active", view === "shape");
+    $("settingsTheme").classList.toggle("active", view === "theme");
   }
 
   function setVolume(value){
@@ -1269,8 +1282,10 @@
   $("pitch").addEventListener("input", e => setPitch(e.target.value));
   $("pitch").addEventListener("change", previewTick);
   $("shapeBtn").addEventListener("click", () => showSettingsView("shape"));
+  $("themeBtn").addEventListener("click", () => showSettingsView("theme"));
   $("resetSettings").addEventListener("click", resetSettings);
   $("settingsBack").addEventListener("click", () => showSettingsView("main"));
+  $("themeBack").addEventListener("click", () => showSettingsView("main"));
   document.querySelectorAll(".shape-choice").forEach(btn => {
     btn.addEventListener("click", () => setLampShape(btn.dataset.shape));
   });
