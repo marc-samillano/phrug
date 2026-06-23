@@ -324,7 +324,7 @@
 </head>
 <body>
 <video class="bg-video" id="brotherhoodBg" loop muted playsinline preload="none" aria-hidden="true">
-  <source data-src="/brotherhood-bg.mp4" type="video/mp4">
+  <source src="/brotherhood-bg.mp4" type="video/mp4">
 </video>
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="top-actions">
@@ -583,6 +583,7 @@
   let endlessFailed = false;
   let endedEarly = false;
   let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
+  let brotherhoodLoadTimer = null;
 
   const $ = id => document.getElementById(id);
   const orb = $("orb"), guessOrb = $("guessOrb"), playStage = $("playStage"), slider = $("slider"), lock = $("lock"),
@@ -667,7 +668,6 @@
   function setTheme(theme){
     themeName = theme;
     const video = document.getElementById("brotherhoodBg");
-    const source = video ? video.querySelector("source") : null;
     const brotherhoodButton = document.querySelector('[data-theme="brotherhood"]');
     THEME_NAMES.forEach(name => document.body.classList.remove("theme-" + name));
     document.body.classList.remove("theme-video-ready");
@@ -679,15 +679,14 @@
     if(video){
       if(theme === "brotherhood"){
         beginBrotherhoodVideoLoad();
-        if(source && !source.src){
-          source.src = source.dataset.src;
-          video.load();
-        }
         if(video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) finishBrotherhoodVideoLoad();
         video.muted = true;
         video.play().catch(error => failBrotherhoodVideoLoad(error));
       }
-      else video.pause();
+      else{
+        clearTimeout(brotherhoodLoadTimer);
+        video.pause();
+      }
     }
     document.querySelectorAll(".theme-choice").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.theme === theme);
@@ -696,6 +695,10 @@
 
   function beginBrotherhoodVideoLoad(){
     if(themeName !== "brotherhood") return;
+    clearTimeout(brotherhoodLoadTimer);
+    brotherhoodLoadTimer = setTimeout(() => {
+      failBrotherhoodVideoLoad(new Error("Video loading timed out"));
+    }, 12000);
     document.body.classList.remove("theme-video-ready");
     const button = document.querySelector('[data-theme="brotherhood"]');
     if(button){
@@ -706,6 +709,7 @@
 
   function finishBrotherhoodVideoLoad(){
     if(themeName !== "brotherhood") return;
+    clearTimeout(brotherhoodLoadTimer);
     document.body.classList.add("theme-video-ready");
     const button = document.querySelector('[data-theme="brotherhood"]');
     if(button){
@@ -715,6 +719,7 @@
   }
 
   function failBrotherhoodVideoLoad(error){
+    clearTimeout(brotherhoodLoadTimer);
     if(themeName === "brotherhood") document.body.classList.remove("theme-video-ready");
     const button = document.querySelector('[data-theme="brotherhood"]');
     if(button){
