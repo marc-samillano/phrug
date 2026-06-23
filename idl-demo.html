@@ -214,7 +214,6 @@
   .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
   body.theme-brotherhood.theme-video-ready .bg-video{opacity:1;}
   @media (prefers-reduced-motion: reduce){
-    .bg-video{display:none;}
     .theme-choice.is-loading::after{animation:none;}
   }
   .settings-back{margin-top:10px;color:var(--sub);}
@@ -679,18 +678,14 @@
     if(theme && theme !== "default") document.body.classList.add("theme-" + theme);
     if(video){
       if(theme === "brotherhood"){
-        if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-          video.pause();
-        }else{
-          beginBrotherhoodVideoLoad();
-          if(source && !source.src){
-            source.src = source.dataset.src;
-            video.load();
-          }
-          if(video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) finishBrotherhoodVideoLoad();
-          video.muted = true;
-          video.play().catch(error => failBrotherhoodVideoLoad(error));
+        beginBrotherhoodVideoLoad();
+        if(source && !source.src){
+          source.src = source.dataset.src;
+          video.load();
         }
+        if(video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) finishBrotherhoodVideoLoad();
+        video.muted = true;
+        video.play().catch(error => failBrotherhoodVideoLoad(error));
       }
       else video.pause();
     }
