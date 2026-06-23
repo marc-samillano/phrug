@@ -204,12 +204,18 @@
   .shape-options,.theme-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
   .shape-choice,.theme-choice{min-height:42px;padding:10px;font-size:12px;}
   .shape-choice.active,.theme-choice.active{color:var(--green);font-weight:700;}
+  .theme-choice.is-loading{position:relative;padding-right:34px;color:var(--yellow);}
+  .theme-choice.is-loading::after{content:"";position:absolute;top:50%;right:12px;width:13px;height:13px;
+    margin-top:-7px;border:2px solid rgba(249,171,7,.28);border-top-color:var(--yellow);border-radius:50%;
+    animation:theme-load-spin .7s linear infinite;}
+  @keyframes theme-load-spin{to{transform:rotate(360deg);}}
   /* brotherhood palette kept for reuse: base #1a0707, medium #6b1813, bright #d13523 */
   body.theme-brotherhood{background-color:#1a0707;}
   .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
-  body.theme-brotherhood .bg-video{opacity:1;}
+  body.theme-brotherhood.theme-video-ready .bg-video{opacity:1;}
   @media (prefers-reduced-motion: reduce){
     .bg-video{display:none;}
+    .theme-choice.is-loading::after{animation:none;}
   }
   .settings-back{margin-top:10px;color:var(--sub);}
 
@@ -318,8 +324,8 @@
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
-<video class="bg-video" id="brotherhoodBg" loop muted playsinline preload="auto" aria-hidden="true">
-  <source src="/brotherhood-bg.mp4" type="video/mp4">
+<video class="bg-video" id="brotherhoodBg" loop muted playsinline preload="none" aria-hidden="true">
+  <source data-src="/brotherhood-bg.mp4" type="video/mp4">
 </video>
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="top-actions">
@@ -662,18 +668,65 @@
   function setTheme(theme){
     themeName = theme;
     const video = document.getElementById("brotherhoodBg");
+    const source = video ? video.querySelector("source") : null;
+    const brotherhoodButton = document.querySelector('[data-theme="brotherhood"]');
     THEME_NAMES.forEach(name => document.body.classList.remove("theme-" + name));
+    document.body.classList.remove("theme-video-ready");
+    if(brotherhoodButton){
+      brotherhoodButton.classList.remove("is-loading");
+      brotherhoodButton.removeAttribute("aria-busy");
+    }
     if(theme && theme !== "default") document.body.classList.add("theme-" + theme);
     if(video){
       if(theme === "brotherhood"){
-        video.muted = true;
-        video.play().catch(error => console.warn("Brotherhood background video could not play:", error));
+        if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+          video.pause();
+        }else{
+          beginBrotherhoodVideoLoad();
+          if(source && !source.src){
+            source.src = source.dataset.src;
+            video.load();
+          }
+          if(video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) finishBrotherhoodVideoLoad();
+          video.muted = true;
+          video.play().catch(error => failBrotherhoodVideoLoad(error));
+        }
       }
       else video.pause();
     }
     document.querySelectorAll(".theme-choice").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.theme === theme);
     });
+  }
+
+  function beginBrotherhoodVideoLoad(){
+    if(themeName !== "brotherhood") return;
+    document.body.classList.remove("theme-video-ready");
+    const button = document.querySelector('[data-theme="brotherhood"]');
+    if(button){
+      button.classList.add("is-loading");
+      button.setAttribute("aria-busy", "true");
+    }
+  }
+
+  function finishBrotherhoodVideoLoad(){
+    if(themeName !== "brotherhood") return;
+    document.body.classList.add("theme-video-ready");
+    const button = document.querySelector('[data-theme="brotherhood"]');
+    if(button){
+      button.classList.remove("is-loading");
+      button.removeAttribute("aria-busy");
+    }
+  }
+
+  function failBrotherhoodVideoLoad(error){
+    if(themeName === "brotherhood") document.body.classList.remove("theme-video-ready");
+    const button = document.querySelector('[data-theme="brotherhood"]');
+    if(button){
+      button.classList.remove("is-loading");
+      button.removeAttribute("aria-busy");
+    }
+    console.warn("Brotherhood background video could not load:", error);
   }
 
   function resetSettings(){
@@ -1321,6 +1374,13 @@
   document.querySelectorAll(".theme-choice").forEach(btn => {
     btn.addEventListener("click", () => setTheme(btn.dataset.theme));
   });
+  const brotherhoodVideo = $("brotherhoodBg");
+  brotherhoodVideo.addEventListener("canplay", finishBrotherhoodVideoLoad);
+  brotherhoodVideo.addEventListener("playing", finishBrotherhoodVideoLoad);
+  brotherhoodVideo.addEventListener("waiting", beginBrotherhoodVideoLoad);
+  brotherhoodVideo.addEventListener("stalled", beginBrotherhoodVideoLoad);
+  brotherhoodVideo.addEventListener("error", failBrotherhoodVideoLoad);
+  brotherhoodVideo.querySelector("source").addEventListener("error", failBrotherhoodVideoLoad);
   slider.addEventListener("input", e => {
     currentGuess = +e.target.value;
     if(phase === "guess"){
