@@ -426,7 +426,13 @@
           <svg viewBox="494 362 1048 326" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <defs>
               <filter id="idl-transparent-white" color-interpolation-filters="sRGB">
-                <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -4 -4 -4 11.5 0" />
+                <feColorMatrix in="SourceGraphic" result="white-distance" type="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 3 0" />
+                <feComponentTransfer in="white-distance" result="soft-mask">
+                  <feFuncA type="linear" slope="1.15" intercept="-.05" />
+                </feComponentTransfer>
+                <feFlood flood-color="#cee54e" result="idl-lime" />
+                <feComposite in="idl-lime" in2="soft-mask" operator="in" />
               </filter>
             </defs>
             <image href="idl-logo-source.png" width="2066" height="1064" filter="url(#idl-transparent-white)" />
