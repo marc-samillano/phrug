@@ -1380,7 +1380,6 @@
   brotherhoodVideo.addEventListener("waiting", beginBrotherhoodVideoLoad);
   brotherhoodVideo.addEventListener("stalled", beginBrotherhoodVideoLoad);
   brotherhoodVideo.addEventListener("error", failBrotherhoodVideoLoad);
-  brotherhoodVideo.querySelector("source").addEventListener("error", failBrotherhoodVideoLoad);
   slider.addEventListener("input", e => {
     currentGuess = +e.target.value;
     if(phase === "guess"){
