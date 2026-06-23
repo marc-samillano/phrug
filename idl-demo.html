@@ -36,7 +36,7 @@
     font-family:"Roboto Mono", monospace;
     display:flex;align-items:center;justify-content:center;padding:24px;min-height:100%;
   }
-  .app{width:100%;max-width:440px;}
+  .app{position:relative;z-index:1;width:100%;max-width:440px;}
   .site-title{position:fixed;top:24px;left:24px;font-family:"Lexend Deca",sans-serif;
     font-size:18px;font-weight:700;color:var(--green);text-transform:lowercase;line-height:1;z-index:2;
     background:none;border:0;padding:0;width:auto;box-shadow:none;letter-spacing:0;}
@@ -205,12 +205,11 @@
   .shape-choice,.theme-choice{min-height:42px;padding:10px;font-size:12px;}
   .shape-choice.active,.theme-choice.active{color:var(--green);font-weight:700;}
   /* brotherhood palette kept for reuse: base #1a0707, medium #6b1813, bright #d13523 */
-  html.theme-brotherhood{background-color:#1a0707;}
-  body.theme-brotherhood{background-color:transparent;}
-  .bg-video{display:none;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:-1;opacity:0.5;}
-  body.theme-brotherhood .bg-video{display:block;}
+  body.theme-brotherhood{background-color:#1a0707;}
+  .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
+  body.theme-brotherhood .bg-video{opacity:0.6;}
   @media (prefers-reduced-motion: reduce){
-    body.theme-brotherhood .bg-video{display:none;}
+    .bg-video{display:none;}
   }
   .settings-back{margin-top:10px;color:var(--sub);}
 
@@ -662,16 +661,9 @@
 
   function setTheme(theme){
     themeName = theme;
-    const root = document.documentElement;
     const video = document.getElementById("brotherhoodBg");
-    THEME_NAMES.forEach(name => {
-      document.body.classList.remove("theme-" + name);
-      root.classList.remove("theme-" + name);
-    });
-    if(theme && theme !== "default"){
-      document.body.classList.add("theme-" + theme);
-      root.classList.add("theme-" + theme);
-    }
+    THEME_NAMES.forEach(name => document.body.classList.remove("theme-" + name));
+    if(theme && theme !== "default") document.body.classList.add("theme-" + theme);
     if(video){
       if(theme === "brotherhood") video.play().catch(() => {});
       else video.pause();
