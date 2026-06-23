@@ -204,17 +204,9 @@
   .shape-options,.theme-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
   .shape-choice,.theme-choice{min-height:42px;padding:10px;font-size:12px;}
   .shape-choice.active,.theme-choice.active{color:var(--green);font-weight:700;}
+  /* brotherhood palette kept for reuse: base #1a0707, medium #6b1813, bright #d13523 */
   body.theme-brotherhood{
     background-color:#1a0707;
-    background-image:
-      linear-gradient(to bottom, #1a0707 0%, #1a0707 67%, transparent 100%),
-      repeating-linear-gradient(110deg,
-        transparent 0,
-        #6b1813 2px, #6b1813 133px,
-        transparent 135px, transparent 180px,
-        #d13523 182px, #d13523 313px,
-        transparent 315px, transparent 360px);
-    background-attachment:fixed;
   }
   .settings-back{margin-top:10px;color:var(--sub);}
 
