@@ -209,8 +209,23 @@
     margin-top:-7px;border:2px solid rgba(249,171,7,.28);border-top-color:var(--yellow);border-radius:50%;
     animation:theme-load-spin .7s linear infinite;}
   @keyframes theme-load-spin{to{transform:rotate(360deg);}}
-  /* brotherhood palette kept for reuse: base #1a0707, medium #6b1813, bright #d13523 */
-  body.theme-brotherhood{background-color:#1a0707;}
+  /* Brotherhood: near-black, warm white, and the crew's muted crimson. */
+  body.theme-brotherhood{
+    --bg:#080808;--sub-alt:#2a2324;--sub:#a59d99;--text:#f3f0e9;
+    --red:#b3373d;--green:#f3f0e9;--yellow:#d66769;
+    background-color:var(--bg);
+  }
+  body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
+  body.theme-brotherhood .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
+  body.theme-brotherhood .privacy-toggle,
+  body.theme-brotherhood .help-toggle,
+  body.theme-brotherhood .key{background:#171314;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 3px 0 #050505;}
+  body.theme-brotherhood .privacy-toggle:hover,
+  body.theme-brotherhood .help-toggle:hover,
+  body.theme-brotherhood .key:hover:not(:disabled){background:#251d1e;}
+  body.theme-brotherhood .settings-pop{background:#0d0a0b;border-color:#352b2c;}
+  body.theme-brotherhood .mode-switch{background:#100d0e;border-color:#493638;}
+  body.theme-brotherhood tr.best td{background:rgba(243,240,233,.08);}
   .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
   body.theme-brotherhood.theme-video-ready .bg-video{opacity:1;}
   body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
