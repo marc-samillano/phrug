@@ -226,6 +226,11 @@
   body.theme-brotherhood .settings-pop{background:#0d0a0b;border-color:#352b2c;}
   body.theme-brotherhood .mode-switch{background:#100d0e;border-color:#493638;}
   body.theme-brotherhood tr.best td{background:rgba(243,240,233,.08);}
+  body.theme-brotherhood .lamp:not(.shape-keycap){border-color:var(--text);}
+  body.theme-brotherhood .lamp:not(.shape-keycap) .core,
+  body.theme-brotherhood .lamp:not(.shape-keycap).target .core,
+  body.theme-brotherhood .lamp:not(.shape-keycap).guess .core{background:var(--text);}
+  body.theme-brotherhood .lamp.shape-triangle::before{filter:brightness(0) invert(1);}
   .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
   body.theme-brotherhood.theme-video-ready .bg-video{opacity:1;}
   body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
