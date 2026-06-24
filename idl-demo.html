@@ -45,18 +45,12 @@
   .site-title:hover{background:none;color:var(--green);}
   .site-title:active{transform:none;box-shadow:none;}
   .partner-banner{display:none;position:fixed;top:0;left:140px;right:116px;height:64px;
-    z-index:2;overflow:hidden;pointer-events:none;
+    z-index:2;overflow:hidden;pointer-events:none;background-image:url("banner-partners-tile.png");
+    background-repeat:repeat-x;background-position:0 center;background-size:301px 64px;
+    animation:partner-banner-right 28s linear infinite;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);}
-  .partner-banner-track{display:flex;width:max-content;height:100%;align-items:center;
-    transform:translateX(-50%);animation:partner-banner-right 34s linear infinite;will-change:transform;}
-  .partner-banner-sequence{display:flex;flex:none;height:100%;align-items:center;}
-  .partner-logo-set{display:flex;flex:none;align-items:center;gap:36px;padding-right:54px;}
-  .partner-logo{display:block;width:auto;object-fit:contain;opacity:.96;}
-  .partner-logo.brotherhood{height:26px;}
-  .partner-logo.steezy{height:18px;}
-  .partner-logo.idl{height:18px;}
-  @keyframes partner-banner-right{to{transform:translateX(0);}}
+  @keyframes partner-banner-right{to{background-position:301px center;}}
   .top-actions{position:fixed;top:21px;right:24px;display:flex;gap:8px;z-index:3;}
   .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
     background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;
@@ -342,7 +336,7 @@
     .lamp.shape-keycap.glow .core{animation:none;filter:drop-shadow(0 0 8px rgba(var(--glow-rgb),.75));}
     .lamp.idle-pulse{animation:none;}
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
-    .partner-banner-track{animation:none;transform:none;}
+    .partner-banner{animation:none;}
   }
   @media (max-width:430px){
     .partner-banner{left:122px;right:102px;
@@ -362,20 +356,7 @@
 </head>
 <body>
 <button class="site-title" id="siteHome">phrug.net</button>
-<div class="partner-banner" aria-hidden="true">
-  <div class="partner-banner-track">
-    <div class="partner-banner-sequence">
-      <div class="partner-logo-set"><img class="partner-logo brotherhood" src="banner-brotherhood.png" alt="" /><img class="partner-logo steezy" src="banner-steezy.png" alt="" /><img class="partner-logo idl" src="banner-idl.png" alt="" /></div>
-      <div class="partner-logo-set"><img class="partner-logo brotherhood" src="banner-brotherhood.png" alt="" /><img class="partner-logo steezy" src="banner-steezy.png" alt="" /><img class="partner-logo idl" src="banner-idl.png" alt="" /></div>
-      <div class="partner-logo-set"><img class="partner-logo brotherhood" src="banner-brotherhood.png" alt="" /><img class="partner-logo steezy" src="banner-steezy.png" alt="" /><img class="partner-logo idl" src="banner-idl.png" alt="" /></div>
-    </div>
-    <div class="partner-banner-sequence">
-      <div class="partner-logo-set"><img class="partner-logo brotherhood" src="banner-brotherhood.png" alt="" /><img class="partner-logo steezy" src="banner-steezy.png" alt="" /><img class="partner-logo idl" src="banner-idl.png" alt="" /></div>
-      <div class="partner-logo-set"><img class="partner-logo brotherhood" src="banner-brotherhood.png" alt="" /><img class="partner-logo steezy" src="banner-steezy.png" alt="" /><img class="partner-logo idl" src="banner-idl.png" alt="" /></div>
-      <div class="partner-logo-set"><img class="partner-logo brotherhood" src="banner-brotherhood.png" alt="" /><img class="partner-logo steezy" src="banner-steezy.png" alt="" /><img class="partner-logo idl" src="banner-idl.png" alt="" /></div>
-    </div>
-  </div>
-</div>
+<div class="partner-banner" aria-hidden="true"></div>
 <div class="top-actions">
   <button class="help-toggle" id="tutorialBtn" aria-label="How to play" aria-haspopup="dialog">?</button>
   <button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
