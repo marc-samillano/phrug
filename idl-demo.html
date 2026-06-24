@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
 <title>Tempo x IDL Demo | phrug.net</title>
 <meta name="robots" content="noindex, nofollow" />
 <meta name="description" content="Test your sense of tempo. Listen to a beat, guess its BPM, and play five-round or endless challenges by ear." />
@@ -26,6 +27,7 @@
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
   :root{
+    color-scheme:only dark;
     --bg:#181a1c; --sub-alt:#23262a; --sub:#6e747a; --text:#c2c7cc;
     --red:#d13523; --green:#91c04b; --yellow:#f9ab07;
   }
@@ -226,10 +228,12 @@
   body.theme-brotherhood .settings-pop{background:#0d0a0b;border-color:#352b2c;}
   body.theme-brotherhood .mode-switch{background:#100d0e;border-color:#493638;}
   body.theme-brotherhood tr.best td{background:rgba(243,240,233,.08);}
-  body.theme-brotherhood .lamp:not(.shape-keycap){border-color:#fff!important;}
+  body.theme-brotherhood .lamp:not(.shape-keycap){border:2px solid #fff!important;
+    color-scheme:only dark;forced-color-adjust:none;filter:none!important;opacity:1!important;}
   body.theme-brotherhood .lamp:not(.shape-keycap) .core,
   body.theme-brotherhood .lamp:not(.shape-keycap).target .core,
-  body.theme-brotherhood .lamp:not(.shape-keycap).guess .core{background:#fff!important;transition:none;}
+  body.theme-brotherhood .lamp:not(.shape-keycap).guess .core{background:#fff!important;background-image:none!important;
+    color-scheme:only dark;forced-color-adjust:none;filter:none!important;opacity:1!important;transition:none;}
   body.theme-brotherhood .lamp.shape-triangle::before{filter:brightness(0) invert(1);}
   .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s ease;}
   body.theme-brotherhood.theme-video-ready .bg-video{opacity:1;}
