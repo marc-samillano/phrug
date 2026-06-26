@@ -51,17 +51,6 @@
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);}
   @keyframes partner-banner-right{to{background-position:301px center;}}
-  .brotherhood-line-sheen{display:none;position:fixed;inset:-60px;z-index:0;pointer-events:none;
-    background:linear-gradient(115deg,transparent 0 38%,rgba(243,240,233,0) 43%,
-      rgba(243,240,233,.22) 50%,rgba(214,103,105,.18) 57%,transparent 64% 100%);
-    background-size:360px 360px;background-position:-360px -360px;opacity:.42;mix-blend-mode:screen;
-    -webkit-mask-image:url("/brotherhood-pattern.svg");mask-image:url("/brotherhood-pattern.svg");
-    -webkit-mask-size:600px 600px;mask-size:600px 600px;
-    -webkit-mask-position:center;mask-position:center;
-    animation:brotherhood-line-sheen 24s linear infinite;}
-  @keyframes brotherhood-line-sheen{
-    to{background-position:360px 360px;}
-  }
   .top-actions{position:fixed;top:21px;right:24px;display:flex;gap:8px;z-index:3;}
   .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
     background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;
@@ -231,10 +220,14 @@
     background:var(--bg);
   }
   body.theme-brotherhood::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
-    background-image:url("/brotherhood-pattern.svg");background-position:center;background-size:600px 600px;}
+    background-image:url("/brotherhood-pattern.svg");background-position:center;background-size:600px 600px;
+    animation:brotherhood-bg-drift 90s linear infinite;}
   body.theme-brotherhood::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
     z-index:1;pointer-events:none;background:#000;}
-  body.theme-brotherhood .brotherhood-line-sheen{display:block;}
+  @keyframes brotherhood-bg-drift{
+    0%{background-position:50% 50%;}
+    100%{background-position:calc(50% + 120px) calc(50% + 80px);}
+  }
   body.theme-brotherhood .partner-banner{display:block;}
   body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
   body.theme-brotherhood .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
@@ -350,7 +343,7 @@
     .lamp.idle-pulse{animation:none;}
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
     .partner-banner{animation:none;}
-    .brotherhood-line-sheen{animation:none;}
+    body.theme-brotherhood::after{animation:none;}
   }
   @media (max-width:430px){
     .partner-banner{left:122px;right:102px;
@@ -371,7 +364,6 @@
 <body>
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="partner-banner" aria-hidden="true"></div>
-<div class="brotherhood-line-sheen" aria-hidden="true"></div>
 <div class="top-actions">
   <button class="help-toggle" id="tutorialBtn" aria-label="How to play" aria-haspopup="dialog">?</button>
   <button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
