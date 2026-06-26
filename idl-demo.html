@@ -259,9 +259,9 @@
   }
   body.theme-grv::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
     background-color:var(--bg);
-    background-image:url("/grv-pattern.svg"),linear-gradient(180deg,#050705 0%,#070a07 100%);
+    background-image:url("/grv-flow-pattern.svg"),linear-gradient(180deg,#050705 0%,#070a07 100%);
     background-position:50% 50%,center;
-    background-size:40px 40px,auto;
+    background-size:600px 600px,auto;
     animation:grv-bg-drift 84s linear infinite;}
   body.theme-grv::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
     z-index:1;pointer-events:none;background:#000;}
@@ -540,7 +540,7 @@
       <p class="model collab-model"><span>guess</span><span>the</span><span>tempo</span><span>by</span><span>ear</span></p>
     </div>
     <p class="hook">Hear a beat. Guess the BPM by ear.<br>Play five rounds, or keep going in endless.</p>
-    <div class="stage"><button class="lamp idle-pulse preview-lamp" id="landingLamp" type="button" aria-label="Play a preview tick"><span class="core" aria-hidden="true"></span></button></div>
+    <div class="stage"><button class="lamp shape-square idle-pulse preview-lamp" id="landingLamp" type="button" aria-label="Play a preview tick"><span class="core" aria-hidden="true"></span></button></div>
     <div class="start-row">
       <button class="key primary lg" id="start">Start</button>
       <button class="key settings-toggle" id="settingsBtn" aria-label="Options" aria-expanded="false">&#9881;</button>
@@ -569,8 +569,8 @@
       </div>
       <div class="settings-view" id="settingsShape">
         <div class="shape-options">
-          <button class="key shape-choice active" data-shape="circle">Circle</button>
-          <button class="key shape-choice" data-shape="square">Square</button>
+          <button class="key shape-choice" data-shape="circle">Circle</button>
+          <button class="key shape-choice active" data-shape="square">Square</button>
           <button class="key shape-choice" data-shape="triangle">Triangle</button>
           <button class="key shape-choice" data-shape="keycap">Keycap</button>
         </div>
@@ -596,8 +596,8 @@
     <div class="segs" id="dots"></div>
 
     <div class="stage" id="playStage">
-      <div class="lamp" id="orb"><div class="core"></div></div>
-      <div class="lamp compare-lamp" id="guessOrb"><div class="core"></div></div>
+      <div class="lamp shape-square" id="orb"><div class="core"></div></div>
+      <div class="lamp shape-square compare-lamp" id="guessOrb"><div class="core"></div></div>
     </div>
 
     <div id="guessUI">
@@ -656,7 +656,7 @@
   let ctx = null, masterGain = null, keycapBuffer = null, keycapBufferPromise = null;
   let schedTimer = null, endTimer = null, compareTimer = null;
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
-  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "circle", gameMode = "normal", themeName = "default";
+  let volumeLevel = 0.8, tickPitch = 1100, lampShape = "square", gameMode = "normal", themeName = "default";
   const THEME_NAMES = ["brotherhood","1million","grv","jamrepublic","royalfamily","quickstyle"];
   let guessPreviewStarted = false;
   let endlessFailed = false;
@@ -767,7 +767,7 @@
     $("pitch").value = 1100;
     setVolume(80);
     setPitch(1100);
-    setLampShape("circle");
+    setLampShape("square");
     setTheme("default");
     previewTick();
   }
