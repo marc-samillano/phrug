@@ -217,11 +217,17 @@
   body.theme-brotherhood{
     --bg:#080808;--sub-alt:#2a2324;--sub:#a59d99;--text:#f3f0e9;
     --red:#b3373d;--green:#f3f0e9;--yellow:#d66769;
-    background-color:var(--bg);background-image:url("/brotherhood-pattern.svg");
-    background-position:center;background-size:600px 600px;background-attachment:fixed;
+    background:var(--bg);
   }
+  body.theme-brotherhood::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
+    background-image:url("/brotherhood-pattern.svg");background-position:center;background-size:600px 600px;
+    animation:brotherhood-bg-drift 90s linear infinite;}
   body.theme-brotherhood::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
     z-index:1;pointer-events:none;background:#000;}
+  @keyframes brotherhood-bg-drift{
+    0%{background-position:50% 50%;}
+    100%{background-position:calc(50% + 120px) calc(50% + 80px);}
+  }
   body.theme-brotherhood .partner-banner{display:block;}
   body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
   body.theme-brotherhood .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
@@ -337,6 +343,7 @@
     .lamp.idle-pulse{animation:none;}
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
     .partner-banner{animation:none;}
+    body.theme-brotherhood::after{animation:none;}
   }
   @media (max-width:430px){
     .partner-banner{left:122px;right:102px;
