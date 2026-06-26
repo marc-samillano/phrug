@@ -250,6 +250,45 @@
   body.theme-brotherhood .lamp:not(.shape-keycap).guess .core{background:#fff!important;background-image:none!important;
     color-scheme:only dark;forced-color-adjust:none;filter:none!important;opacity:1!important;transition:none;}
   body.theme-brotherhood .lamp.shape-triangle::before{filter:brightness(0) invert(1);}
+
+  /* GRV: black stage, clean whites, and the crew's muted green. */
+  body.theme-grv{
+    --bg:#050705;--sub-alt:#172018;--sub:#9aa89a;--text:#f4f7f2;
+    --red:#f4f7f2;--green:#9dbb9f;--yellow:#c6dec8;
+    background:var(--bg);
+  }
+  body.theme-grv::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
+    background-color:var(--bg);background-image:url("/grv-pattern.svg");
+    background-position:center;background-size:40px 40px;
+    animation:grv-bg-drift 84s linear infinite;}
+  body.theme-grv::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
+    z-index:1;pointer-events:none;background:#000;}
+  @keyframes grv-bg-drift{
+    0%{background-position:50% 50%;}
+    100%{background-position:calc(50% + 80px) calc(50% + 40px);}
+  }
+  body.theme-grv .partner-banner{display:block;background-image:url("banner-grv-partners-tile.png");}
+  body.theme-grv .idl-mark feFlood{flood-color:var(--text);}
+  body.theme-grv .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
+  body.theme-grv .key{background:#101410;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 3px 0 #030403;}
+  body.theme-grv .key:hover:not(:disabled){background:#192119;}
+  body.theme-grv .top-actions{top:16px;}
+  body.theme-grv .privacy-toggle,
+  body.theme-grv .help-toggle,
+  body.theme-grv .privacy-toggle:hover,
+  body.theme-grv .help-toggle:hover{background:transparent;box-shadow:none;}
+  body.theme-grv .privacy-toggle:active,
+  body.theme-grv .help-toggle:active{transform:none;box-shadow:none;}
+  body.theme-grv .settings-pop{background:#080b08;border-color:#253326;}
+  body.theme-grv .mode-switch{background:#0b100c;border-color:#354638;}
+  body.theme-grv tr.best td{background:rgba(157,187,159,.1);}
+  body.theme-grv .lamp:not(.shape-keycap){border:2px solid #f4f7f2!important;
+    color-scheme:only dark;forced-color-adjust:none;filter:none!important;opacity:1!important;}
+  body.theme-grv .lamp:not(.shape-keycap) .core{background:#9dbb9f!important;background-image:none!important;
+    color-scheme:only dark;forced-color-adjust:none;filter:none!important;opacity:1!important;}
+  body.theme-grv .lamp:not(.shape-keycap).target .core,
+  body.theme-grv .lamp:not(.shape-keycap).guess .core{background:#f4f7f2!important;}
+  body.theme-grv .lamp.shape-triangle::before{filter:brightness(0) invert(1);}
   .settings-back{margin-top:10px;color:var(--sub);}
 
   /* reveal */
@@ -344,6 +383,7 @@
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption{transition:none;}
     .partner-banner{animation:none;}
     body.theme-brotherhood::after{animation:none;}
+    body.theme-grv::after{animation:none;}
   }
   @media (max-width:430px){
     .partner-banner{left:122px;right:102px;
