@@ -259,19 +259,15 @@
   }
   body.theme-grv::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
     background-color:var(--bg);
-    background-image:
-      radial-gradient(circle at 50% 28%,rgba(159,200,123,.14),transparent 20%),
-      url("/grv-pattern.svg"),
-      repeating-linear-gradient(135deg,rgba(159,200,123,.065) 0 1px,transparent 1px 58px),
-      linear-gradient(180deg,#050705 0%,#070a07 100%);
-    background-position:50% 28%,0 0,0 0,center;
-    background-size:760px 420px,56px 56px,116px 116px,auto;
+    background-image:url("/grv-wave-pattern.svg"),linear-gradient(180deg,#050705 0%,#070a07 100%);
+    background-position:18% 58%,center;
+    background-size:760px 760px,auto;
     animation:grv-bg-drift 84s linear infinite;}
   body.theme-grv::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
     z-index:1;pointer-events:none;background:#000;}
   @keyframes grv-bg-drift{
-    0%{background-position:50% 28%,0 0,0 0,center;}
-    100%{background-position:50% 28%,56px 56px,116px 116px,center;}
+    0%{background-position:18% 58%,center;}
+    100%{background-position:calc(18% - 64px) calc(58% + 42px),center;}
   }
   body.theme-grv .partner-banner{display:block;background-image:url("banner-grv-partners-tile.png");}
   body.theme-grv .idl-mark feFlood{flood-color:var(--green);}
