@@ -75,14 +75,14 @@
   body.theme-royalfamily{--banner-sponsor-filter:brightness(0) saturate(100%) invert(78%) sepia(79%) saturate(1508%) hue-rotate(359deg) brightness(102%) contrast(106%);}
   body.theme-quickstyle{--banner-sponsor-filter:brightness(0) saturate(100%) invert(63%) sepia(14%) saturate(1441%) hue-rotate(176deg) brightness(95%) contrast(86%);}
   body.has-team-theme .partner-team-slot{opacity:1;}
-  .partner-team{position:absolute;inset:0;width:28px;height:28px;opacity:0;transform:none;
+  .partner-team{position:absolute;inset:0;width:28px;height:28px;opacity:0;visibility:hidden;transform:none;
     transition:opacity .18s ease .1s;}
   body.theme-brotherhood .partner-team-brotherhood,
   body.theme-1million .partner-team-1million,
   body.theme-grv .partner-team-grv,
   body.theme-jamrepublic .partner-team-jamrepublic,
   body.theme-royalfamily .partner-team-royalfamily,
-  body.theme-quickstyle .partner-team-quickstyle{opacity:1;}
+  body.theme-quickstyle .partner-team-quickstyle{opacity:1;visibility:visible;}
   body.banner-logo-hidden .partner-team{opacity:0!important;transition-delay:0s;}
   @keyframes partner-banner-right{from{transform:translate3d(-301px,0,0);}to{transform:translate3d(0,0,0);}}
   .top-actions{position:fixed;top:16px;right:24px;display:flex;gap:8px;z-index:3;}
@@ -260,17 +260,14 @@
     --red:#b3373d;--green:#f3f0e9;--yellow:#d66769;
     background:var(--bg);
   }
-  body.theme-brotherhood::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
+  body.theme-brotherhood::after{content:"";position:fixed;inset:-140px;z-index:0;pointer-events:none;
     background-color:var(--bg);
     background-image:url("/brotherhood-pattern.svg"),
       radial-gradient(circle at 72% 18%,rgba(179,55,61,.16),transparent 38%),
       linear-gradient(160deg,#080808 0%,#160b0c 54%,#080808 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    animation:brotherhood-bg-drift 90s linear infinite;}
-  @keyframes brotherhood-bg-drift{
-    0%{background-position:50% 50%,center,center;}
-    100%{background-position:calc(50% + 120px) calc(50% + 80px),center,center;}
-  }
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 90s linear infinite;}
   body.theme-brotherhood .partner-banner{display:block;}
   body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
   body.theme-brotherhood .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
@@ -294,18 +291,15 @@
     --red:#9fc87b;--green:#9fc87b;--yellow:#d3e6a3;
     background:var(--bg);
   }
-  body.theme-grv::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
+  body.theme-grv::after{content:"";position:fixed;inset:-140px;z-index:0;pointer-events:none;
     background-color:var(--bg);
     background-image:url("/grv-wave-pattern.svg"),
       radial-gradient(circle at 30% 22%,rgba(159,200,123,.14),transparent 36%),
       linear-gradient(155deg,#050705 0%,#0b140b 50%,#050705 100%);
     background-position:center,center,center;
     background-size:600px 600px,auto,auto;
-    animation:grv-bg-drift 90s linear infinite;}
-  @keyframes grv-bg-drift{
-    0%{background-position:50% 50%,center,center;}
-    100%{background-position:calc(50% + 120px) calc(50% + 80px),center,center;}
-  }
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 90s linear infinite;}
   body.theme-grv .partner-banner{display:block;}
   body.theme-grv .idl-mark feFlood{flood-color:var(--text);}
   body.theme-grv .collab-byline .byline-name{color:var(--text);}
@@ -330,70 +324,61 @@
     --red:#586771;--green:#ffffff;--yellow:#8a9aa4;
     background:var(--bg);
   }
-  body.theme-1million::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
+  body.theme-1million::after{content:"";position:fixed;inset:-140px;z-index:0;pointer-events:none;
     background-color:var(--bg);
     background-image:url("/one-million-pattern.svg"),
       radial-gradient(circle at 68% 20%,rgba(88,103,113,.18),transparent 38%),
       linear-gradient(155deg,#06080a 0%,#111820 52%,#06080a 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    animation:one-million-bg-drift 96s linear infinite;}
-  @keyframes one-million-bg-drift{
-    0%{background-position:50% 50%,center,center;}
-    100%{background-position:calc(50% + 110px) calc(50% + 70px),center,center;}
-  }
-
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 96s linear infinite;}
   /* Jam Republic: warm orange/amber on a deep stage black. */
   body.theme-jamrepublic{
     --bg:#090503;--sub-alt:#1d1009;--sub:#c9a091;--text:#fff1e9;
     --red:#f0692b;--green:#fff1e9;--yellow:#f39c40;
     background:var(--bg);
   }
-  body.theme-jamrepublic::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
+  body.theme-jamrepublic::after{content:"";position:fixed;inset:-140px;z-index:0;pointer-events:none;
     background-color:var(--bg);
     background-image:url("/jamrepublic-pattern.svg"),
       radial-gradient(circle at 28% 24%,rgba(243,156,64,.16),transparent 38%),
       linear-gradient(150deg,#090503 0%,#1b0b04 50%,#090503 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:rotate(180deg);
-    animation:jamrepublic-bg-drift 94s linear infinite;}
-  @keyframes jamrepublic-bg-drift{
-    0%{background-position:50% 50%,center,center;}
-    100%{background-position:calc(50% - 100px) calc(50% + 86px),center,center;}
-  }
-
+    transform:rotate(180deg) translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift-flipped 94s linear infinite;}
   /* Royal Family: black and gold, kept restrained so the game stays readable. */
   body.theme-royalfamily{
     --bg:#080704;--sub-alt:#1f1706;--sub:#b9a573;--text:#fff7df;
     --red:#f5a601;--green:#fff7df;--yellow:#ffc400;
     background:var(--bg);
   }
-  body.theme-royalfamily::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
+  body.theme-royalfamily::after{content:"";position:fixed;inset:-140px;z-index:0;pointer-events:none;
     background-color:var(--bg);
     background-image:url("/royalfamily-pattern.svg"),
       radial-gradient(circle at 74% 20%,rgba(255,196,0,.15),transparent 38%),
       linear-gradient(150deg,#080704 0%,#1c1304 48%,#080704 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    animation:royalfamily-bg-drift 100s linear infinite;}
-  @keyframes royalfamily-bg-drift{
-    0%{background-position:50% 50%,center,center;}
-    100%{background-position:calc(50% + 92px) calc(50% - 118px),center,center;}
-  }
-
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 100s linear infinite;}
   /* Quick Style: cool blue over slate-black from the logo gradient. */
   body.theme-quickstyle{
     --bg:#05070b;--sub-alt:#0d1420;--sub:#9fb4cf;--text:#eef5ff;
     --red:#729ad0;--green:#eef5ff;--yellow:#86aee1;
     background:var(--bg);
   }
-  body.theme-quickstyle::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
+  body.theme-quickstyle::after{content:"";position:fixed;inset:-140px;z-index:0;pointer-events:none;
     background-color:var(--bg);
     background-image:url("/quickstyle-pattern.svg"),linear-gradient(180deg,#05070b 0%,#08101b 100%);
     background-position:center,center;background-size:600px 600px,auto;
-    transform:rotate(180deg);
-    animation:quickstyle-bg-drift 98s linear infinite;}
-  @keyframes quickstyle-bg-drift{
-    0%{background-position:50% 50%,center;}
-    100%{background-position:calc(50% - 116px) calc(50% - 74px),center;}
+    transform:rotate(180deg) translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift-flipped 98s linear infinite;}
+  @keyframes theme-bg-drift{
+    from{transform:translate3d(0,0,0);}
+    to{transform:translate3d(120px,80px,0);}
+  }
+  @keyframes theme-bg-drift-flipped{
+    from{transform:rotate(180deg) translate3d(0,0,0);}
+    to{transform:rotate(180deg) translate3d(120px,80px,0);}
   }
 
   body.theme-1million .partner-banner,
