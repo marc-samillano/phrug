@@ -52,17 +52,22 @@
     mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);}
   .partner-track{display:flex;align-items:center;height:100%;width:max-content;
     animation:partner-banner-right 28s linear infinite;will-change:transform;}
-  .partner-set{width:301px;height:64px;display:flex;align-items:center;justify-content:space-around;flex:0 0 auto;}
+  .partner-set{width:301px;height:64px;display:flex;align-items:center;justify-content:center;gap:34px;flex:0 0 auto;}
   .partner-logo{display:block;object-fit:contain;flex:0 0 auto;}
   .partner-idl{width:48px;height:22px;}
   .partner-steezy{width:82px;height:18px;}
-  .partner-team{display:none;width:28px;height:28px;}
+  .partner-team-slot{position:relative;width:0;height:28px;flex:0 0 auto;overflow:hidden;
+    transition:width .24s ease;}
+  body.has-team-theme .partner-team-slot{width:28px;}
+  .partner-team{position:absolute;inset:0;width:28px;height:28px;opacity:0;
+    transition:opacity .18s ease .1s;}
   body.theme-brotherhood .partner-team-brotherhood,
   body.theme-1million .partner-team-1million,
   body.theme-grv .partner-team-grv,
   body.theme-jamrepublic .partner-team-jamrepublic,
   body.theme-royalfamily .partner-team-royalfamily,
-  body.theme-quickstyle .partner-team-quickstyle{display:block;}
+  body.theme-quickstyle .partner-team-quickstyle{opacity:1;}
+  body.banner-logo-hidden .partner-team{opacity:0!important;transition-delay:0s;}
   @keyframes partner-banner-right{from{transform:translateX(-301px);}to{transform:translateX(0);}}
   .top-actions{position:fixed;top:16px;right:24px;display:flex;gap:8px;z-index:3;}
   .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
@@ -411,14 +416,14 @@
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="partner-banner" aria-hidden="true">
   <div class="partner-track">
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><span class="partner-team-slot"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /></span><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
   </div>
 </div>
 <div class="top-actions">
@@ -760,13 +765,28 @@
   }
 
   function setTheme(theme){
-    themeName = theme;
-    THEME_NAMES.forEach(name => document.body.classList.remove("theme-" + name));
-    if(theme && theme !== "default") document.body.classList.add("theme-" + theme);
+    const nextTheme = theme || "default";
+    if(nextTheme === themeName) return;
+    themeName = nextTheme;
+    const body = document.body;
+    const applyTheme = () => {
+      THEME_NAMES.forEach(name => body.classList.remove("theme-" + name));
+      body.classList.toggle("has-team-theme", nextTheme !== "default");
+      if(nextTheme !== "default") body.classList.add("theme-" + nextTheme);
+    };
+    body.classList.add("banner-logo-hidden");
+    window.clearTimeout(setTheme.swapTimer);
+    window.clearTimeout(setTheme.showTimer);
+    setTheme.swapTimer = window.setTimeout(() => {
+      applyTheme();
+      setTheme.showTimer = window.setTimeout(() => {
+        body.classList.remove("banner-logo-hidden");
+      }, nextTheme === "default" ? 260 : 240);
+    }, 180);
     document.querySelectorAll(".theme-choice").forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.theme === theme);
+      btn.classList.toggle("active", btn.dataset.theme === nextTheme);
     });
-    $("idlTheme").classList.toggle("active", theme === "default");
+    $("idlTheme").classList.toggle("active", nextTheme === "default");
   }
 
   function resetSettings(){
