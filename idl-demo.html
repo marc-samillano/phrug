@@ -41,7 +41,7 @@
   body::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
     z-index:1;pointer-events:none;background:#000;}
   .theme-fade{position:fixed;top:64px;right:0;bottom:0;left:0;z-index:1;pointer-events:none;
-    background:var(--theme-fade-bg,var(--sub-alt));opacity:0;
+    background:var(--theme-fade-bg,var(--bg));opacity:0;
     transition:opacity .22s ease;}
   body.theme-bg-fading .theme-fade{opacity:1;}
   .app{position:relative;z-index:2;width:100%;max-width:440px;}
@@ -787,7 +787,7 @@
       body.classList.toggle("has-team-theme", nextTheme !== "default");
       if(nextTheme !== "default") body.classList.add("theme-" + nextTheme);
     };
-    body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--sub-alt").trim());
+    body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--bg").trim());
     body.classList.add("theme-bg-fading");
     body.classList.add("banner-logo-hidden");
     window.clearTimeout(setTheme.swapTimer);
@@ -795,7 +795,7 @@
     window.clearTimeout(setTheme.bgTimer);
     setTheme.swapTimer = window.setTimeout(() => {
       applyTheme();
-      body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--sub-alt").trim());
+      body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--bg").trim());
       setTheme.bgTimer = window.setTimeout(() => {
         body.classList.remove("theme-bg-fading");
       }, 90);
