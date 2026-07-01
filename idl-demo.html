@@ -670,7 +670,7 @@
       <p>Tempo currently has no accounts, payments, subscriptions, prizes, gambling, or user-submitted content.</p>
 
       <h3>intellectual property</h3>
-      <p>Â© 2026 Marc Justin Samillano. The Tempo game, phrug.net branding, interface, text, graphics, and code are owned by phrug.net or its creator unless otherwise noted. Do not copy or reuse them in a way that suggests your project is endorsed by phrug.net.</p>
+      <p>&copy; 2026 Marc Justin Samillano. The Tempo game, phrug.net branding, interface, text, graphics, and code are owned by phrug.net or its creator unless otherwise noted. Do not copy or reuse them in a way that suggests your project is endorsed by phrug.net.</p>
 
       <h3>as-is service</h3>
       <p>The site is provided as-is and as-available. We do not guarantee that it will always be available, error-free, accurate, or compatible with every browser or device.</p>
@@ -721,7 +721,7 @@
       <button class="mode-switch" id="modeSwitch" type="button" data-mode="normal" aria-label="Game mode: normal. Activate to switch modes">
         <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span><span class="mode-endless">endless</span></span>
       </button>
-      <span class="mode-caption" id="modeCaption">8 ticks Â· preview after moving.</span>
+      <span class="mode-caption" id="modeCaption">8 ticks &middot; preview after moving.</span>
     </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
@@ -774,9 +774,9 @@
     </div>
 
     <div id="guessUI">
-      <div class="lcd"><div class="num idle" id="bpmNum">â€”</div><span class="unit" id="unit">standby</span></div>
+      <div class="lcd"><div class="num idle" id="bpmNum">&mdash;</div><span class="unit" id="unit">standby</span></div>
       <div class="status" id="status">Standby</div>
-      <div class="fader-top"><span class="label"><span class="slow-c">Slower</span> Â· 60</span><span class="label">200 Â· <span class="fast-c">Faster</span></span></div>
+      <div class="fader-top"><span class="label"><span class="slow-c">Slower</span> &middot; 60</span><span class="label">200 &middot; <span class="fast-c">Faster</span></span></div>
       <input type="range" id="slider" min="60" max="200" step="1" aria-label="Tempo guess" disabled />
       <div class="scale"></div>
       <div class="scale-labels"><span class="label">60</span><span class="label">130</span><span class="label">200</span></div>
@@ -784,9 +784,9 @@
     </div>
 
     <div class="reveal" id="reveal">
-      <div class="rv-row"><span class="lbl">The beat</span><span class="val ref-c" id="rvBeat">â€”</span></div>
-      <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">â€”</span></div>
-      <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">â€”</span></div>
+      <div class="rv-row"><span class="lbl">The beat</span><span class="val ref-c" id="rvBeat">&mdash;</span></div>
+      <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">&mdash;</span></div>
+      <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">&mdash;</span></div>
       <div class="rv-points"><span class="n" id="rvPoints">+0</span><span class="p">points</span></div>
       <p class="survival-status" id="survivalStatus"></p>
       <button class="key primary lg" id="next">Next round</button>
@@ -1102,10 +1102,10 @@
     modeSwitch.dataset.mode = gameMode;
     modeSwitch.setAttribute("aria-label", `Game mode: ${gameMode}. Activate to switch modes`);
     $("modeCaption").textContent = isHard()
-      ? "4 ticks Â· no guess preview."
+      ? "4 ticks \u00b7 no guess preview."
       : isEndless()
-        ? "8 ticks Â· shrinking survival limit."
-        : "8 ticks Â· preview after moving.";
+        ? "8 ticks \u00b7 shrinking survival limit."
+        : "8 ticks \u00b7 preview after moving.";
   }
 
   function scheduler(){
@@ -1219,7 +1219,7 @@
     status.className = "status guess"; status.textContent = "Move the slider until it feels right";
     slider.disabled = false; lock.disabled = false;
     bpmNum.classList.remove("idle"); bpmNum.textContent = currentGuess;
-    unit.textContent = "your guess Â· bpm";
+    unit.textContent = "your guess \u00b7 bpm";
     await ensureAudio();
     stopMetro();
   }
@@ -1273,10 +1273,10 @@
     }
     const roundLabel = $("roundlabel");
     if(isEndless()){
-      roundLabel.textContent = `round ${round + 1} Â· `;
+      roundLabel.textContent = `round ${round + 1} \u00b7 `;
       const thresholdLabel = document.createElement("span");
       thresholdLabel.className = "threshold-label";
-      thresholdLabel.textContent = `current threshold Â±${endlessLimit(round)}%`;
+      thresholdLabel.textContent = `current threshold \u00b1${endlessLimit(round)}%`;
       roundLabel.appendChild(thresholdLabel);
     } else {
       roundLabel.textContent = ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
