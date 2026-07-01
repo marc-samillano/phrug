@@ -39,19 +39,19 @@
     display:flex;align-items:center;justify-content:center;padding:24px;min-height:100%;
   }
   body::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
-    z-index:1;pointer-events:none;background:#000;}
+    z-index:20;pointer-events:none;background:#000;}
   .theme-fade{position:fixed;top:64px;right:0;bottom:0;left:0;z-index:1;pointer-events:none;
     background:var(--theme-fade-bg,var(--bg));opacity:0;
     transition:opacity .22s ease;}
   body.theme-bg-fading .theme-fade{opacity:1;}
   .app{position:relative;z-index:2;width:100%;max-width:440px;}
   .site-title{position:fixed;top:24px;left:24px;font-family:"Lexend Deca",sans-serif;
-    font-size:18px;font-weight:700;color:var(--green);text-transform:lowercase;line-height:1;z-index:2;
+    font-size:18px;font-weight:700;color:var(--green);text-transform:lowercase;line-height:1;z-index:23;
     background:none;border:0;padding:0;width:auto;box-shadow:none;letter-spacing:0;}
   .site-title:hover{background:none;color:var(--green);}
   .site-title:active{transform:none;box-shadow:none;}
   .partner-banner{display:block;position:fixed;top:0;left:140px;right:116px;height:64px;
-    z-index:2;overflow:hidden;pointer-events:none;
+    z-index:22;overflow:hidden;pointer-events:none;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);}
   .partner-track{display:flex;align-items:center;height:100%;width:max-content;
@@ -85,7 +85,7 @@
   body.theme-quickstyle .partner-team-quickstyle{opacity:1;visibility:visible;}
   body.banner-logo-hidden .partner-team{opacity:0!important;transition-delay:0s;}
   @keyframes partner-banner-right{from{transform:translate3d(-301px,0,0);}to{transform:translate3d(0,0,0);}}
-  .top-actions{position:fixed;top:16px;right:24px;display:flex;gap:8px;z-index:3;}
+  .top-actions{position:fixed;top:16px;right:24px;display:flex;gap:8px;z-index:23;}
   .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
     background:transparent;color:var(--yellow);font-size:17px;line-height:1;box-shadow:none;}
   .privacy-toggle:hover,.help-toggle:hover{background:transparent;box-shadow:none;}
@@ -266,8 +266,7 @@
       radial-gradient(circle at 72% 18%,rgba(179,55,61,.16),transparent 38%),
       linear-gradient(160deg,#080808 0%,#160b0c 54%,#080808 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);will-change:transform;
-    animation:theme-bg-drift 90s linear infinite;}
+    transform:translate3d(0,0,0);}
   body.theme-brotherhood .partner-banner{display:block;}
   body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
   body.theme-brotherhood .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
@@ -298,8 +297,7 @@
       linear-gradient(155deg,#050705 0%,#0b140b 50%,#050705 100%);
     background-position:center,center,center;
     background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);will-change:transform;
-    animation:theme-bg-drift 90s linear infinite;}
+    transform:translate3d(0,0,0);}
   body.theme-grv .partner-banner{display:block;}
   body.theme-grv .idl-mark feFlood{flood-color:var(--text);}
   body.theme-grv .collab-byline .byline-name{color:var(--text);}
@@ -330,8 +328,7 @@
       radial-gradient(circle at 68% 20%,rgba(88,103,113,.18),transparent 38%),
       linear-gradient(155deg,#06080a 0%,#111820 52%,#06080a 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);will-change:transform;
-    animation:theme-bg-drift 96s linear infinite;}
+    transform:translate3d(0,0,0);}
   /* Jam Republic: warm orange/amber on a deep stage black. */
   body.theme-jamrepublic{
     --bg:#090503;--sub-alt:#1d1009;--sub:#c9a091;--text:#fff1e9;
@@ -344,8 +341,7 @@
       radial-gradient(circle at 28% 24%,rgba(243,156,64,.16),transparent 38%),
       linear-gradient(150deg,#090503 0%,#1b0b04 50%,#090503 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:rotate(180deg) translate3d(0,0,0);will-change:transform;
-    animation:theme-bg-drift-flipped 94s linear infinite;}
+    transform:rotate(180deg) translate3d(0,0,0);}
   /* Royal Family: black and gold, kept restrained so the game stays readable. */
   body.theme-royalfamily{
     --bg:#080704;--sub-alt:#1f1706;--sub:#b9a573;--text:#fff7df;
@@ -358,8 +354,7 @@
       radial-gradient(circle at 74% 20%,rgba(255,196,0,.15),transparent 38%),
       linear-gradient(150deg,#080704 0%,#1c1304 48%,#080704 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);will-change:transform;
-    animation:theme-bg-drift 100s linear infinite;}
+    transform:translate3d(0,0,0);}
   /* Quick Style: cool blue over slate-black from the logo gradient. */
   body.theme-quickstyle{
     --bg:#05070b;--sub-alt:#0d1420;--sub:#9fb4cf;--text:#eef5ff;
@@ -370,16 +365,7 @@
     background-color:var(--bg);
     background-image:url("/quickstyle-pattern.svg"),linear-gradient(180deg,#05070b 0%,#08101b 100%);
     background-position:center,center;background-size:600px 600px,auto;
-    transform:rotate(180deg) translate3d(0,0,0);will-change:transform;
-    animation:theme-bg-drift-flipped 98s linear infinite;}
-  @keyframes theme-bg-drift{
-    from{transform:translate3d(0,0,0);}
-    to{transform:translate3d(120px,80px,0);}
-  }
-  @keyframes theme-bg-drift-flipped{
-    from{transform:rotate(180deg) translate3d(0,0,0);}
-    to{transform:rotate(180deg) translate3d(120px,80px,0);}
-  }
+    transform:rotate(180deg) translate3d(0,0,0);}
 
   body.theme-1million .partner-banner,
   body.theme-jamrepublic .partner-banner,
@@ -490,7 +476,7 @@
   body.endless-result{height:auto;min-height:100%;align-items:flex-start;padding-top:82px;padding-bottom:40px;}
 
   .privacy-modal[hidden]{display:none;}
-  .privacy-modal{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;
+  .privacy-modal{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
     padding:24px;background:rgba(12,13,14,.72);opacity:0;transition:opacity .18s ease;}
   .privacy-modal.open{opacity:1;}
   .privacy-card{width:min(100%,560px);max-height:min(78vh,720px);overflow:auto;background:var(--bg);
