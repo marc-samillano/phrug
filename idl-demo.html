@@ -253,11 +253,15 @@
     background:var(--bg);
   }
   body.theme-brotherhood::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
-    background-image:url("/brotherhood-pattern.svg");background-position:center;background-size:600px 600px;
+    background-color:var(--bg);
+    background-image:url("/brotherhood-pattern.svg"),
+      radial-gradient(circle at 72% 18%,rgba(179,55,61,.16),transparent 38%),
+      linear-gradient(160deg,#080808 0%,#160b0c 54%,#080808 100%);
+    background-position:center,center,center;background-size:600px 600px,auto,auto;
     animation:brotherhood-bg-drift 90s linear infinite;}
   @keyframes brotherhood-bg-drift{
-    0%{background-position:50% 50%;}
-    100%{background-position:calc(50% + 120px) calc(50% + 80px);}
+    0%{background-position:50% 50%,center,center;}
+    100%{background-position:calc(50% + 120px) calc(50% + 80px),center,center;}
   }
   body.theme-brotherhood .partner-banner{display:block;}
   body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
@@ -284,13 +288,15 @@
   }
   body.theme-grv::after{content:"";position:fixed;inset:-60px;z-index:0;pointer-events:none;
     background-color:var(--bg);
-    background-image:url("/grv-wave-pattern.svg"),linear-gradient(180deg,#050705 0%,#070a07 100%);
-    background-position:center,center;
-    background-size:600px 600px,auto;
+    background-image:url("/grv-wave-pattern.svg"),
+      radial-gradient(circle at 30% 22%,rgba(159,200,123,.14),transparent 36%),
+      linear-gradient(155deg,#050705 0%,#0b140b 50%,#050705 100%);
+    background-position:center,center,center;
+    background-size:600px 600px,auto,auto;
     animation:grv-bg-drift 90s linear infinite;}
   @keyframes grv-bg-drift{
-    0%{background-position:50% 50%,center;}
-    100%{background-position:calc(50% + 120px) calc(50% + 80px),center;}
+    0%{background-position:50% 50%,center,center;}
+    100%{background-position:calc(50% + 120px) calc(50% + 80px),center,center;}
   }
   body.theme-grv .partner-banner{display:block;}
   body.theme-grv .idl-mark feFlood{flood-color:var(--green);}
@@ -317,12 +323,14 @@
   }
   body.theme-1million::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
     background-color:var(--bg);
-    background-image:url("/one-million-pattern.svg"),linear-gradient(180deg,#06080a 0%,#0a0d10 100%);
-    background-position:center,center;background-size:600px 600px,auto;
+    background-image:url("/one-million-pattern.svg"),
+      radial-gradient(circle at 68% 20%,rgba(88,103,113,.18),transparent 38%),
+      linear-gradient(155deg,#06080a 0%,#111820 52%,#06080a 100%);
+    background-position:center,center,center;background-size:600px 600px,auto,auto;
     animation:one-million-bg-drift 96s linear infinite;}
   @keyframes one-million-bg-drift{
-    0%{background-position:50% 50%,center;}
-    100%{background-position:calc(50% + 110px) calc(50% + 70px),center;}
+    0%{background-position:50% 50%,center,center;}
+    100%{background-position:calc(50% + 110px) calc(50% + 70px),center,center;}
   }
 
   /* Jam Republic: warm orange/amber on a deep stage black. */
@@ -333,13 +341,15 @@
   }
   body.theme-jamrepublic::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
     background-color:var(--bg);
-    background-image:url("/jamrepublic-pattern.svg"),linear-gradient(180deg,#090503 0%,#120804 100%);
-    background-position:center,center;background-size:600px 600px,auto;
+    background-image:url("/jamrepublic-pattern.svg"),
+      radial-gradient(circle at 28% 24%,rgba(243,156,64,.16),transparent 38%),
+      linear-gradient(150deg,#090503 0%,#1b0b04 50%,#090503 100%);
+    background-position:center,center,center;background-size:600px 600px,auto,auto;
     transform:rotate(180deg);
     animation:jamrepublic-bg-drift 94s linear infinite;}
   @keyframes jamrepublic-bg-drift{
-    0%{background-position:50% 50%,center;}
-    100%{background-position:calc(50% - 100px) calc(50% + 86px),center;}
+    0%{background-position:50% 50%,center,center;}
+    100%{background-position:calc(50% - 100px) calc(50% + 86px),center,center;}
   }
 
   /* Royal Family: black and gold, kept restrained so the game stays readable. */
@@ -350,12 +360,14 @@
   }
   body.theme-royalfamily::after{content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
     background-color:var(--bg);
-    background-image:url("/royalfamily-pattern.svg"),linear-gradient(180deg,#080704 0%,#120d03 100%);
-    background-position:center,center;background-size:600px 600px,auto;
+    background-image:url("/royalfamily-pattern.svg"),
+      radial-gradient(circle at 74% 20%,rgba(255,196,0,.15),transparent 38%),
+      linear-gradient(150deg,#080704 0%,#1c1304 48%,#080704 100%);
+    background-position:center,center,center;background-size:600px 600px,auto,auto;
     animation:royalfamily-bg-drift 100s linear infinite;}
   @keyframes royalfamily-bg-drift{
-    0%{background-position:50% 50%,center;}
-    100%{background-position:calc(50% + 92px) calc(50% - 118px),center;}
+    0%{background-position:50% 50%,center,center;}
+    100%{background-position:calc(50% + 92px) calc(50% - 118px),center,center;}
   }
 
   /* Quick Style: cool blue over slate-black from the logo gradient. */
