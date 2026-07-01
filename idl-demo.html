@@ -45,12 +45,18 @@
   .site-title:hover{background:none;color:var(--green);}
   .site-title:active{transform:none;box-shadow:none;}
   .partner-banner{display:none;position:fixed;top:0;left:140px;right:116px;height:64px;
-    z-index:2;overflow:hidden;pointer-events:none;background-image:url("banner-partners-tile.png");
-    background-repeat:repeat-x;background-position:0 center;background-size:301px 64px;
-    animation:partner-banner-right 28s linear infinite;
+    z-index:2;overflow:hidden;pointer-events:none;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);}
-  @keyframes partner-banner-right{to{background-position:301px center;}}
+  .partner-track{display:flex;align-items:center;height:100%;width:max-content;
+    animation:partner-banner-right 28s linear infinite;will-change:transform;}
+  .partner-set{width:301px;height:64px;display:flex;align-items:center;justify-content:space-around;flex:0 0 auto;}
+  .partner-logo{display:block;object-fit:contain;flex:0 0 auto;}
+  .partner-idl{width:48px;height:22px;}
+  .partner-steezy{width:82px;height:18px;}
+  .partner-team{width:28px;height:28px;}
+  .partner-team-grv{display:none;}
+  @keyframes partner-banner-right{from{transform:translateX(-301px);}to{transform:translateX(0);}}
   .top-actions{position:fixed;top:21px;right:24px;display:flex;gap:8px;z-index:3;}
   .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
     background:#494a4d;color:var(--yellow);font-size:17px;line-height:1;
@@ -278,7 +284,9 @@
     0%{background-position:50% 50%,center;}
     100%{background-position:calc(50% + 120px) calc(50% + 80px),center;}
   }
-  body.theme-grv .partner-banner{display:block;background-image:url("banner-grv-partners-tile.png");}
+  body.theme-grv .partner-banner{display:block;}
+  body.theme-grv .partner-team-brotherhood{display:none;}
+  body.theme-grv .partner-team-grv{display:block;}
   body.theme-grv .idl-mark feFlood{flood-color:var(--green);}
   body.theme-grv .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
   body.theme-grv .key{background:#0d110d;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 3px 0 #020302;}
@@ -393,7 +401,7 @@
     .lamp.shape-keycap.glow .core{animation:none;filter:drop-shadow(0 0 8px rgba(var(--glow-rgb),.75));}
     .lamp.idle-pulse{animation:none;}
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption,.settings-pop{transition:none;}
-    .partner-banner{animation:none;}
+    .partner-banner,.partner-track{animation:none;}
     body.theme-brotherhood::after{animation:none;}
     body.theme-grv::after{animation:none;}
   }
@@ -415,7 +423,18 @@
 </head>
 <body>
 <button class="site-title" id="siteHome">phrug.net</button>
-<div class="partner-banner" aria-hidden="true"></div>
+<div class="partner-banner" aria-hidden="true">
+  <div class="partner-track">
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+  </div>
+</div>
 <div class="top-actions">
   <button class="help-toggle" id="tutorialBtn" aria-label="How to play" aria-haspopup="dialog">?</button>
   <button class="privacy-toggle" id="privacyBtn" aria-label="Privacy policy" aria-haspopup="dialog"><img src="shield.png" alt="" /></button>
