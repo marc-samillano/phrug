@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -44,7 +44,7 @@
     background:none;border:0;padding:0;width:auto;box-shadow:none;letter-spacing:0;}
   .site-title:hover{background:none;color:var(--green);}
   .site-title:active{transform:none;box-shadow:none;}
-  .partner-banner{display:none;position:fixed;top:0;left:140px;right:116px;height:64px;
+  .partner-banner{display:block;position:fixed;top:0;left:140px;right:116px;height:64px;
     z-index:2;overflow:hidden;pointer-events:none;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 36px,#000 calc(100% - 36px),transparent 100%);}
@@ -54,8 +54,13 @@
   .partner-logo{display:block;object-fit:contain;flex:0 0 auto;}
   .partner-idl{width:48px;height:22px;}
   .partner-steezy{width:82px;height:18px;}
-  .partner-team{width:28px;height:28px;}
-  .partner-team-grv{display:none;}
+  .partner-team{display:none;width:28px;height:28px;}
+  body.theme-brotherhood .partner-team-brotherhood,
+  body.theme-1million .partner-team-1million,
+  body.theme-grv .partner-team-grv,
+  body.theme-jamrepublic .partner-team-jamrepublic,
+  body.theme-royalfamily .partner-team-royalfamily,
+  body.theme-quickstyle .partner-team-quickstyle{display:block;}
   @keyframes partner-banner-right{from{transform:translateX(-301px);}to{transform:translateX(0);}}
   .top-actions{position:fixed;top:21px;right:24px;display:flex;gap:8px;z-index:3;}
   .privacy-toggle,.help-toggle{width:34px;height:34px;border-radius:7px;
@@ -285,8 +290,6 @@
     100%{background-position:calc(50% + 120px) calc(50% + 80px),center;}
   }
   body.theme-grv .partner-banner{display:block;}
-  body.theme-grv .partner-team-brotherhood{display:none;}
-  body.theme-grv .partner-team-grv{display:block;}
   body.theme-grv .idl-mark feFlood{flood-color:var(--green);}
   body.theme-grv .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
   body.theme-grv .key{background:#0d110d;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 3px 0 #020302;}
@@ -425,14 +428,14 @@
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="partner-banner" aria-hidden="true">
   <div class="partner-track">
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
-    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
+    <div class="partner-set"><img class="partner-logo partner-team partner-team-brotherhood" src="Brotherhood.svg" alt="" /><img class="partner-logo partner-team partner-team-1million" src="1M.svg" alt="" /><img class="partner-logo partner-team partner-team-grv" src="GRV.svg" alt="" /><img class="partner-logo partner-team partner-team-jamrepublic" src="JRSea.svg" alt="" /><img class="partner-logo partner-team partner-team-royalfamily" src="RF.svg" alt="" /><img class="partner-logo partner-team partner-team-quickstyle" src="Quickstyle.svg" alt="" /><img class="partner-logo partner-steezy" src="banner-steezy.png" alt="" /><img class="partner-logo partner-idl" src="banner-idl.png" alt="" /></div>
   </div>
 </div>
 <div class="top-actions">
@@ -527,7 +530,7 @@
       <p>Tempo currently has no accounts, payments, subscriptions, prizes, gambling, or user-submitted content.</p>
 
       <h3>intellectual property</h3>
-      <p>© 2026 Marc Justin Samillano. The Tempo game, phrug.net branding, interface, text, graphics, and code are owned by phrug.net or its creator unless otherwise noted. Do not copy or reuse them in a way that suggests your project is endorsed by phrug.net.</p>
+      <p>Â© 2026 Marc Justin Samillano. The Tempo game, phrug.net branding, interface, text, graphics, and code are owned by phrug.net or its creator unless otherwise noted. Do not copy or reuse them in a way that suggests your project is endorsed by phrug.net.</p>
 
       <h3>as-is service</h3>
       <p>The site is provided as-is and as-available. We do not guarantee that it will always be available, error-free, accurate, or compatible with every browser or device.</p>
@@ -578,7 +581,7 @@
       <button class="mode-switch" id="modeSwitch" type="button" data-mode="normal" aria-label="Game mode: normal. Activate to switch modes">
         <span class="mode-labels"><span class="mode-normal">normal</span><span class="mode-hard">hard</span><span class="mode-endless">endless</span></span>
       </button>
-      <span class="mode-caption" id="modeCaption">8 ticks · preview after moving.</span>
+      <span class="mode-caption" id="modeCaption">8 ticks Â· preview after moving.</span>
     </div>
     <div class="settings-pop" id="settingsPop">
       <div class="settings-view active" id="settingsMain">
@@ -631,9 +634,9 @@
     </div>
 
     <div id="guessUI">
-      <div class="lcd"><div class="num idle" id="bpmNum">—</div><span class="unit" id="unit">standby</span></div>
+      <div class="lcd"><div class="num idle" id="bpmNum">â€”</div><span class="unit" id="unit">standby</span></div>
       <div class="status" id="status">Standby</div>
-      <div class="fader-top"><span class="label"><span class="slow-c">Slower</span> · 60</span><span class="label">200 · <span class="fast-c">Faster</span></span></div>
+      <div class="fader-top"><span class="label"><span class="slow-c">Slower</span> Â· 60</span><span class="label">200 Â· <span class="fast-c">Faster</span></span></div>
       <input type="range" id="slider" min="60" max="200" step="1" aria-label="Tempo guess" disabled />
       <div class="scale"></div>
       <div class="scale-labels"><span class="label">60</span><span class="label">130</span><span class="label">200</span></div>
@@ -641,9 +644,9 @@
     </div>
 
     <div class="reveal" id="reveal">
-      <div class="rv-row"><span class="lbl">The beat</span><span class="val ref-c" id="rvBeat">—</span></div>
-      <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">—</span></div>
-      <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">—</span></div>
+      <div class="rv-row"><span class="lbl">The beat</span><span class="val ref-c" id="rvBeat">â€”</span></div>
+      <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">â€”</span></div>
+      <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">â€”</span></div>
       <div class="rv-points"><span class="n" id="rvPoints">+0</span><span class="p">points</span></div>
       <p class="survival-status" id="survivalStatus"></p>
       <button class="key primary lg" id="next">Next round</button>
@@ -934,10 +937,10 @@
     modeSwitch.dataset.mode = gameMode;
     modeSwitch.setAttribute("aria-label", `Game mode: ${gameMode}. Activate to switch modes`);
     $("modeCaption").textContent = isHard()
-      ? "4 ticks · no guess preview."
+      ? "4 ticks Â· no guess preview."
       : isEndless()
-        ? "8 ticks · shrinking survival limit."
-        : "8 ticks · preview after moving.";
+        ? "8 ticks Â· shrinking survival limit."
+        : "8 ticks Â· preview after moving.";
   }
 
   function scheduler(){
@@ -1051,7 +1054,7 @@
     status.className = "status guess"; status.textContent = "Move the slider until it feels right";
     slider.disabled = false; lock.disabled = false;
     bpmNum.classList.remove("idle"); bpmNum.textContent = currentGuess;
-    unit.textContent = "your guess · bpm";
+    unit.textContent = "your guess Â· bpm";
     await ensureAudio();
     stopMetro();
   }
@@ -1105,10 +1108,10 @@
     }
     const roundLabel = $("roundlabel");
     if(isEndless()){
-      roundLabel.textContent = `round ${round + 1} · `;
+      roundLabel.textContent = `round ${round + 1} Â· `;
       const thresholdLabel = document.createElement("span");
       thresholdLabel.className = "threshold-label";
-      thresholdLabel.textContent = `current threshold ±${endlessLimit(round)}%`;
+      thresholdLabel.textContent = `current threshold Â±${endlessLimit(round)}%`;
       roundLabel.appendChild(thresholdLabel);
     } else {
       roundLabel.textContent = ("0" + (round + 1)).slice(-2) + " / 0" + ROUNDS;
