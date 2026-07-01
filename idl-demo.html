@@ -59,21 +59,13 @@
     transform:translate3d(0,0,0);backface-visibility:hidden;}
   .partner-set{position:relative;width:301px;height:64px;flex:0 0 auto;}
   .partner-logo{display:block;object-fit:contain;position:absolute;top:50%;transform:translate3d(0,-50%,0);
-    transition:left .34s cubic-bezier(.22,1,.36,1), opacity .18s ease, filter .18s ease;}
+    transition:left .34s cubic-bezier(.22,1,.36,1), opacity .18s ease;}
   .partner-idl{left:202px;width:48px;height:22px;}
   .partner-steezy{left:34px;width:82px;height:18px;}
   .partner-team-slot{position:absolute;left:24px;top:50%;width:28px;height:28px;opacity:0;overflow:hidden;
     transform:translate3d(0,-50%,0);transition:opacity .18s ease;}
   body.has-team-theme .partner-steezy{left:100px;}
   body.has-team-theme .partner-idl{left:229px;}
-  body.has-team-theme .partner-steezy,
-  body.has-team-theme .partner-idl{filter:var(--banner-sponsor-filter,none);}
-  body.theme-brotherhood{--banner-sponsor-filter:brightness(0) saturate(100%) invert(27%) sepia(30%) saturate(2750%) hue-rotate(326deg) brightness(93%) contrast(91%);}
-  body.theme-1million{--banner-sponsor-filter:brightness(0) saturate(100%) invert(39%) sepia(13%) saturate(682%) hue-rotate(161deg) brightness(92%) contrast(88%);}
-  body.theme-grv{--banner-sponsor-filter:brightness(0) saturate(100%) invert(76%) sepia(20%) saturate(854%) hue-rotate(47deg) brightness(91%) contrast(88%);}
-  body.theme-jamrepublic{--banner-sponsor-filter:brightness(0) saturate(100%) invert(55%) sepia(87%) saturate(2481%) hue-rotate(342deg) brightness(98%) contrast(92%);}
-  body.theme-royalfamily{--banner-sponsor-filter:brightness(0) saturate(100%) invert(78%) sepia(79%) saturate(1508%) hue-rotate(359deg) brightness(102%) contrast(106%);}
-  body.theme-quickstyle{--banner-sponsor-filter:brightness(0) saturate(100%) invert(63%) sepia(14%) saturate(1441%) hue-rotate(176deg) brightness(95%) contrast(86%);}
   body.has-team-theme .partner-team-slot{opacity:1;}
   .partner-team{position:absolute;inset:0;width:28px;height:28px;opacity:0;visibility:hidden;transform:none;
     transition:opacity .18s ease .1s;}
@@ -266,7 +258,8 @@
       radial-gradient(circle at 72% 18%,rgba(179,55,61,.16),transparent 38%),
       linear-gradient(160deg,#080808 0%,#160b0c 54%,#080808 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);}
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 90s linear infinite;}
   body.theme-brotherhood .partner-banner{display:block;}
   body.theme-brotherhood .idl-mark feFlood{flood-color:var(--text);}
   body.theme-brotherhood .privacy-toggle img{filter:grayscale(1) brightness(3);opacity:.9;}
@@ -297,7 +290,8 @@
       linear-gradient(155deg,#050705 0%,#0b140b 50%,#050705 100%);
     background-position:center,center,center;
     background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);}
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 90s linear infinite;}
   body.theme-grv .partner-banner{display:block;}
   body.theme-grv .idl-mark feFlood{flood-color:var(--text);}
   body.theme-grv .collab-byline .byline-name{color:var(--text);}
@@ -328,7 +322,8 @@
       radial-gradient(circle at 68% 20%,rgba(88,103,113,.18),transparent 38%),
       linear-gradient(155deg,#06080a 0%,#111820 52%,#06080a 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);}
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 96s linear infinite;}
   /* Jam Republic: warm orange/amber on a deep stage black. */
   body.theme-jamrepublic{
     --bg:#090503;--sub-alt:#1d1009;--sub:#c9a091;--text:#fff1e9;
@@ -341,7 +336,8 @@
       radial-gradient(circle at 28% 24%,rgba(243,156,64,.16),transparent 38%),
       linear-gradient(150deg,#090503 0%,#1b0b04 50%,#090503 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:rotate(180deg) translate3d(0,0,0);}
+    transform:rotate(180deg) translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift-flipped 94s linear infinite;}
   /* Royal Family: black and gold, kept restrained so the game stays readable. */
   body.theme-royalfamily{
     --bg:#080704;--sub-alt:#1f1706;--sub:#b9a573;--text:#fff7df;
@@ -354,7 +350,8 @@
       radial-gradient(circle at 74% 20%,rgba(255,196,0,.15),transparent 38%),
       linear-gradient(150deg,#080704 0%,#1c1304 48%,#080704 100%);
     background-position:center,center,center;background-size:600px 600px,auto,auto;
-    transform:translate3d(0,0,0);}
+    transform:translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift 100s linear infinite;}
   /* Quick Style: cool blue over slate-black from the logo gradient. */
   body.theme-quickstyle{
     --bg:#05070b;--sub-alt:#0d1420;--sub:#9fb4cf;--text:#eef5ff;
@@ -365,7 +362,16 @@
     background-color:var(--bg);
     background-image:url("/quickstyle-pattern.svg"),linear-gradient(180deg,#05070b 0%,#08101b 100%);
     background-position:center,center;background-size:600px 600px,auto;
-    transform:rotate(180deg) translate3d(0,0,0);}
+    transform:rotate(180deg) translate3d(0,0,0);will-change:transform;
+    animation:theme-bg-drift-flipped 98s linear infinite;}
+  @keyframes theme-bg-drift{
+    from{transform:translate3d(0,0,0);}
+    to{transform:translate3d(120px,80px,0);}
+  }
+  @keyframes theme-bg-drift-flipped{
+    from{transform:rotate(180deg) translate3d(0,0,0);}
+    to{transform:rotate(180deg) translate3d(120px,80px,0);}
+  }
 
   body.theme-1million .partner-banner,
   body.theme-jamrepublic .partner-banner,
@@ -810,6 +816,15 @@
   let nextNoteTime = 0, endTime = Infinity, activeMode = null;
   let volumeLevel = 0.8, tickPitch = 1100, lampShape = "square", gameMode = "normal", themeName = "default";
   const THEME_NAMES = ["brotherhood","1million","grv","jamrepublic","royalfamily","quickstyle"];
+  const BANNER_SPONSOR_ASSETS = {
+    default: { steezy: "banner-steezy.png", idl: "banner-idl.png" },
+    brotherhood: { steezy: "banner-steezy-brotherhood.png", idl: "banner-idl-brotherhood.png" },
+    "1million": { steezy: "banner-steezy-1million.png", idl: "banner-idl-1million.png" },
+    grv: { steezy: "banner-steezy-grv.png", idl: "banner-idl-grv.png" },
+    jamrepublic: { steezy: "banner-steezy-jamrepublic.png", idl: "banner-idl-jamrepublic.png" },
+    royalfamily: { steezy: "banner-steezy-royalfamily.png", idl: "banner-idl-royalfamily.png" },
+    quickstyle: { steezy: "banner-steezy-quickstyle.png", idl: "banner-idl-quickstyle.png" }
+  };
   let guessPreviewStarted = false;
   let endlessFailed = false;
   let endedEarly = false;
@@ -895,6 +910,16 @@
     });
   }
 
+  function setBannerSponsorAssets(theme){
+    const assets = BANNER_SPONSOR_ASSETS[theme] || BANNER_SPONSOR_ASSETS.default;
+    document.querySelectorAll(".partner-steezy").forEach(img => {
+      if(img.getAttribute("src") !== assets.steezy) img.src = assets.steezy;
+    });
+    document.querySelectorAll(".partner-idl").forEach(img => {
+      if(img.getAttribute("src") !== assets.idl) img.src = assets.idl;
+    });
+  }
+
   function setTheme(theme){
     const nextTheme = theme || "default";
     if(nextTheme === themeName) return;
@@ -907,6 +932,7 @@
       THEME_NAMES.forEach(name => body.classList.remove("theme-" + name));
       body.classList.toggle("has-team-theme", nextTheme !== "default");
       if(nextTheme !== "default") body.classList.add("theme-" + nextTheme);
+      setBannerSponsorAssets(nextTheme);
     };
     body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--bg").trim());
     body.classList.add("theme-bg-fading");
