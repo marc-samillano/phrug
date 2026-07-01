@@ -40,6 +40,10 @@
   }
   body::before{content:"";position:fixed;top:0;right:0;left:0;height:64px;
     z-index:1;pointer-events:none;background:#000;}
+  .theme-fade{position:fixed;top:64px;right:0;bottom:0;left:0;z-index:1;pointer-events:none;
+    background:var(--theme-fade-bg,var(--sub-alt));opacity:0;
+    transition:opacity .22s ease;}
+  body.theme-bg-fading .theme-fade{opacity:1;}
   .app{position:relative;z-index:2;width:100%;max-width:440px;}
   .site-title{position:fixed;top:24px;left:24px;font-family:"Lexend Deca",sans-serif;
     font-size:18px;font-weight:700;color:var(--green);text-transform:lowercase;line-height:1;z-index:2;
@@ -393,6 +397,7 @@
 
   @media (prefers-reduced-motion: reduce){
     .lamp{transition:none;}
+    .theme-fade{transition:none;}
     .lamp.shape-keycap.glow .core{animation:none;filter:drop-shadow(0 0 8px rgba(var(--glow-rgb),.75));}
     .lamp.idle-pulse{animation:none;}
     .privacy-modal,.privacy-card,.legal-panel,.mode-caption,.settings-pop{transition:none;}
@@ -417,6 +422,7 @@
 <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
+<div class="theme-fade" aria-hidden="true"></div>
 <button class="site-title" id="siteHome">phrug.net</button>
 <div class="partner-banner" aria-hidden="true">
   <div class="partner-track">
@@ -781,11 +787,18 @@
       body.classList.toggle("has-team-theme", nextTheme !== "default");
       if(nextTheme !== "default") body.classList.add("theme-" + nextTheme);
     };
+    body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--sub-alt").trim());
+    body.classList.add("theme-bg-fading");
     body.classList.add("banner-logo-hidden");
     window.clearTimeout(setTheme.swapTimer);
     window.clearTimeout(setTheme.showTimer);
+    window.clearTimeout(setTheme.bgTimer);
     setTheme.swapTimer = window.setTimeout(() => {
       applyTheme();
+      body.style.setProperty("--theme-fade-bg", getComputedStyle(body).getPropertyValue("--sub-alt").trim());
+      setTheme.bgTimer = window.setTimeout(() => {
+        body.classList.remove("theme-bg-fading");
+      }, 90);
       setTheme.showTimer = window.setTimeout(() => {
         body.classList.remove("banner-logo-hidden");
       }, fromDefault && !toDefault ? 360 : 80);
