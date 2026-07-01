@@ -219,7 +219,8 @@
   .settings-action-row .settings-reset.confirming{background:var(--red);color:var(--text);font-weight:700;}
   .shape-options,.theme-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
   .shape-choice,.theme-choice{min-height:42px;padding:10px;font-size:12px;}
-  .shape-choice.active,.theme-choice.active{color:var(--green);font-weight:700;}
+  .shape-choice.active,.theme-choice.active,.theme-idl-choice.active{color:var(--green);font-weight:700;}
+  .theme-idl-choice{text-transform:uppercase;}
   /* Brotherhood: near-black, warm white, and the crew's muted crimson. */
   body.theme-brotherhood{
     --bg:#080808;--sub-alt:#2a2324;--sub:#a59d99;--text:#f3f0e9;
@@ -594,6 +595,7 @@
           <button class="key theme-choice" type="button" data-theme="royalfamily">Royal Family</button>
           <button class="key theme-choice" type="button" data-theme="quickstyle">Quick Style</button>
         </div>
+        <button class="key settings-back theme-idl-choice" id="idlTheme" type="button">IDL</button>
         <button class="key settings-back" id="themeBack">Back</button>
       </div>
     </div>
@@ -759,6 +761,7 @@
     document.querySelectorAll(".theme-choice").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.theme === theme);
     });
+    $("idlTheme").classList.toggle("active", theme === "default");
   }
 
   function resetSettings(){
@@ -1400,6 +1403,7 @@
   $("resetSettings").addEventListener("click", resetSettings);
   $("settingsBack").addEventListener("click", () => showSettingsView("main"));
   $("themeBack").addEventListener("click", () => showSettingsView("main"));
+  $("idlTheme").addEventListener("click", () => setTheme("default"));
   document.querySelectorAll(".shape-choice").forEach(btn => {
     btn.addEventListener("click", () => setLampShape(btn.dataset.shape));
   });
