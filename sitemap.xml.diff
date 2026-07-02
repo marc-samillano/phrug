@@ -1,0 +1,25 @@
+--- /tmp/orig/phrug-main/sitemap.xml	2026-07-01 09:02:37.000000000 +0000
++++ /tmp/phrug/phrug-main/sitemap.xml	2026-07-02 02:46:29.565260785 +0000
+@@ -2,18 +2,18 @@
+ <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <url>
+     <loc>https://www.phrug.net/</loc>
+-    <lastmod>2026-06-19</lastmod>
++    <lastmod>2026-07-01</lastmod>
+   </url>
+   <url>
+     <loc>https://www.phrug.net/how-to-play</loc>
+-    <lastmod>2026-06-19</lastmod>
++    <lastmod>2026-07-01</lastmod>
+   </url>
+   <url>
+     <loc>https://www.phrug.net/privacy</loc>
+-    <lastmod>2026-06-18</lastmod>
++    <lastmod>2026-07-01</lastmod>
+   </url>
+   <url>
+     <loc>https://www.phrug.net/terms</loc>
+-    <lastmod>2026-06-19</lastmod>
++    <lastmod>2026-07-01</lastmod>
+   </url>
+ </urlset>

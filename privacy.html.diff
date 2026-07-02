@@ -1,0 +1,20 @@
+--- /tmp/orig/phrug-main/privacy.html	2026-07-01 09:02:37.000000000 +0000
++++ /tmp/phrug/phrug-main/privacy.html	2026-07-02 02:46:29.551243129 +0000
+@@ -46,7 +46,7 @@
+ <a class="site-title" href="index.html">phrug.net</a>
+ <main>
+   <h1>privacy policy</h1>
+-  <p class="date">Last updated: June 18, 2026</p>
++  <p class="date">Last updated: July 1, 2026</p>
+ 
+   <p>phrug.net is a small browser game site. This policy explains what information the current Tempo game uses and how we think about privacy and security.</p>
+ 
+@@ -57,7 +57,7 @@
+   <p>The current game does not set tracking cookies. Game options such as volume, pitch, and shape are used in the page while you play. If we later save preferences with browser storage, this policy should be updated before that change goes live.</p>
+ 
+   <h2>third-party services</h2>
+-  <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. We do not currently use ads, analytics, or session replay.</p>
++  <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. The site uses Vercel Web Analytics and Vercel Speed Insights to measure aggregate page visits and performance; per Vercel's documentation, these do not use cookies and do not track visitors across sites. We do not currently use ads or session replay.</p>
+ 
+   <h2>children</h2>
+   <p>Tempo is a general-audience game. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, contact us and we will work to remove it.</p>

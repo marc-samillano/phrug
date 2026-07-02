@@ -1,0 +1,130 @@
+--- /tmp/orig/phrug-main/idl-demo.html	2026-07-01 09:02:37.000000000 +0000
++++ /tmp/phrug/phrug-main/idl-demo.html	2026-07-02 02:46:29.557702941 +0000
+@@ -613,7 +613,7 @@
+           <button class="legal-tab" id="termsTab" type="button">terms of service</button>
+         </h2>
+         <p class="legal-caption">(click title to swap pages)</p>
+-        <p class="privacy-date">Last updated: June 18, 2026</p>
++        <p class="privacy-date">Last updated: July 1, 2026</p>
+       </div>
+       <button class="key privacy-close" id="privacyClose" aria-label="Close privacy policy">x</button>
+     </div>
+@@ -629,7 +629,7 @@
+       <p>The current game does not set tracking cookies. Game options such as volume, pitch, and shape are used in the page while you play. If we later save preferences with browser storage, this policy should be updated before that change goes live.</p>
+ 
+       <h3>third-party services</h3>
+-      <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. We do not currently use ads, analytics, or session replay.</p>
++      <p>The site may be served by a hosting provider such as Vercel or GitHub Pages, which can process standard technical logs like IP address, browser, device, referrer, and request time. The page also loads Google Fonts, so your browser may contact Google to fetch font files. The site uses Vercel Web Analytics and Vercel Speed Insights to measure aggregate page visits and performance; per Vercel's documentation, these do not use cookies and do not track visitors across sites. We do not currently use ads or session replay.</p>
+ 
+       <h3>children</h3>
+       <p>Tempo is a general-audience game. We do not knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, contact us and we will work to remove it.</p>
+@@ -760,7 +760,7 @@
+ 
+     <div id="guessUI">
+       <div class="lcd"><div class="num idle" id="bpmNum">&mdash;</div><span class="unit" id="unit">standby</span></div>
+-      <div class="status" id="status">Standby</div>
++      <div class="status" id="status" role="status" aria-live="polite">Standby</div>
+       <div class="fader-top"><span class="label"><span class="slow-c">Slower</span> &middot; 60</span><span class="label">200 &middot; <span class="fast-c">Faster</span></span></div>
+       <input type="range" id="slider" min="60" max="200" step="1" aria-label="Tempo guess" disabled />
+       <div class="scale"></div>
+@@ -768,7 +768,7 @@
+       <button class="key primary lg" id="lock" disabled>Lock in</button>
+     </div>
+ 
+-    <div class="reveal" id="reveal">
++    <div class="reveal" id="reveal" aria-live="polite">
+       <div class="rv-row"><span class="lbl">The beat</span><span class="val ref-c" id="rvBeat">&mdash;</span></div>
+       <div class="rv-row"><span class="lbl">Your guess</span><span class="val sig-c" id="rvYou">&mdash;</span></div>
+       <div class="rv-row"><span class="lbl">Off by</span><span class="val" id="rvOff">&mdash;</span></div>
+@@ -802,7 +802,7 @@
+ <script>
+ (() => {
+   "use strict";
+-  const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, HARD_LISTEN_BEATS = 4, REVEAL_SEC = 3.5;
++  const ROUNDS = 5, MIN = 60, MAX = 200, LISTEN_BEATS = 8, HARD_LISTEN_BEATS = 4;
+   const GAME_MODES = ["normal", "hard", "endless"];
+   const ENDLESS_PRAISE = ["nice!", "awesome!", "well done!", "great ear!", "excellent!"];
+   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+@@ -826,6 +826,7 @@
+     quickstyle: { steezy: "banner-steezy-quickstyle.png", idl: "banner-idl-quickstyle.png" }
+   };
+   let guessPreviewStarted = false;
++  let pulseSession = 0; // invalidates visual pulses queued before a stop
+   let endlessFailed = false;
+   let endedEarly = false;
+   let resetConfirming = false, resetTimer = null, privacyCloseTimer = null, tutorialCloseTimer = null, legalSwapTimer = null;
+@@ -841,19 +842,18 @@
+     const next = $(id);
+     if(activeScreen === next) return;
+     clearTimeout(screenTimer);
++    const current = activeScreen;
++    activeScreen = next; // update immediately so rapid navigation resolves to the last request
+ 
+     if(reduceMotion){
+       screens.forEach(s => s.style.display = s === next ? "block" : "none");
+-      activeScreen = next;
+       return;
+     }
+ 
+-    const current = activeScreen;
+     current.style.opacity = "0";
+     current.style.transform = "translateY(-6px)";
+     screenTimer = setTimeout(() => {
+-      current.style.display = "none";
+-      current.style.transform = "translateY(6px)";
++      screens.forEach(s => { if(s !== next){ s.style.display = "none"; s.style.transform = "translateY(6px)"; } });
+       next.style.display = "block";
+       next.style.opacity = "0";
+       next.style.transform = "translateY(6px)";
+@@ -861,7 +861,6 @@
+         next.style.opacity = "1";
+         next.style.transform = "translateY(0)";
+       });
+-      activeScreen = next;
+     }, 220);
+   }
+ 
+@@ -1119,12 +1118,14 @@
+       if(nextNoteTime >= endTime) break;
+       playTick(nextNoteTime);
+       const delay = (nextNoteTime - ctx.currentTime) * 1000;
+-      setTimeout(() => pulse(mode), Math.max(0, delay));
++      const session = pulseSession;
++      setTimeout(() => { if(session === pulseSession) pulse(mode); }, Math.max(0, delay));
+       nextNoteTime += 60 / bpmFor(mode);
+     }
+   }
+ 
+   function stopMetro(){
++    pulseSession++;
+     if(schedTimer){ clearInterval(schedTimer); schedTimer = null; }
+     if(compareTimer){ clearInterval(compareTimer); compareTimer = null; }
+     clearTimeout(endTimer);
+@@ -1181,14 +1182,16 @@
+     function scheduleComparison(){
+       while(targetTicks < beats && nextTarget < ctx.currentTime + 0.12){
+         playTick(nextTarget);
+-        setTimeout(() => pulseLamp(orb, "target", false), Math.max(0, (nextTarget - ctx.currentTime) * 1000));
++        const sessionT = pulseSession;
++        setTimeout(() => { if(sessionT === pulseSession) pulseLamp(orb, "target", false); }, Math.max(0, (nextTarget - ctx.currentTime) * 1000));
+         lastTickTime = Math.max(lastTickTime, nextTarget);
+         nextTarget += 60 / targets[round];
+         targetTicks++;
+       }
+       while(!isHard() && guessTicks < beats && nextGuess < ctx.currentTime + 0.12){
+         playTick(nextGuess);
+-        setTimeout(() => pulseLamp(guessOrb, "guess", false), Math.max(0, (nextGuess - ctx.currentTime) * 1000));
++        const sessionG = pulseSession;
++        setTimeout(() => { if(sessionG === pulseSession) pulseLamp(guessOrb, "guess", false); }, Math.max(0, (nextGuess - ctx.currentTime) * 1000));
+         lastTickTime = Math.max(lastTickTime, nextGuess);
+         nextGuess += 60 / guesses[round];
+         guessTicks++;
+@@ -1552,7 +1555,7 @@
+     const title = isHard() ? "Tempo Game [Hard Mode]" : isEndless() ? "Tempo Game [Endless Mode]" : "Tempo Game";
+     const possible = scores.length * 100;
+     const endlessLine = isEndless() ? `${endedEarly ? scores.length : Math.max(0, scores.length - 1)} rounds cleared\n` : "";
+-    const text = `${title}\n${total}/${possible}\n${endlessLine}${shareGridString()}\nTry the Tempo Game\nhttps://phrug.net`;
++    const text = `${title}\n${total}/${possible}\n${endlessLine}${shareGridString()}\nTry the Tempo Game\nhttps://www.phrug.net`;
+     try {
+       if(navigator.clipboard) await navigator.clipboard.writeText(text);
+       else if(!fallbackCopy(text)) throw new Error("copy failed");
